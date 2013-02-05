@@ -34,10 +34,18 @@ public class Widget extends QMainWindow {
 	
 	private void setScene() {
 		scene = new QGraphicsScene(this);
-		scene.setSceneRect(0, 0, 10, 10);
+		scene.setSceneRect(0, 0, 1000, 1000);
+		
+		//hopital
+		scene.addRect(100, 100, 800, 800, penWhite, brushWhite);
+		
+		for(Mur m : Bipbip.murs) {
+			scene.addRect(m.getAbscisse(), m.getOrdonnee(), m.getLongueur(), m.getLargeur(), penBlack, brushBlack);
+		}
 		
 		view = new QGraphicsView(scene);
 		view.setBackgroundBrush(brushBlack);
 		this.setCentralWidget(view);
 	}
+	
 }
