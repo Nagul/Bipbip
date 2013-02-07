@@ -1,3 +1,4 @@
+package pathfind;
 
 public class Mur {
 

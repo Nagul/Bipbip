@@ -1,8 +1,12 @@
+package affichage;
+import pathfind.Mur;
+
 import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.gui.QBrush;
 import com.trolltech.qt.gui.QColor;
 import com.trolltech.qt.gui.QGraphicsScene;
 import com.trolltech.qt.gui.QGraphicsView;
+import com.trolltech.qt.gui.QIcon;
 import com.trolltech.qt.gui.QMainWindow;
 import com.trolltech.qt.gui.QPen;
 import com.trolltech.qt.gui.QToolBar;
@@ -29,6 +33,18 @@ public class Widget extends QMainWindow {
 
 	private void setToolbar() {
 		toolbar = new QToolBar("Toolbar");
+		
+		final QIcon runButton = new QIcon("./ressources/runButton.png");
+		toolbar.addAction(runButton, "Run", this, "run()");
+		final QIcon stopButton = new QIcon("./ressources/stopButton.png");
+		toolbar.addAction(stopButton, "Stop");
+		final QIcon optionButton = new QIcon("./ressources/optionButton.png");
+		toolbar.addAction(optionButton, "Option");
+		final QIcon zoomButton = new QIcon("./ressources/zoomButton.png");
+		toolbar.addAction(zoomButton, "Zoom", this, "zoom()");
+		final QIcon dezoomButton = new QIcon("./ressources/dezoomButton.png");
+		toolbar.addAction(dezoomButton, "Dézoom", this, "dezoom()");
+		
 		this.addToolBar(toolbar);
 	}
 	
@@ -46,6 +62,18 @@ public class Widget extends QMainWindow {
 		view = new QGraphicsView(scene);
 		view.setBackgroundBrush(brushBlack);
 		this.setCentralWidget(view);
+	}
+	
+	private void zoom() {
+		view.scale(2,2);
+	}
+
+	private void dezoom() {
+		view.scale(0.5,0.5);
+	}
+	
+	private void run() {
+		
 	}
 	
 }

@@ -1,4 +1,9 @@
+package affichage;
+
 import java.util.ArrayList;
+
+import pathfind.Mur;
+
 
 import com.trolltech.qt.gui.QApplication;
 
