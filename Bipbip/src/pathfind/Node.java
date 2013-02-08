@@ -4,10 +4,12 @@ public class Node {
 	
 	private final int abscisse;
 	private final int ordonnee;
+	private final String nom;
 	
-	public Node(int a, int o) {
+	public Node(int a, int o, String n) {
 		abscisse = a;
 		ordonnee = o;
+		nom = n;
 	}
 
 	public int getAbscisse() {
@@ -18,6 +20,10 @@ public class Node {
 		return ordonnee;
 	}
 	
+	public String getNom() {
+		return nom;
+	}
+
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -42,7 +48,7 @@ public class Node {
 	}
 	
 	public String toString() {
-		return ("[" + abscisse + ", " + ordonnee + "]");
+		return (nom + " [" + abscisse + ", " + ordonnee + "]");
 	}
 	
 }

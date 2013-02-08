@@ -18,14 +18,14 @@ public class rechercheGraph {
 		//initialisation
 		//Q : liste triée des noeuds non encore optimisés.
 		ArrayList<valeurNode> Q = new ArrayList<valeurNode>();
+		valeurNode newVN;
 		for (Node n : graph.getNodes()) {
-			valeurNode vn;
 			if (!n.equals(depart)) {
-				vn = new valeurNode(n, Integer.MAX_VALUE, null);
-				Q.add(vn);
+				newVN = new valeurNode(n, Integer.MAX_VALUE, null);
+				Q.add(newVN);
 			} else {
-				vn = new valeurNode(n, 0, null);
-				Q.add(0, vn);
+				newVN = new valeurNode(n, 0, null);
+				Q.add(0, newVN);
 			}
 		}
 		
@@ -37,7 +37,7 @@ public class rechercheGraph {
 			
 			//cas où les points restants sont innaccessible
 			if (valeurNodeMin.getDistance() == Integer.MAX_VALUE) {
-				new Error("Le robot ne peut atteindre cette destination");
+				throw new Error("Le robot ne peut atteindre cette destination");
 			}
 			
 			//cas où le Node destination est le minimal : fini
@@ -49,10 +49,13 @@ public class rechercheGraph {
 				}
 				break;
 			}
+			
+			//on enlève le noeud courant
 			Q.remove(valeurNodeMin);
 
+			Node nodeVoisin;
 			for (Arc arcVoisin : graph.getArcs(valeurNodeMin.getNode())) {
-				Node nodeVoisin = arcVoisin.getNodeArrive();
+				nodeVoisin = arcVoisin.getNodeArrive();
 				for (valeurNode vnv : Q) {
 					if (vnv.getNode().equals(nodeVoisin)) {
 						int alt = valeurNodeMin.getDistance() + arcVoisin.getDistance();
