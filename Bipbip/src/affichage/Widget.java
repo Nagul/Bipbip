@@ -55,6 +55,7 @@ public class Widget extends QMainWindow {
 		//hopital
 		scene.addRect(100, 100, 800, 800, penWhite, brushWhite);
 		
+		//affichage des murs
 		for(Mur m : Bipbip.murs) {
 			scene.addRect(m.getAbscisse(), m.getOrdonnee(), m.getLongueur(), m.getLargeur(), penBlack, brushBlack);
 		}
