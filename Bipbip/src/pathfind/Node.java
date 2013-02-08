@@ -2,26 +2,37 @@ package pathfind;
 
 public class Node {
 	
-	private final int abscisse;
-	private final int ordonnee;
+	private final double abscisse;
+	private final double ordonnee;
 	private final String nom;
+	private final TypeNode type;
 	
-	public Node(int a, int o, String n) {
+	public Node(double a, double o, String n, TypeNode t) {
 		abscisse = a;
 		ordonnee = o;
 		nom = n;
+		type = t;
 	}
 
-	public int getAbscisse() {
+	public double getAbscisse() {
 		return abscisse;
 	}
 
-	public int getOrdonnee() {
+	public double getOrdonnee() {
 		return ordonnee;
 	}
 	
 	public String getNom() {
 		return nom;
+	}
+
+	public TypeNode getType() {
+		return type;
+	}
+	
+	public double calculerDistance(Node other) {
+		return  Math.sqrt(Math.pow(this.abscisse - other.getAbscisse(), 2) 
+				+ Math.pow(this.ordonnee - other.getOrdonnee(), 2));
 	}
 
 	public boolean equals(Object obj) {
@@ -32,9 +43,11 @@ public class Node {
 		if (getClass() != obj.getClass())
 			return false;
 		Node other = (Node) obj;
-		if (abscisse != other.abscisse)
+		if (Double.doubleToLongBits(abscisse) != Double
+				.doubleToLongBits(other.abscisse))
 			return false;
-		if (ordonnee != other.ordonnee)
+		if (Double.doubleToLongBits(ordonnee) != Double
+				.doubleToLongBits(other.ordonnee))
 			return false;
 		return true;
 	}
@@ -42,8 +55,11 @@ public class Node {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + abscisse;
-		result = prime * result + ordonnee;
+		long temp;
+		temp = Double.doubleToLongBits(abscisse);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(ordonnee);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 	

@@ -57,7 +57,7 @@ public class Widget extends QMainWindow {
 		
 		//affichage des murs
 		for(Mur m : Bipbip.murs) {
-			scene.addRect(m.getAbscisse(), m.getOrdonnee(), m.getLongueur(), m.getLargeur(), penBlack, brushBlack);
+			//scene.addRect(m.getAbscisse(), m.getOrdonnee(), m.getLongueur(), m.getLargeur(), penBlack, brushBlack);
 		}
 		
 		view = new QGraphicsView(scene);

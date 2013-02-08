@@ -4,12 +4,12 @@ public class Arc {
 	
 	private final Node nodeDepart;
 	private final Node nodeArrive;
-	private final int distance;
+	private final Chemin chemin;
 	
-	public Arc(Node n1, Node n2, int d) {
+	public Arc(Node n1, Node n2, Chemin c) {
 		nodeDepart = n1;
 		nodeArrive = n2;
-		distance = d;
+		chemin = c;
 	}
 
 	public Node getNodeDepart() {
@@ -20,8 +20,8 @@ public class Arc {
 		return nodeArrive;
 	}
 
-	public int getDistance() {
-		return distance;
+	public Chemin getChemin() {
+		return chemin;
 	}
 	
 }

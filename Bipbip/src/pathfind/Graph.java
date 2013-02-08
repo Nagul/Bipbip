@@ -22,7 +22,7 @@ public class Graph {
 	
 	public void addArc(Arc a) {
 		graph.get(a.getNodeDepart()).add(a);
-		Arc ai = new Arc(a.getNodeArrive(), a.getNodeDepart(), a.getDistance());
+		Arc ai = new Arc(a.getNodeArrive(), a.getNodeDepart(), a.getChemin());
 		graph.get(a.getNodeArrive()).add(ai);
 	}
 	
@@ -30,6 +30,7 @@ public class Graph {
 		return graph.keySet();
 	}
 	
+	//TODO : vérifier son utilité
 	public ArrayList<Node> getVoisins(Node n) {
 		ArrayList<Node> voisins = new ArrayList<Node>();
 		for (Arc a : graph.get(n)) {

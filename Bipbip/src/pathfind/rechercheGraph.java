@@ -2,7 +2,6 @@ package pathfind;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 public class rechercheGraph {
 
@@ -21,7 +20,7 @@ public class rechercheGraph {
 		valeurNode newVN;
 		for (Node n : graph.getNodes()) {
 			if (!n.equals(depart)) {
-				newVN = new valeurNode(n, Integer.MAX_VALUE, null);
+				newVN = new valeurNode(n, Double.MAX_VALUE, null);
 				Q.add(newVN);
 			} else {
 				newVN = new valeurNode(n, 0, null);
@@ -36,7 +35,7 @@ public class rechercheGraph {
 			valeurNodeMin = Q.get(0);
 			
 			//cas où les points restants sont innaccessible
-			if (valeurNodeMin.getDistance() == Integer.MAX_VALUE) {
+			if (valeurNodeMin.getDistance() == Double.MAX_VALUE) {
 				throw new Error("Le robot ne peut atteindre cette destination");
 			}
 			
@@ -58,7 +57,7 @@ public class rechercheGraph {
 				nodeVoisin = arcVoisin.getNodeArrive();
 				for (valeurNode vnv : Q) {
 					if (vnv.getNode().equals(nodeVoisin)) {
-						int alt = valeurNodeMin.getDistance() + arcVoisin.getDistance();
+						double alt = valeurNodeMin.getDistance() + arcVoisin.getChemin().getDistance();
 						if (alt < vnv.getDistance()) {
 							vnv.setDistance(alt);
 							vnv.setPrecedent(valeurNodeMin);
@@ -76,10 +75,10 @@ public class rechercheGraph {
 	private class valeurNode implements Comparable<valeurNode>{
 		
 		private Node node;
-		private int distance;
+		private double distance;
 		private valeurNode precedent;
 		
-		public valeurNode(Node n, int d, valeurNode p) {
+		public valeurNode(Node n, double d, valeurNode p) {
 			node = n;
 			distance = d;
 			precedent = p;
@@ -89,7 +88,7 @@ public class rechercheGraph {
 			return node;
 		}
 		
-		public int getDistance() {
+		public double getDistance() {
 			return distance;
 		}
 
@@ -97,7 +96,7 @@ public class rechercheGraph {
 			return precedent;
 		}
 
-		public void setDistance(int distance) {
+		public void setDistance(double distance) {
 			this.distance = distance;
 		}
 

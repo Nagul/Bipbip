@@ -1,36 +1,40 @@
 package pathfind;
 
+import java.util.ArrayList;
+
 public class Mur {
 
 	//abscisse/ordonnee du coin en haut à gauche
-	private final int abscisse;
-	private final int ordonnee;
+	private final Node BoutDebut;
+	private final Node BoutFin;
 	//longueur : taille du mur suivant l'abscisse
-	private final int longueur;
-	//largeur : taille du mur suivant l'ordonnee
-	private final int largeur;
+	private final double epaisseur;//à partir du centre
+	private final ArrayList<Node> portes;
 	
-	public Mur(int a, int o, int lo, int la) {
-		abscisse = a;
-		ordonnee = o;
-		longueur = lo;
-		largeur = la;
+	/* TODO : mettre les mf points dans le COULOIR et pas dans la piece
+	 */
+	
+	public Mur(Node bd, Node bf, double e, ArrayList<Node> p) {
+		BoutDebut = bd;
+		BoutFin = bf;
+		epaisseur = e;
+		portes = p;
 	}
 
-	public int getAbscisse() {
-		return abscisse;
+	public Node getBoutDebut() {
+		return BoutDebut;
 	}
 
-	public int getOrdonnee() {
-		return ordonnee;
+	public Node getBoutFin() {
+		return BoutFin;
 	}
 
-	public int getLongueur() {
-		return longueur;
+	public double getEpaisseur() {
+		return epaisseur;
 	}
 
-	public int getLargeur() {
-		return largeur;
+	public ArrayList<Node> getPortes() {
+		return portes;
 	}
 	
 }
