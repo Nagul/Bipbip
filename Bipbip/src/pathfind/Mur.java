@@ -1,6 +1,7 @@
 package pathfind;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Mur {
 
@@ -35,6 +36,16 @@ public class Mur {
 
 	public ArrayList<Node> getPortes() {
 		return portes;
+	}
+	
+	public Vector<Double> getNormale() {
+		Vector<Double> normale = new Vector<Double>(2);
+		double a = BoutDebut.getAbscisse() - BoutFin.getAbscisse();
+		double b = BoutDebut.getOrdonnee() - BoutFin.getOrdonnee();
+		double q = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+		normale.add(new Double(b/q));
+		normale.add(new Double(-a/q));
+		return normale;
 	}
 	
 }

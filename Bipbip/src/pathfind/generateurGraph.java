@@ -1,6 +1,7 @@
 package pathfind;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class generateurGraph {
 	
@@ -17,19 +18,30 @@ public class generateurGraph {
 	 * @return graph connexe
 	 */
 	public Graph generationGraph() {
-		ArrayList<Mur> murs = affichage.Bipbip.murs;
 		
 		//TODO : virer les points superflus
 		//génération initiale
-		for (Mur m : murs) {
+		//TODO : virer pour les tests
+		for (Mur m : TestRechercheGraph.murs) {
+			Vector<Double> normale = m.getNormale();
+			double aPorte;
+			double oPorte;
 			for (Node porte : m.getPortes()) {
-				//générer points des portes
+				//donner nom explicatif + génération TypeNode
+				aPorte = porte.getAbscisse() + normale.get(0)*m.getEpaisseur();
+				oPorte = porte.getOrdonnee() + normale.get(1)*m.getEpaisseur();
+				Node nodePorte1 = new Node(aPorte, oPorte, porte.getNom() + "1", porte.getType());
+				graph.addNode(nodePorte1);
+				aPorte = porte.getAbscisse() - normale.get(0)*m.getEpaisseur();
+				oPorte = porte.getOrdonnee() - normale.get(1)*m.getEpaisseur();
+				Node nodePorte2 = new Node(aPorte, oPorte, porte.getNom() + "2", porte.getType());
+				graph.addNode(nodePorte2);
 			}
 			//générer points extrémités des murs + arcs ?
 		}
 		
 		//génération finale
-		while (!nodes.isEmpty()) {
+		while ((nodes!=null)&&(!nodes.isEmpty())) {
 			Node n = nodes.get(0);
 			//première idée : tous les nodes d'une même pièce sont fortement connexes.
 			if (n.getType() instanceof TypePiece) {
@@ -48,6 +60,8 @@ public class generateurGraph {
 				for (Node autreNode : nodes) {
 					//trouver les nodes PERTINENTS ?
 				}
+			} else if (n.getType() instanceof TypePorte) {
+				
 			} else {
 				throw new Error("Erreur type de node");
 			}

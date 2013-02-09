@@ -13,6 +13,13 @@ public class Node {
 		nom = n;
 		type = t;
 	}
+	
+	public Node(double a, double o) {
+		abscisse = a;
+		ordonnee = o;
+		nom = null;
+		type = null;
+	}
 
 	public double getAbscisse() {
 		return abscisse;

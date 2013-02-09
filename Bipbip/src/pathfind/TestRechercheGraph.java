@@ -1,6 +1,10 @@
 package pathfind;
 
+import java.util.ArrayList;
+
 public class TestRechercheGraph {
+	
+	public static ArrayList<Mur> murs;
 	
 	public static void main(String[] args) {
 		
@@ -37,7 +41,7 @@ public class TestRechercheGraph {
 		System.out.println(rG.plusCourtChemin(n1, n5));
 		*/
 		
-
+		/*
 		Node n1 = new Node(0, 0, "n1", null);
 		Node n2 = new Node(1, 1, "n2", null);
 		Chemin ch = new Chemin();
@@ -45,7 +49,22 @@ public class TestRechercheGraph {
 		ch.addEtape(n2);
 		ch.calculerDistance();
 		System.out.println(ch.getDistance());
-	
+		*/
+		
+
+		Node n1 = new Node(0, 0);
+		Node n2 = new Node(10, 10);
+		Node porte = new Node(5, 5, "porteTest", new TypePorte("0"));
+		ArrayList<Node> portes = new ArrayList<Node>();
+		portes.add(porte);	
+		Mur m = new Mur(n1, n2, 3, portes);
+		murs = new ArrayList<Mur>();
+		murs.add(m);
+		generateurGraph gG = new generateurGraph(null);
+		gG.generationGraph();
+		for (Node n : gG.getGraph().getNodes()) {
+			System.out.println(n);
+		}
 	}
 
 }
