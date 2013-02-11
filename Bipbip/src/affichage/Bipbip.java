@@ -3,6 +3,7 @@ package affichage;
 import java.util.ArrayList;
 
 import pathfind.Mur;
+import pathfind.Node;
 
 
 import com.trolltech.qt.gui.QApplication;
@@ -14,19 +15,14 @@ public class Bipbip {
 	public static void main(String[] args) {
 		
 		murs = new ArrayList<Mur>();
-		//murs exterieur
-		/*
-		murs.add(new Mur(100, 100, 800, 2));//N
-		murs.add(new Mur(100, 900, 802, 2));//S
-		murs.add(new Mur(100, 100, 2, 800));//W
-		murs.add(new Mur(900, 100, 2, 800));//E
 		
-		//exemple de piece
-		murs.add(new Mur(150, 500, 300, 20));//N
-		murs.add(new Mur(150, 700, 320, 20));//S
-		murs.add(new Mur(150, 500, 20, 200));//W
-		murs.add(new Mur(450, 500, 20, 200));//E
-		*/
+		Node n1 = new Node(150, 150);
+		Node n2 = new Node(550, 150);
+		Node n3 = new Node(550, 450);	
+		Mur m1 = new Mur(n2, n1, 30, null, "mH");
+		Mur m2 = new Mur(n3, n2, 20, null, "mV");
+		murs.add(m1);
+		murs.add(m2);
 		
 		QApplication.initialize(args);
 		Widget test = new Widget();

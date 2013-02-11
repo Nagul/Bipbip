@@ -1,5 +1,8 @@
 package affichage;
+import pathfind.Arc;
 import pathfind.Mur;
+import pathfind.Node;
+import pathfind.generateurGraph;
 
 import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.gui.QBrush;
@@ -17,15 +20,25 @@ public class Widget extends QMainWindow {
 	private QGraphicsView view;
 	private QGraphicsScene scene;
 	private QToolBar toolbar;
+	private pathfind.generateurGraph gG;
 	
 	//pinceaux
-	private final QPen penBlack = new QPen(QColor.black);
+	
 	private final QBrush brushBlack = new QBrush(QColor.black, Qt.BrushStyle.SolidPattern);
 	private final QPen penWhite = new QPen(QColor.white);
 	private final QBrush brushWhite = new QBrush(QColor.white, Qt.BrushStyle.SolidPattern);
+	private final QPen penRed = new QPen(QColor.red);
+	private final QBrush brushRed = new QBrush(QColor.red, Qt.BrushStyle.SolidPattern);
 
+	//pinceau pour les murs
+	private QPen penBlack = new QPen(QColor.black);
+	
 	public Widget() {
 		super();
+		
+		//generation du graphe
+		gG = new generateurGraph(null);
+		gG.generationGraph();
 		
 		setToolbar();
 		setScene();
@@ -56,8 +69,9 @@ public class Widget extends QMainWindow {
 		scene.addRect(100, 100, 800, 800, penWhite, brushWhite);
 		
 		//affichage des murs
-		for(Mur m : Bipbip.murs) {
-			//scene.addRect(m.getAbscisse(), m.getOrdonnee(), m.getLongueur(), m.getLargeur(), penBlack, brushBlack);
+		for (Mur m : Bipbip.murs) {
+			penBlack.setWidthF(m.getEpaisseur());
+			scene.addLine(m.getBoutDebut().getAbscisse(), m.getBoutDebut().getOrdonnee(), m.getBoutFin().getAbscisse(), m.getBoutFin().getOrdonnee(), penBlack);
 		}
 		
 		view = new QGraphicsView(scene);
@@ -74,7 +88,13 @@ public class Widget extends QMainWindow {
 	}
 	
 	private void run() {
-		
+		//affichage des Nodes et arcs (on affiche 2 fois les arcs mais osef)
+		for (Node n : gG.getGraph().getNodes()) {
+			scene.addEllipse(n.getAbscisse(), n.getOrdonnee(), 3, 3, penRed, brushRed);
+			for (Arc a : gG.getGraph().getArcs(n)) {
+				scene.addLine(a.getNodeDepart().getAbscisse(), a.getNodeDepart().getOrdonnee(), a.getNodeArrive().getAbscisse(), a.getNodeArrive().getOrdonnee(), penRed);
+			}
+		}
 	}
 	
 }

@@ -38,7 +38,7 @@ public class generateurGraph {
 		
 		HashMap<Mur, Mur[]> mapAdjacenceMur = this.mapMurAdjacents();
 		
-		for (Mur m : TestRechercheGraph.murs) {
+		for (Mur m : affichage.Bipbip.murs) {
 			normale = m.getNormale();
 			dir = m.getDirecteur();
 			
@@ -171,16 +171,16 @@ public class generateurGraph {
 				autreDir = autreMur.getDirecteur();
 				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
 
-				aNode = m.getBoutFin().getAbscisse() + (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutFin().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				aNode = m.getBoutFin().getAbscisse() - (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
+				oNode = m.getBoutFin().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
 				nodeNew1 = graph.rechercheNode(aNode, oNode);
 				if (nodeNew1==null) {
 					nodeNew1 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
 					graph.addNode(nodeNew1);
 				}
 
-				aNode = m.getBoutFin().getAbscisse() - (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutFin().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				aNode = m.getBoutFin().getAbscisse() + (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
+				oNode = m.getBoutFin().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
 				nodeNew2 = graph.rechercheNode(aNode, oNode);
 				if (nodeNew2==null) {
 					nodeNew2 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
@@ -192,8 +192,8 @@ public class generateurGraph {
 				autreDir = autreMur.getDirecteur();
 				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
 
-				aNode = m.getBoutFin().getAbscisse() + (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutFin().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				aNode = m.getBoutFin().getAbscisse() - (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
+				oNode = m.getBoutFin().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
 				nodeNew1 = graph.rechercheNode(aNode, oNode);
 				if (nodeNew1==null) {
 					nodeNew1 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
@@ -205,8 +205,8 @@ public class generateurGraph {
 				autreDir = autreMur.getDirecteur();
 				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
 
-				aNode = m.getBoutFin().getAbscisse() - (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutFin().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				aNode = m.getBoutFin().getAbscisse() + (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
+				oNode = m.getBoutFin().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
 				nodeNew2 = graph.rechercheNode(aNode, oNode);
 				if (nodeNew2==null) {
 					nodeNew2 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
@@ -276,12 +276,12 @@ public class generateurGraph {
 		double ecartMin = 0;
 		double ecartMax = 0;
 
-		for (Mur m : TestRechercheGraph.murs) {
+		for (Mur m : affichage.Bipbip.murs) {
 			murVecteur = new Mur[4];
 			murListDebut = new ArrayList<Mur>();
 			murListFin = new ArrayList<Mur>();
 			//rechercher les murs touchant
-			for (Mur autreM: TestRechercheGraph.murs) {
+			for (Mur autreM : affichage.Bipbip.murs) {
 				if((m.getBoutDebut().equals(autreM.getBoutDebut())
 						||m.getBoutDebut().equals(autreM.getBoutFin()))
 						&&!m.equals(autreM)) {
