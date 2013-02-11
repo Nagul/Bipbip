@@ -24,4 +24,8 @@ public class Arc {
 		return chemin;
 	}
 	
+	public String toString() {
+		return "[" + nodeDepart + " ," + nodeArrive + "]";
+	}
+	
 }

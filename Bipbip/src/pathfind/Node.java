@@ -41,6 +41,24 @@ public class Node {
 		return  Math.sqrt(Math.pow(this.abscisse - other.getAbscisse(), 2) 
 				+ Math.pow(this.ordonnee - other.getOrdonnee(), 2));
 	}
+	
+	/**
+	 * Fonction permettant de vérifier si un node d'un mur appartient
+	 * au voisinage d'un autre mur ou pas.
+	 * @param murTest le mur auquel le node appartient
+	 * @return le mur auquel le node appartient
+	 */
+	public Mur appartientAutreMur(Mur murTest) {
+		for (Mur m : TestRechercheGraph.murs) {
+			if((this.equals(m.getBoutDebut())
+					||this.equals(m.getBoutFin())
+					||this.calculerDistance(m.getBoutDebut()) + this.calculerDistance(m.getBoutFin()) < m.getBoutDebut().calculerDistance(m.getBoutFin()) + 1
+					)&&!murTest.equals(m)) {
+				return m;
+			}
+		}
+		return null;
+	}
 
 	public boolean equals(Object obj) {
 		if (this == obj)

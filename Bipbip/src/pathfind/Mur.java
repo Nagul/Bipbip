@@ -11,15 +11,17 @@ public class Mur {
 	//longueur : taille du mur suivant l'abscisse
 	private final double epaisseur;//à partir du centre
 	private final ArrayList<Node> portes;
+	private final String nom;
 	
 	/* TODO : mettre les mf points dans le COULOIR et pas dans la piece
 	 */
 	
-	public Mur(Node bd, Node bf, double e, ArrayList<Node> p) {
+	public Mur(Node bd, Node bf, double e, ArrayList<Node> p, String n) {
 		BoutDebut = bd;
 		BoutFin = bf;
 		epaisseur = e;
 		portes = p;
+		nom = n;
 	}
 
 	public Node getBoutDebut() {
@@ -38,14 +40,33 @@ public class Mur {
 		return portes;
 	}
 	
-	public Vector<Double> getNormale() {
-		Vector<Double> normale = new Vector<Double>(2);
+	public String getNom() {
+		return nom;
+	}
+	
+	public Double[] getNormale() {
+		Double[] normale = new Double[2];
 		double a = BoutDebut.getAbscisse() - BoutFin.getAbscisse();
 		double b = BoutDebut.getOrdonnee() - BoutFin.getOrdonnee();
 		double q = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-		normale.add(new Double(b/q));
-		normale.add(new Double(-a/q));
+		normale[0] = new Double(b/q);
+		normale[1] = new Double(-a/q);
 		return normale;
+	}
+	
+	public Double[] getDirecteur() {
+		Double[] directeur = new Double[2];
+		double a = BoutDebut.getAbscisse() - BoutFin.getAbscisse();
+		double b = BoutDebut.getOrdonnee() - BoutFin.getOrdonnee();
+		double q = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+		directeur[0] = new Double(a/q);
+		directeur[1] = new Double(b/q);
+		return directeur;
+	}
+	
+	//TODO : A FAIRE
+	public double ecartDirection(Mur m) {
+		return 0;
 	}
 	
 }
