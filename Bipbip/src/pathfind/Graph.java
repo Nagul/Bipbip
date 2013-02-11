@@ -42,5 +42,15 @@ public class Graph {
 	public ArrayList<Arc> getArcs(Node n) {
 		return graph.get(n);
 	}
+	
+	public Node rechercheNode(double aNode, double oNode) {
+		for (Node n : graph.keySet()) {
+			if (n.getAbscisse()==aNode
+					&&n.getOrdonnee()==oNode) {
+				return n;
+			}
+		}
+		return null;
+	}
 
 }
