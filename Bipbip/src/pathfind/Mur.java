@@ -56,8 +56,8 @@ public class Mur {
 	
 	public Double[] getDirecteur() {
 		Double[] directeur = new Double[2];
-		double a = BoutDebut.getAbscisse() - BoutFin.getAbscisse();
-		double b = BoutDebut.getOrdonnee() - BoutFin.getOrdonnee();
+		double a = BoutFin.getAbscisse() - BoutDebut.getAbscisse();
+		double b = BoutFin.getOrdonnee() - BoutDebut.getOrdonnee();
 		double q = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 		directeur[0] = new Double(a/q);
 		directeur[1] = new Double(b/q);

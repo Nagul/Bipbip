@@ -26,9 +26,12 @@ public class generateurGraph {
 		double aNode;
 		double oNode;
 		double sin;
+		double epaisseur;
+		double autreEpaisseur;
 		Chemin chemin;
 		Mur autreMur;
 		Double[] normale;
+		Double[] autreNormale;
 		Double[] dir;
 		Double[] autreDir;
 		Node nodeCourant1;
@@ -36,21 +39,23 @@ public class generateurGraph {
 		Node nodeNew1;
 		Node nodeNew2;
 		
-		HashMap<Mur, Mur[]> mapAdjacenceMur = this.mapMurAdjacents();
+		HashMap<Mur, murEtBout> mapAdjacenceMur = this.mapMurAdjacents();
 		
 		for (Mur m : affichage.Bipbip.murs) {
 			normale = m.getNormale();
 			dir = m.getDirecteur();
+			epaisseur = m.getEpaisseur();
 			
-			if (mapAdjacenceMur.get(m)[0]==null) {
+			//TODO : CORRIGER LE "SIN"
+			if (mapAdjacenceMur.get(m).getMurVecteur()[0]==null) {
 				//Cas bout de mur seul.
-				aNode = m.getBoutDebut().getAbscisse() + normale[0]*m.getEpaisseur();
-				oNode = m.getBoutDebut().getOrdonnee() + normale[1]*m.getEpaisseur();
+				aNode = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
+				oNode = m.getBoutDebut().getOrdonnee() + normale[1]*epaisseur;
 				nodeCourant1 = new Node(aNode, oNode, m.getNom() + "D1", m.getBoutDebut().getType());
 				graph.addNode(nodeCourant1);
 				
-				aNode = m.getBoutDebut().getAbscisse() - normale[0]*m.getEpaisseur();
-				oNode = m.getBoutDebut().getOrdonnee() - normale[1]*m.getEpaisseur();
+				aNode = m.getBoutDebut().getAbscisse() - normale[0]*epaisseur;
+				oNode = m.getBoutDebut().getOrdonnee() - normale[1]*epaisseur;
 				nodeCourant2 = new Node(aNode, oNode, m.getNom() + "D2", m.getBoutDebut().getType());
 				graph.addNode(nodeCourant2);
 				
@@ -59,23 +64,35 @@ public class generateurGraph {
 				//TODO : créer un truc pour tourner par rapport au bout du mur
 				chemin.addEtape(nodeCourant2);
 				graph.addArc(new Arc(nodeCourant1, nodeCourant2, chemin));
-			} else if (mapAdjacenceMur.get(m)[0].equals(mapAdjacenceMur.get(m)[1])) {
-				//Cas UN mur
-				//TODO : VERIFIER ?
-				autreMur = mapAdjacenceMur.get(m)[0];
-				autreDir = autreMur.getDirecteur();
-				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
 				
-				aNode = m.getBoutDebut().getAbscisse() + (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutDebut().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+			} else if (mapAdjacenceMur.get(m).getMurVecteur()[0].equals(mapAdjacenceMur.get(m).getMurVecteur()[1])) {
+				//Cas UN mur
+				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[0];
+				autreDir = autreMur.getDirecteur();
+				autreEpaisseur = autreMur.getEpaisseur();
+				autreNormale = autreMur.getNormale();
+				sin = 1;
+
+				if (mapAdjacenceMur.get(m).getMurBout()[0]) {
+					aNode = m.getBoutDebut().getAbscisse() + (normale[0]*epaisseur - autreNormale[0]*autreEpaisseur)*sin;
+					oNode = m.getBoutDebut().getOrdonnee() + (normale[1]*epaisseur - autreNormale[1]*autreEpaisseur)*sin;
+				} else {
+					aNode = m.getBoutDebut().getAbscisse() + (normale[0]*epaisseur + autreNormale[0]*autreEpaisseur)*sin;
+					oNode = m.getBoutDebut().getOrdonnee() + (normale[1]*epaisseur + autreNormale[1]*autreEpaisseur)*sin;
+				}
 				nodeCourant1 = graph.rechercheNode(aNode, oNode);
 				if (nodeCourant1==null) {
 					nodeCourant1 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
 					graph.addNode(nodeCourant1);
 				}
 
-				aNode = m.getBoutDebut().getAbscisse() - (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutDebut().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				if (mapAdjacenceMur.get(m).getMurBout()[0]) {
+					aNode = m.getBoutDebut().getAbscisse() - (normale[0]*epaisseur - autreNormale[0]*autreEpaisseur)*sin;
+					oNode = m.getBoutDebut().getOrdonnee() - (normale[1]*epaisseur - autreNormale[1]*autreEpaisseur)*sin;
+				} else {
+					aNode = m.getBoutDebut().getAbscisse() - (normale[0]*epaisseur + autreNormale[0]*autreEpaisseur)*sin;
+					oNode = m.getBoutDebut().getOrdonnee() - (normale[1]*epaisseur + autreNormale[1]*autreEpaisseur)*sin;
+				}
 				nodeCourant2 = graph.rechercheNode(aNode, oNode);
 				if (nodeCourant2==null) {
 					nodeCourant2 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
@@ -84,9 +101,12 @@ public class generateurGraph {
 
 				
 			} else {
-				autreMur = mapAdjacenceMur.get(m)[0];
+				//cas plusieurs murs
+				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[0];
 				autreDir = autreMur.getDirecteur();
-				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
+				autreEpaisseur = autreMur.getEpaisseur();
+				autreNormale = autreMur.getNormale();
+				sin = 1;
 
 				aNode = m.getBoutDebut().getAbscisse() + (dir[0]*autreMur.getEpaisseur() + autreDir[0]*m.getEpaisseur())*sin;
 				oNode = m.getBoutDebut().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() + autreDir[1]*m.getEpaisseur())*sin;
@@ -97,9 +117,11 @@ public class generateurGraph {
 				}
 
 
-				autreMur = mapAdjacenceMur.get(m)[1];
+				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[1];
 				autreDir = autreMur.getDirecteur();
-				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
+				autreEpaisseur = autreMur.getEpaisseur();
+				autreNormale = autreMur.getNormale();
+				sin = 1;
 
 				aNode = m.getBoutDebut().getAbscisse() - (dir[0]*autreMur.getEpaisseur() + autreDir[0]*m.getEpaisseur())*sin;
 				oNode = m.getBoutDebut().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() + autreDir[1]*m.getEpaisseur())*sin;
@@ -147,15 +169,15 @@ public class generateurGraph {
 			}
 			
 			
-			if (mapAdjacenceMur.get(m)[2]==null) {
+			if (mapAdjacenceMur.get(m).getMurVecteur()[2]==null) {
 				//Cas bout de mur seul.
-				aNode = m.getBoutFin().getAbscisse() + normale[0]*m.getEpaisseur();
-				oNode = m.getBoutFin().getOrdonnee() + normale[1]*m.getEpaisseur();
+				aNode = m.getBoutFin().getAbscisse() + normale[0]*epaisseur;
+				oNode = m.getBoutFin().getOrdonnee() + normale[1]*epaisseur;
 				nodeNew1 = new Node(aNode, oNode, m.getNom() + "F1", m.getBoutDebut().getType());
 				graph.addNode(nodeNew1);
 				
-				aNode = m.getBoutFin().getAbscisse() - normale[0]*m.getEpaisseur();
-				oNode = m.getBoutFin().getOrdonnee() - normale[1]*m.getEpaisseur();
+				aNode = m.getBoutFin().getAbscisse() - normale[0]*epaisseur;
+				oNode = m.getBoutFin().getOrdonnee() - normale[1]*epaisseur;
 				nodeNew2 = new Node(aNode, oNode, m.getNom() + "F2", m.getBoutDebut().getType());
 				graph.addNode(nodeNew2);
 				
@@ -164,23 +186,35 @@ public class generateurGraph {
 				//TODO : créer un truc pour tourner par rapport au bout du mur
 				chemin.addEtape(nodeNew2);
 				graph.addArc(new Arc(nodeNew1, nodeNew2, chemin));
-			} else if (mapAdjacenceMur.get(m)[2].equals(mapAdjacenceMur.get(m)[3])) {
+			} else if (mapAdjacenceMur.get(m).getMurVecteur()[2].equals(mapAdjacenceMur.get(m).getMurVecteur()[3])) {
 				//Cas UN mur
 				//TODO : VERIFIER ?
-				autreMur = mapAdjacenceMur.get(m)[2];
+				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[2];
 				autreDir = autreMur.getDirecteur();
-				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
+				autreEpaisseur = autreMur.getEpaisseur();
+				autreNormale = autreMur.getNormale();
+				sin = 1;
 
-				aNode = m.getBoutFin().getAbscisse() - (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutFin().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				if (mapAdjacenceMur.get(m).getMurBout()[2]) {
+					aNode = m.getBoutFin().getAbscisse() + (normale[0]*epaisseur + autreNormale[0]*autreEpaisseur)*sin;
+					oNode = m.getBoutFin().getOrdonnee() + (normale[1]*epaisseur + autreNormale[1]*autreEpaisseur)*sin;
+				} else {
+					aNode = m.getBoutFin().getAbscisse() + (normale[0]*epaisseur - autreNormale[0]*autreEpaisseur)*sin;
+					oNode = m.getBoutFin().getOrdonnee() + (normale[1]*epaisseur - autreNormale[1]*autreEpaisseur)*sin;
+				}
 				nodeNew1 = graph.rechercheNode(aNode, oNode);
 				if (nodeNew1==null) {
 					nodeNew1 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
 					graph.addNode(nodeNew1);
 				}
 
-				aNode = m.getBoutFin().getAbscisse() + (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutFin().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				if (mapAdjacenceMur.get(m).getMurBout()[2]) {
+					aNode = m.getBoutFin().getAbscisse() - (normale[0]*epaisseur + autreNormale[0]*autreEpaisseur)*sin;
+					oNode = m.getBoutFin().getOrdonnee() - (normale[1]*epaisseur + autreNormale[1]*autreEpaisseur)*sin;
+				} else {
+					aNode = m.getBoutFin().getAbscisse() - (normale[0]*epaisseur - autreNormale[0]*autreEpaisseur)*sin;
+					oNode = m.getBoutFin().getOrdonnee() - (normale[1]*epaisseur - autreNormale[1]*autreEpaisseur)*sin;
+				}
 				nodeNew2 = graph.rechercheNode(aNode, oNode);
 				if (nodeNew2==null) {
 					nodeNew2 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
@@ -188,12 +222,14 @@ public class generateurGraph {
 				}
 				
 			} else {
-				autreMur = mapAdjacenceMur.get(m)[2];
+				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[2];
 				autreDir = autreMur.getDirecteur();
-				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
+				autreEpaisseur = autreMur.getEpaisseur();
+				autreNormale = autreMur.getNormale();
+				sin = 1;
 
-				aNode = m.getBoutFin().getAbscisse() - (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutFin().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				aNode = m.getBoutFin().getAbscisse() + (dir[0]*autreMur.getEpaisseur() + autreDir[0]*m.getEpaisseur())*sin;
+				oNode = m.getBoutFin().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() + autreDir[1]*m.getEpaisseur())*sin;
 				nodeNew1 = graph.rechercheNode(aNode, oNode);
 				if (nodeNew1==null) {
 					nodeNew1 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
@@ -201,12 +237,14 @@ public class generateurGraph {
 				}
 
 
-				autreMur = mapAdjacenceMur.get(m)[3];
+				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[3];
 				autreDir = autreMur.getDirecteur();
-				sin = dir[0]*autreDir[1] + dir[1]*autreDir[0];
+				autreEpaisseur = autreMur.getEpaisseur();
+				autreNormale = autreMur.getNormale();
+				sin = 1;
 
-				aNode = m.getBoutFin().getAbscisse() + (dir[0]*autreMur.getEpaisseur() - autreDir[0]*m.getEpaisseur())*sin;
-				oNode = m.getBoutFin().getOrdonnee() + (dir[1]*autreMur.getEpaisseur() - autreDir[1]*m.getEpaisseur())*sin;
+				aNode = m.getBoutFin().getAbscisse() - (dir[0]*autreMur.getEpaisseur() + autreDir[0]*m.getEpaisseur())*sin;
+				oNode = m.getBoutFin().getOrdonnee() - (dir[1]*autreMur.getEpaisseur() + autreDir[1]*m.getEpaisseur())*sin;
 				nodeNew2 = graph.rechercheNode(aNode, oNode);
 				if (nodeNew2==null) {
 					nodeNew2 = new Node(aNode, oNode, m.getNom() + "|" + autreMur.getNom(), m.getBoutDebut().getType());
@@ -265,10 +303,13 @@ public class generateurGraph {
 	 *                                 murDebutIndirect 
 	 *                                 murFinDirect
 	 *                                 murFinIndirect   ]
+	 *                                 [Vecteur permettant de determiner à quel bout on est]
 	 */
-	private HashMap<Mur, Mur[]> mapMurAdjacents() {
-		HashMap<Mur, Mur[]> hm = new HashMap<Mur, Mur[]>();
+	private HashMap<Mur, murEtBout> mapMurAdjacents() {
+		HashMap<Mur, murEtBout> hm = new HashMap<Mur, murEtBout>();
 		Mur[] murVecteur;
+		boolean[] murBout;
+		murEtBout meb;
 		ArrayList<Mur> murListDebut;
 		ArrayList<Mur> murListFin;
 		Mur murMin;
@@ -278,6 +319,7 @@ public class generateurGraph {
 
 		for (Mur m : affichage.Bipbip.murs) {
 			murVecteur = new Mur[4];
+			murBout = new boolean[4];
 			murListDebut = new ArrayList<Mur>();
 			murListFin = new ArrayList<Mur>();
 			//rechercher les murs touchant
@@ -307,8 +349,21 @@ public class generateurGraph {
 					ecartMax = m.ecartDirection(autreM);
 					murMax = autreM;
 				}
+				
 				murVecteur[0] = murMin;
+				if (murMin.getBoutDebut().equals(m.getBoutDebut())) {
+					murBout[0] = true;
+				} else {
+					murBout[0] = false;
+				}
+				
 				murVecteur[1] = murMax;
+				if (murMax.getBoutDebut().equals(m.getBoutDebut())) {
+					murBout[1] = true;
+				} else {
+					murBout[1] = false;
+				}
+				
 			}
 			murMin = null;
 			murMax = null;
@@ -323,13 +378,47 @@ public class generateurGraph {
 					ecartMax = m.ecartDirection(autreM);
 					murMax = autreM;
 				}
+				
 				murVecteur[2] = murMin;
+				if (murMin.getBoutDebut().equals(m.getBoutFin())) {
+					murBout[2] = true;
+				} else {
+					murBout[2] = false;
+				}
+				
 				murVecteur[3] = murMax;
+				if (murMax.getBoutDebut().equals(m.getBoutFin())) {
+					murBout[3] = true;
+				} else {
+					murBout[3] = false;
+				}
 			}
-			hm.put(m, murVecteur);
+			meb = new murEtBout(murVecteur, murBout);
+			hm.put(m, meb);
 		}
 		
 		return hm;
+	}
+	
+	//Class permettant juste de faire rentrer le bordel dans la hashmap
+	private class murEtBout {
+		
+		private Mur[] murVecteur;
+		private boolean[] murBout;
+		
+		public murEtBout(Mur[] mv, boolean[] mb) {
+			murVecteur = mv;
+			murBout = mb;
+		}
+
+		public Mur[] getMurVecteur() {
+			return murVecteur;
+		}
+
+		public boolean[] getMurBout() {
+			return murBout;
+		}	
+		
 	}
 
 }

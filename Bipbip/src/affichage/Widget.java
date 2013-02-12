@@ -5,6 +5,7 @@ import pathfind.Node;
 import pathfind.generateurGraph;
 
 import com.trolltech.qt.core.Qt;
+import com.trolltech.qt.core.Qt.PenCapStyle;
 import com.trolltech.qt.gui.QBrush;
 import com.trolltech.qt.gui.QColor;
 import com.trolltech.qt.gui.QGraphicsScene;
@@ -69,6 +70,7 @@ public class Widget extends QMainWindow {
 		scene.addRect(100, 100, 800, 800, penWhite, brushWhite);
 		
 		//affichage des murs
+		penBlack.setCapStyle(PenCapStyle.FlatCap);
 		for (Mur m : Bipbip.murs) {
 			penBlack.setWidthF(m.getEpaisseur());
 			scene.addLine(m.getBoutDebut().getAbscisse(), m.getBoutDebut().getOrdonnee(), m.getBoutFin().getAbscisse(), m.getBoutFin().getOrdonnee(), penBlack);
