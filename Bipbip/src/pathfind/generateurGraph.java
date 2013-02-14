@@ -88,8 +88,8 @@ public class generateurGraph {
 				}
 				if (coord==null) {
 					coord = new double[2];
-					coord[0] = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
-					coord[1] = m.getBoutDebut().getOrdonnee() + normale[1]*epaisseur;
+					coord[0] = m.getBoutDebut().getAbscisse() - normale[0]*epaisseur;
+					coord[1] = m.getBoutDebut().getOrdonnee() - normale[1]*epaisseur;
 				}
 				nodeCourant2 = graph.rechercheNode(coord[0], coord[1]);
 				if (nodeCourant2==null) {
@@ -131,8 +131,8 @@ public class generateurGraph {
 				}
 				if (coord==null) {
 					coord = new double[2];
-					coord[0] = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
-					coord[1] = m.getBoutDebut().getOrdonnee() + normale[1]*epaisseur;
+					coord[0] = m.getBoutDebut().getAbscisse() - normale[0]*epaisseur;
+					coord[1] = m.getBoutDebut().getOrdonnee() - normale[1]*epaisseur;
 				}
 				nodeCourant2 = graph.rechercheNode(coord[0], coord[1]);
 				if (nodeCourant2==null) {
@@ -210,8 +210,8 @@ public class generateurGraph {
 				}
 				if (coord==null) {
 					coord = new double[2];
-					coord[0] = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
-					coord[1] = m.getBoutDebut().getOrdonnee() + normale[1]*epaisseur;
+					coord[0] = m.getBoutFin().getAbscisse() + normale[0]*epaisseur;
+					coord[1] = m.getBoutFin().getOrdonnee() + normale[1]*epaisseur;
 				}
 				nodeNew1 = graph.rechercheNode(coord[0], coord[1]);
 				if (nodeNew1==null) {
@@ -226,8 +226,8 @@ public class generateurGraph {
 				}
 				if (coord==null) {
 					coord = new double[2];
-					coord[0] = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
-					coord[1] = m.getBoutDebut().getOrdonnee() + normale[1]*epaisseur;
+					coord[0] = m.getBoutFin().getAbscisse() - normale[0]*epaisseur;
+					coord[1] = m.getBoutFin().getOrdonnee() - normale[1]*epaisseur;
 				}
 				nodeNew2 = graph.rechercheNode(coord[0], coord[1]);
 				if (nodeNew2==null) {
@@ -248,8 +248,8 @@ public class generateurGraph {
 				}
 				if (coord==null) {
 					coord = new double[2];
-					coord[0] = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
-					coord[1] = m.getBoutDebut().getOrdonnee() + normale[1]*epaisseur;
+					coord[0] = m.getBoutFin().getAbscisse() + normale[0]*epaisseur;
+					coord[1] = m.getBoutFin().getOrdonnee() + normale[1]*epaisseur;
 				}
 				nodeNew1 = graph.rechercheNode(coord[0], coord[1]);
 				if (nodeNew1==null) {
@@ -268,8 +268,8 @@ public class generateurGraph {
 				}
 				if (coord==null) {
 					coord = new double[2];
-					coord[0] = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
-					coord[1] = m.getBoutDebut().getOrdonnee() + normale[1]*epaisseur;
+					coord[0] = m.getBoutFin().getAbscisse() - normale[0]*epaisseur;
+					coord[1] = m.getBoutFin().getOrdonnee() - normale[1]*epaisseur;
 				}
 				nodeNew2 = graph.rechercheNode(coord[0], coord[1]);
 				if (nodeNew2==null) {
@@ -372,24 +372,46 @@ public class generateurGraph {
 			murMin = null;
 			murMax = null;
 			for (Mur autreM : murListDebut) {
-				if (autreM.getBoutDebut().equals(m.getBoutDebut())
-						&&(m.ecartDirection(autreM) < ecartMin || murMin==null)) {
+				if (murMin==null) {
+					if (autreM.getBoutDebut().equals(m.getBoutDebut())) {
+						ecartMin = m.ecartDirection(autreM);
+					} else if (m.ecartDirection(autreM) - Math.PI >= 0) {
+						ecartMin = m.ecartDirection(autreM) - Math.PI;
+					} else {
+						ecartMin = m.ecartDirection(autreM) + Math.PI;
+					}
+					murMin = autreM;
+					
+				} else if (autreM.getBoutDebut().equals(m.getBoutDebut())
+						&&m.ecartDirection(autreM) < ecartMin) {
 					ecartMin = m.ecartDirection(autreM);
 					murMin = autreM;
+					
 				} else if (autreM.getBoutFin().equals(m.getBoutDebut())
-						&&(murMin==null || m.ecartDirection(autreM) - Math.PI < ecartMin)
-						&&(murMin==null || m.ecartDirection(autreM) - Math.PI > 0)) {
+						&&m.ecartDirection(autreM) - Math.PI < ecartMin
+						&&m.ecartDirection(autreM) - Math.PI >= 0) {
 					ecartMin = m.ecartDirection(autreM) - Math.PI;
 					murMin = autreM;
 				}
 
-				if (autreM.getBoutDebut().equals(m.getBoutDebut())
-						&&(m.ecartDirection(autreM) > ecartMax || murMax==null)) {
+				if (murMax==null) {
+					if (autreM.getBoutDebut().equals(m.getBoutDebut())) {
+						ecartMax = m.ecartDirection(autreM);
+					} else if (m.ecartDirection(autreM) + Math.PI < 2*Math.PI) {
+						ecartMax = m.ecartDirection(autreM) + Math.PI;
+					} else {
+						ecartMax = m.ecartDirection(autreM) - Math.PI;
+					}
+					murMax = autreM;
+					
+				} else if (autreM.getBoutDebut().equals(m.getBoutDebut())
+						&&m.ecartDirection(autreM) > ecartMax) {
 					ecartMax = m.ecartDirection(autreM);
 					murMax = autreM;
+					
 				} else if (autreM.getBoutFin().equals(m.getBoutDebut())
-						&&(murMax==null || m.ecartDirection(autreM) + Math.PI > ecartMax)
-						&&(murMax==null ||m.ecartDirection(autreM) + Math.PI < 2*Math.PI)) {
+						&&m.ecartDirection(autreM) + Math.PI > ecartMax
+						&&m.ecartDirection(autreM) + Math.PI < 2*Math.PI) {
 					ecartMax = m.ecartDirection(autreM) + Math.PI;
 					murMax = autreM;
 				}
@@ -410,24 +432,46 @@ public class generateurGraph {
 			murMin = null;
 			murMax = null;
 			for (Mur autreM : murListFin) {
-				if (autreM.getBoutDebut().equals(m.getBoutFin())
-						&&(murMin==null || m.ecartDirection(autreM) + Math.PI < ecartMin)
-						&&(murMin==null || m.ecartDirection(autreM) + Math.PI < 2*Math.PI)) {
+				if (murMin==null) {
+					if (!autreM.getBoutDebut().equals(m.getBoutFin())) {
+						ecartMin = m.ecartDirection(autreM);
+					} else if (m.ecartDirection(autreM) + Math.PI < 2*Math.PI) {
+						ecartMin = m.ecartDirection(autreM) + Math.PI;
+					} else {
+						ecartMin = m.ecartDirection(autreM) - Math.PI;
+					}
+					murMin = autreM;
+					
+				} else if (autreM.getBoutDebut().equals(m.getBoutFin())
+						&&m.ecartDirection(autreM) + Math.PI > ecartMin
+						&&m.ecartDirection(autreM) + Math.PI < 2*Math.PI) {
 					ecartMin = m.ecartDirection(autreM) + Math.PI;
 					murMin = autreM;
+					
 				} else if (autreM.getBoutFin().equals(m.getBoutFin())
-						&&(m.ecartDirection(autreM) < ecartMin || murMin==null)) {
+						&&m.ecartDirection(autreM) > ecartMin) {
 					ecartMin = m.ecartDirection(autreM);
 					murMin = autreM;
 				}
 
-				if (autreM.getBoutDebut().equals(m.getBoutFin())
-						&&(murMax==null || m.ecartDirection(autreM) - Math.PI > ecartMax)
-						&&(murMax==null || m.ecartDirection(autreM) - Math.PI < 2*Math.PI)) {
+				if (murMax==null) {
+					if (!autreM.getBoutDebut().equals(m.getBoutFin())) {
+						ecartMax = m.ecartDirection(autreM);
+					} else if (m.ecartDirection(autreM) - Math.PI >= 0) {
+						ecartMax = m.ecartDirection(autreM) - Math.PI;
+					} else {
+						ecartMax = m.ecartDirection(autreM) + Math.PI;
+					}
+					murMax = autreM;
+					
+				} else if (autreM.getBoutDebut().equals(m.getBoutFin())
+						&&m.ecartDirection(autreM) - Math.PI < ecartMax
+						&&m.ecartDirection(autreM) - Math.PI >= 0) {
 					ecartMax = m.ecartDirection(autreM) - Math.PI;
 					murMax = autreM;
+					
 				} else if (autreM.getBoutFin().equals(m.getBoutFin())
-						&&(m.ecartDirection(autreM) > ecartMax || murMax==null)) {
+						&&(m.ecartDirection(autreM) < ecartMax || murMax==null)) {
 					ecartMax = m.ecartDirection(autreM);
 					murMax = autreM;
 				}

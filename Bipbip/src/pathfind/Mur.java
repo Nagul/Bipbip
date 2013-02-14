@@ -138,5 +138,39 @@ public class Mur {
 		result[1] = yi;
 		return result;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((BoutDebut == null) ? 0 : BoutDebut.hashCode());
+		result = prime * result + ((BoutFin == null) ? 0 : BoutFin.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mur other = (Mur) obj;
+		if (BoutDebut == null) {
+			if (other.BoutDebut != null)
+				return false;
+		} else if (!BoutDebut.equals(other.BoutDebut))
+			return false;
+		if (BoutFin == null) {
+			if (other.BoutFin != null)
+				return false;
+		} else if (!BoutFin.equals(other.BoutFin))
+			return false;
+		return true;
+	}
+	
+	
 	
 }
