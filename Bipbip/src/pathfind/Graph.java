@@ -44,9 +44,9 @@ public class Graph {
 	}
 	
 	public Node rechercheNode(double aNode, double oNode) {
+		Node nodeRecherche = new Node(aNode, oNode);
 		for (Node n : graph.keySet()) {
-			if (n.getAbscisse()==aNode
-					&&n.getOrdonnee()==oNode) {
+			if (n.equals(nodeRecherche)) {
 				return n;
 			}
 		}

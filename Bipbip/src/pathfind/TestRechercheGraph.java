@@ -51,32 +51,20 @@ public class TestRechercheGraph {
 		System.out.println(ch.getDistance());
 		*/
 		
-
-		Node n1 = new Node(0, 0);
-		Node n2 = new Node(50, 0);
 		/*
 		Node porte = new Node(5, 0, "porteTest", new TypePorte("0"));
 		ArrayList<Node> portes = new ArrayList<Node>();
 		portes.add(porte);
 		*/
-		
-		Node n3 = new Node(50, 30);
-				
-		Mur m1 = new Mur(n1, n2, 3, null, "mH");
-		Mur m2 = new Mur(n2, n3, 2, null, "mV");
-		murs = new ArrayList<Mur>();
-		murs.add(m1);
-		murs.add(m2);
-		
 
-		generateurGraph gG = new generateurGraph(null);
-		gG.generationGraph();
-		for (Node n : gG.getGraph().getNodes()) {
-			System.out.println(n);
-			for (Arc a : gG.getGraph().getArcs(n)) {
-				System.out.println(a);
-			}
-		}
+		Node n1 = new Node(0, 0);
+		Node n2 = new Node(50, 0);
+		Node n3 = new Node(50, 0);
+
+					
+		//Mur m1 = new Mur(n1, n2, 3, null, "mH");
+		//Mur m2 = new Mur(n1, n3, 2, null, "mV");
+		//System.out.println(m1.ecartDirection(m2));
 
 	}
 

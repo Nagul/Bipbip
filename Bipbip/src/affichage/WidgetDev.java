@@ -1,4 +1,6 @@
 package affichage;
+import java.util.ArrayList;
+
 import pathfind.Arc;
 import pathfind.Mur;
 import pathfind.Node;
@@ -16,29 +18,35 @@ import com.trolltech.qt.gui.QPen;
 import com.trolltech.qt.gui.QToolBar;
 
 
-public class Widget extends QMainWindow {
+public class WidgetDev extends QMainWindow {
 	
 	private QGraphicsView view;
 	private QGraphicsScene scene;
 	private QToolBar toolbar;
 	private pathfind.generateurGraph gG;
+	private ArrayList<Node> nodesAl;
 	
 	//pinceaux
 	
 	private final QBrush brushBlack = new QBrush(QColor.black, Qt.BrushStyle.SolidPattern);
 	private final QPen penWhite = new QPen(QColor.white);
 	private final QBrush brushWhite = new QBrush(QColor.white, Qt.BrushStyle.SolidPattern);
-	private final QPen penRed = new QPen(QColor.red);
+	private final QPen penRed = new QPen(QColor.red, 5);
 	private final QBrush brushRed = new QBrush(QColor.red, Qt.BrushStyle.SolidPattern);
+	private final QPen penBlue = new QPen(QColor.blue);
+	private final QBrush brushBlue = new QBrush(QColor.blue, Qt.BrushStyle.SolidPattern);
+	private final QPen penGreen = new QPen(QColor.green);
+	private final QBrush brushGreen = new QBrush(QColor.green, Qt.BrushStyle.SolidPattern);
 
 	//pinceau pour les murs
 	private QPen penBlack = new QPen(QColor.black);
 	
-	public Widget() {
+	public WidgetDev(ArrayList<Node> nodes) {
 		super();
 		
+		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
-		gG = new generateurGraph(null);
+		gG = new generateurGraph(nodes);
 		gG.generationGraph();
 		
 		setToolbar();
@@ -67,14 +75,21 @@ public class Widget extends QMainWindow {
 		scene.setSceneRect(0, 0, 1000, 1000);
 		
 		//hopital
-		scene.addRect(100, 100, 800, 800, penWhite, brushWhite);
+		scene.addRect(0, 0, 1000, 1000, penWhite, brushWhite);
 		
-		//affichage des murs
+		//affichage des murs et portes
 		penBlack.setCapStyle(PenCapStyle.FlatCap);
 		for (Mur m : Bipbip.murs) {
-			penBlack.setWidthF(m.getEpaisseur());
+			penBlack.setWidthF(2*m.getEpaisseur());
 			scene.addLine(m.getBoutDebut().getAbscisse(), m.getBoutDebut().getOrdonnee(), m.getBoutFin().getAbscisse(), m.getBoutFin().getOrdonnee(), penBlack);
+			//TODO : joli affichage des portes
+			if (m.getPortes()!=null) {
+				for (Node n : m.getPortes()) {
+					scene.addEllipse(n.getAbscisse(), n.getOrdonnee(), 10, 10, penBlue, brushBlue);
+				}
+			}
 		}
+		
 		
 		view = new QGraphicsView(scene);
 		view.setBackgroundBrush(brushBlack);
