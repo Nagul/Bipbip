@@ -108,8 +108,8 @@ public class Bipbip {
 		listUser.add(user2);
 		
 		QApplication.initialize(args);
-		WidgetClient test = new WidgetClient(listUser);
-		//WidgetDev test = new WidgetDev(listUser);
+		//WidgetClient test = new WidgetClient(listUser);
+		WidgetDev test = new WidgetDev(listUser);
 		test.show();
 		QApplication.exec();
 	}

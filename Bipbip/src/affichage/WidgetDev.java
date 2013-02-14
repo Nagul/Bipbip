@@ -1,10 +1,7 @@
 package affichage;
 import java.util.ArrayList;
 
-import pathfind.Arc;
-import pathfind.Mur;
-import pathfind.Node;
-import pathfind.generateurGraph;
+import pathfind.*;
 
 import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.core.Qt.PenCapStyle;
@@ -77,6 +74,22 @@ public class WidgetDev extends QMainWindow {
 		//hopital
 		scene.addRect(0, 0, 1000, 1000, penWhite, brushWhite);
 		
+		/* ptits carrés pour etre plus beau*/
+		scene.addRect(70, 70, 30, 30, penBlack, brushBlack);
+		scene.addRect(899, 70, 30, 30, penBlack, brushBlack);
+		scene.addRect(70, 899, 30, 30, penBlack, brushBlack);
+		scene.addRect(899, 899, 30, 30, penBlack, brushBlack);
+		
+		scene.addRect(270, 399, 30, 30, penBlack, brushBlack);
+		scene.addRect(699, 399, 30, 30, penBlack, brushBlack);
+		scene.addRect(270, 570, 30, 30, penBlack, brushBlack);
+		scene.addRect(699, 570, 30, 30, penBlack, brushBlack);
+
+		//nodes utilisateurs
+		for (Node nUser : nodesAl) {
+			scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
+		}
+
 		//affichage des murs et portes
 		penBlack.setCapStyle(PenCapStyle.FlatCap);
 		for (Mur m : Bipbip.murs) {
