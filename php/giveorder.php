@@ -17,16 +17,13 @@ if (isset($_GET["target"])){
 	$robot_ip = 0;
 	// TODO error
 }
+
+// TODO delete former parameters of the robot which ip is from "target"
+mysqli_query($link,"DELETE FROM Parameter WHERE id_c=$id_c");
 foreach ($_GET as $key => $value){
 	if ($key != "action" & $key != "target"){
-		$result = mysqli_query($link,"SELECT * FROM Parameter WHERE label = '$key'");
-		if (mysqli_num_rows($result) > 0){
-			// change the value of the parameter in the database
-			mysqli_query($link,"UPDATE Parameter SET value = '$value' WHERE label='$key' AND id_c=$id_c");
-		}else{
-			// add the parameter in the database
-			mysqli_query($link,"INSERT INTO Parameter (label,value,id_c) VALUES ('$key','$value',$id_c)");
-		}
+		// add the parameter in the database
+		mysqli_query($link,"INSERT INTO Parameter (label,value,id_c) VALUES ('$key','$value',$id_c)");
 	}
 }
 mysqli_query($link,"UPDATE Command c, CommandType ct SET c.action = ct.action WHERE ct.id_nxc = $action AND c.ip = '$robot_ip'");
