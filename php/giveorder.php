@@ -7,17 +7,26 @@ if(mysqli_connect_errno()){
 }
 // TODO error case (action or target unset)
 $action = $_GET["action"];
+$id_c = 0;
 if (isset($_GET["target"])){
 	$robot_ip = $_GET["target"];
+	$id_result = mysqli_query($link,"SELECT id_c FROM Command WHERE ip='$robot_ip'");
+	$id_row = mysqli_fetch_array($id_result,MYSQLI_ASSOC);
+	$id_c = $id_row["id_c"];
 }else{
 	$robot_ip = 0;
 	// TODO error
 }
 foreach ($_GET as $key => $value){
 	if ($key != "action" & $key != "target"){
-		// TODO add the parameter in the database
-		echo $key,$value;
-		// TODO test if ($key) already exists
+		$result = mysqli_query($link,"SELECT * FROM Parameter WHERE label = '$key'");
+		if (mysqli_num_rows($result) > 0){
+			// change the value of the parameter in the database
+			mysqli_query($link,"UPDATE Parameter SET value = '$value' WHERE label='$key' AND id_c=$id_c");
+		}else{
+			// add the parameter in the database
+			mysqli_query($link,"INSERT INTO Parameter (label,value,id_c) VALUES ('$key','$value',$id_c)");
+		}
 	}
 }
 mysqli_query($link,"UPDATE Command c, CommandType ct SET c.action = ct.action WHERE ct.id_nxc = $action AND c.ip = '$robot_ip'");
