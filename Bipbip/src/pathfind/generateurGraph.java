@@ -23,6 +23,7 @@ public class generateurGraph {
 		
 		//PUTAIN DE QT DE SENS HORAIRE DE MERDE
 		//génération initiale
+		// TODO : pas generer les points qui sont en type exterieur
 		double epaisseur;
 		Chemin chemin;
 		Mur autreMur;
@@ -199,6 +200,7 @@ public class generateurGraph {
 				chemin.addEtape(nodeNew2);
 				chemin.calculerDistance();
 				graph.addArc(new Arc(nodeNew1, nodeNew2, chemin));
+				
 			} else if (mapAdjacenceMur.get(m).getMurVecteur()[2].equals(mapAdjacenceMur.get(m).getMurVecteur()[3])) {
 				//Cas UN mur
 				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[2];
@@ -236,7 +238,6 @@ public class generateurGraph {
 				}
 				
 			} else {
-
 				
 				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[2];
 				System.out.println("PLUSIEURS, FIN " + m.getNom() + autreMur.getNom());
@@ -256,7 +257,6 @@ public class generateurGraph {
 					nodeNew1 = new Node(coord[0], coord[1], m.getNom() + "|" + autreMur.getNom(), m.getPieceDirect());
 					graph.addNode(nodeNew1);
 				}
-
 
 				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[3];
 				System.out.println("PLUSIEURS, FIN " + m.getNom() + autreMur.getNom());
@@ -314,7 +314,7 @@ public class generateurGraph {
 				for (Node autreNode : nodes) {
 					//trouver les nodes PERTINENTS ?
 				}
-			} else if (n.getType() instanceof TypePorte) {
+			} else if (n.getType() instanceof TypeExterieur) {
 
 			} else {
 

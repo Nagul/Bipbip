@@ -73,7 +73,7 @@ public class WidgetDev extends QMainWindow {
 		
 		//hopital
 		scene.addRect(0, 0, 1000, 1000, penWhite, brushWhite);
-		
+
 		/* ptits carrés pour etre plus beau*/
 		scene.addRect(70, 70, 30, 30, penBlack, brushBlack);
 		scene.addRect(899, 70, 30, 30, penBlack, brushBlack);
@@ -84,7 +84,7 @@ public class WidgetDev extends QMainWindow {
 		scene.addRect(699, 399, 30, 30, penBlack, brushBlack);
 		scene.addRect(270, 570, 30, 30, penBlack, brushBlack);
 		scene.addRect(699, 570, 30, 30, penBlack, brushBlack);
-
+		
 		//nodes utilisateurs
 		for (Node nUser : nodesAl) {
 			scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
