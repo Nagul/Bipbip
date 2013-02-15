@@ -1,0 +1,101 @@
+#include "WifiBlockHelper.nxc"
+#include "parsing.nxc"
+
+#define LEFT_MOTOR OUT_B
+#define RIGHT_MOTOR OUT_C
+#define ALL_MOTORS OUT_BC
+#define WB_PORT IN_4
+
+#define SERVER_ROOT "/projetbip"
+
+#define NONE      0
+#define STOP      1
+#define FORWARD   2
+#define BACKWARD  3
+#define LEFT      4
+#define RIGHT     5
+
+void stop_moving();
+void move_forward(int time,int speed);
+void move_backward(int time,int speed);
+void turn_left(int time,int speed);
+void turn_right(int time,int speed);
+void dist();
+
+// ip of the server which sends orders
+byte server_ip[] = {192,168,0,35};
+// link where to obtain orders
+string stop_url ="/projetbip/giveorder.php?target=192.168.0.36&action=1";
+string orders_url ="/projetbip/getorder.php?target=192.168.0.36";
+string connect_url ="/projetbip/connection.php?target=192.168.0.36";
+
+// connection to the local network (WIFI)
+bool connect(){
+	bool is_connected = false;
+	byte ip[]={192,168,0,36};
+	byte mask[]={255,255,255,0};
+	byte gw[]={192,168,0,254};
+	is_connected = quickConnect(WB_PORT,"freebox_4fantastiques",WB_SECURITY_WPA,"@enigmA2",ip,mask,gw);
+	if (is_connected){
+		quickGET(WB_PORT,server_ip,connect_url);
+	}
+	return is_connected;
+}
+
+// get orders from the server and execute them
+void get_order(){
+	string label;
+	string value; 
+	while(true){
+		string order = quickGET(WB_PORT,server_ip,orders_url);
+		int test_order = getCommand(order);
+		if (order!="") {
+			TextOut(0,LCD_LINE1,order);
+		}
+		else {
+			TextOut(0,LCD_LINE2,"NO PARAMETER");
+		}
+		// execute order
+		 switch(test_order){
+		 	case NONE      : break;
+		 	case STOP      : stop_moving(); break;
+		 	case FORWARD   : getParameter(order,label,value);
+					 move_forward(10,atoi(value));
+					 break;
+		 	case BACKWARD  : move_backward(10,50);break;
+		 	case LEFT      : turn_left(10,50);break;
+		 	case RIGHT     : turn_right(10,50);break;
+		 	default        : break;
+		 }
+
+
+	}
+}
+
+void stop_moving(){
+	Off(ALL_MOTORS);
+}
+void move_forward(int time,int speed){
+	OnFwd(ALL_MOTORS,speed);
+	Wait(time);
+}
+void move_backward(int time,int speed){
+	OnRev(ALL_MOTORS,speed);
+	Wait(time);
+}
+void turn_left(int time,int speed){
+	OnFwd(LEFT_MOTOR,speed);
+	Wait(time);
+}
+void turn_right(int time,int speed){
+	OnFwd(RIGHT_MOTOR,speed);
+	Wait(time);
+}
+
+task main(){
+	if (connect()){
+		get_order();
+	} else{
+		TextOut(0,LCD_LINE1,"CONNECT ERROR");
+	}
+}

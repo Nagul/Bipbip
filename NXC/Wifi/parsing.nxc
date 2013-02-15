@@ -1,0 +1,66 @@
+/**
+ * strtok c
+ */
+bool strtok(string s, string delim, string &left, string &right){
+	string token = s;
+	right = s;
+	int i = Pos(delim,token);
+	int length = strlen(token);
+	left = LeftStr(token,i);
+	right = RightStr(token,length-i-1);
+	token = right;
+	i = Pos(delim,token);
+	return (i==-1);
+}
+
+/**
+ * get the first parameter of the string s
+ * save its label and its value
+ * then change s : s = tail(s)
+ * return true if it is the last parameter of the string s
+ */
+bool getParameter(string &s,string &label,string &value){
+	string left;
+	string right = s;
+	bool end;
+	end = strtok(right,";",left,right);
+
+	// get label and get value
+	int i = Pos(":",left);
+	int length = strlen(left);
+	label = LeftStr(left,i);
+	value = RightStr(left,length-i-1);
+
+	if (end && strcmp(left,right)) end = false;
+	s = right;
+	return end;
+}
+
+/**
+ * get the first integer of s which correspond to the command sent to the server
+ * then s only has parameters 
+ */
+int getCommand(string &s){
+	int cmd;
+	int i = Pos(";",s);
+	int length = strlen(s);
+	cmd = atoi(LeftStr(s,i));
+	s = RightStr(s,length-i-1);
+	return cmd;
+}
+
+
+//void testest(string test){
+//	string label;
+//	string value;
+//	while(!getParameter(test,label,value)){
+//		TextOut(0,LCD_LINE1,label);
+//		TextOut(0,LCD_LINE2,value);
+//		Wait(100);
+//		ClearScreen();
+//	}
+//	TextOut(0,LCD_LINE1,label);
+//	TextOut(0,LCD_LINE2,value);
+//	Wait(100);
+//	ClearScreen();
+//}
