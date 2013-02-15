@@ -1,0 +1,35 @@
+CREATE DATABASE projetbip;
+USE projetbip;
+
+CREATE TABLE Robot(
+   ip VARCHAR(17),
+   is_connected BOOL,
+   PRIMARY KEY (ip)
+) ENGINE = InnoDB;
+
+CREATE TABLE CommandType(
+   action VARCHAR(255),
+   id_nxc INT NOT NULL,
+   PRIMARY KEY (action)
+) ENGINE = InnoDB;
+
+CREATE TABLE Command(
+   id_c INT AUTO_INCREMENT,
+   action VARCHAR(255),
+   datebegin VARCHAR(255),
+   ip VARCHAR(17),
+   FOREIGN KEY (action) REFERENCES CommandType (action)
+     ON DELETE SET NULL ON UPDATE CASCADE,
+   FOREIGN KEY (ip) REFERENCES Robot (ip) 
+     ON DELETE CASCADE ON UPDATE CASCADE,
+   PRIMARY KEY (id_c)
+) ENGINE = InnoDB;
+
+CREATE TABLE Parameter(
+   label VARCHAR(255),
+   value INT NOT NULL,
+   id_c INT,
+   FOREIGN KEY (id_c) REFERENCES Command (id_c) 
+     ON DELETE CASCADE ON UPDATE CASCADE,
+   PRIMARY KEY (label,id_c)
+) ENGINE = InnoDB;
