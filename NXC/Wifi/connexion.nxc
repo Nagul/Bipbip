@@ -2,6 +2,11 @@
 #include "parsing.nxc"
 #include "basicCommands.nxc"
 
+#define MY_IP_4 36
+#define MY_IP   "192.168.0."
+#define ESSID "freebox_4fantastiques"
+#define WIFI_PASSWORD "@enigmA2"
+
 #define WB_PORT IN_4
 
 #define SERVER_ROOT "/projetbip"
@@ -12,22 +17,25 @@
 #define BACKWARD  3
 #define LEFT      4
 #define RIGHT     5
+#define FEEDBACK  6
 
+void sendfeedback(string message);
 
 // ip of the server which sends orders
 byte server_ip[] = {192,168,0,35};
-// link where to obtain orders
-string stop_url ="/projetbip/giveorder.php?target=192.168.0.36&action=1";
-string orders_url ="/projetbip/getorder.php?target=192.168.0.36";
-string connect_url ="/projetbip/connection.php?target=192.168.0.36";
+// list of server links
+string stop_url;
+string orders_url;
+string connect_url;
+string feedback_url;
 
 // connection to the local network (WIFI)
 bool connect(){
 	bool is_connected = false;
-	byte ip[]={192,168,0,36};
+	byte ip[]={192,168,0,MY_IP_4};
 	byte mask[]={255,255,255,0};
 	byte gw[]={192,168,0,254};
-	is_connected = quickConnect(WB_PORT,"freebox_4fantastiques",WB_SECURITY_WPA,"@enigmA2",ip,mask,gw);
+	is_connected = quickConnect(WB_PORT,ESSID,WB_SECURITY_WPA,WIFI_PASSWORD,ip,mask,gw);
 	if (is_connected){
 		quickGET(WB_PORT,server_ip,connect_url);
 	}
@@ -58,6 +66,7 @@ void get_order(){
 		 	case BACKWARD  : move_backward(10,50);break;
 		 	case LEFT      : turn_left(10,50);break;
 		 	case RIGHT     : turn_right(10,50);break;
+		 	case FEEDBACK  : sendfeedback("&distance=5");break;
 		 	default        : break;
 		 }
 
@@ -65,7 +74,20 @@ void get_order(){
 	}
 }
 
+void sendfeedback(string message){
+	quickGET(WB_PORT,server_ip,StrCat(feedback_url,message));
+}
+
 task main(){
+	string my_ip = StrCat(MY_IP,NumToStr(MY_IP_4));
+	// send a stop command to the server
+	stop_url =StrCat(SERVER_ROOT,"/giveorder.php?target=",my_ip,"&action=1");
+	// get orders from the server
+	orders_url =StrCat(SERVER_ROOT,"/getorder.php?target=",my_ip);
+	// connection to the server
+	connect_url =StrCat(SERVER_ROOT,"/connection.php?target=",my_ip);
+	// send data to the server
+	feedback_url =StrCat(SERVER_ROOT,"/sendfeedback.php?target=",my_ip);
 	if (connect()){
 		get_order();
 	} else{
