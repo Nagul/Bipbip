@@ -5,8 +5,13 @@ if(mysqli_connect_errno()){
 	echo 'Connection error';
 	exit();
 }
-// TODO error case (unset target)
-$robot_ip = $_GET["target"];
+if (isset($_GET["target"])){
+	$robot_ip = $_GET["target"];
+}else{
+	$robot_ip = 0;
+	// TODO error : unset target
+	exit();
+}
 // get order id
 $order_result = mysqli_query($link,"SELECT ct.id_nxc FROM Command c, CommandType ct WHERE c.ip = '$robot_ip' AND ct.action = c.action");
 $order = mysqli_fetch_array($order_result,MYSQLI_ASSOC);

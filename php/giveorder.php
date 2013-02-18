@@ -18,7 +18,7 @@ if (isset($_GET["target"])){
 	// TODO error
 }
 
-// TODO delete former parameters of the robot which ip is from "target"
+// reset parameters of specified robot 
 mysqli_query($link,"DELETE FROM Parameter WHERE id_c=$id_c");
 foreach ($_GET as $key => $value){
 	if ($key != "action" & $key != "target"){

@@ -33,3 +33,14 @@ CREATE TABLE Parameter(
      ON DELETE CASCADE ON UPDATE CASCADE,
    PRIMARY KEY (label,id_c)
 ) ENGINE = InnoDB;
+
+CREATE TABLE Feedback(
+   label VARCHAR(255),
+   value VARCHAR(255),
+   sending_date DATETIME,
+   acknoledgement BOOL DEFAULT false,
+   ip VARCHAR(17),
+   FOREIGN KEY (ip) REFERENCES Robot (ip) 
+     ON DELETE CASCADE ON UPDATE CASCADE,
+   PRIMARY KEY (label,sending_date,ip)
+) ENGINE = InnoDB;
