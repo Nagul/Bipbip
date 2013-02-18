@@ -1,0 +1,29 @@
+#define LEFT_MOTOR OUT_B
+#define RIGHT_MOTOR OUT_C
+#define ALL_MOTORS OUT_BC
+
+void stop_moving();
+void move_forward(int time,int speed);
+void move_backward(int time,int speed);
+void turn_left(int time,int speed);
+void turn_right(int time,int speed);
+
+void stop_moving(){
+	Off(ALL_MOTORS);
+}
+void move_forward(int time,int speed){
+	OnFwd(ALL_MOTORS,speed);
+	Wait(time);
+}
+void move_backward(int time,int speed){
+	OnRev(ALL_MOTORS,speed);
+	Wait(time);
+}
+void turn_left(int time,int speed){
+	OnFwd(LEFT_MOTOR,speed);
+	Wait(time);
+}
+void turn_right(int time,int speed){
+	OnFwd(RIGHT_MOTOR,speed);
+	Wait(time);
+}

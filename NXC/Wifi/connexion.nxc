@@ -1,9 +1,7 @@
 #include "WifiBlockHelper.nxc"
 #include "parsing.nxc"
+#include "basicCommands.nxc"
 
-#define LEFT_MOTOR OUT_B
-#define RIGHT_MOTOR OUT_C
-#define ALL_MOTORS OUT_BC
 #define WB_PORT IN_4
 
 #define SERVER_ROOT "/projetbip"
@@ -15,12 +13,6 @@
 #define LEFT      4
 #define RIGHT     5
 
-void stop_moving();
-void move_forward(int time,int speed);
-void move_backward(int time,int speed);
-void turn_left(int time,int speed);
-void turn_right(int time,int speed);
-void dist();
 
 // ip of the server which sends orders
 byte server_ip[] = {192,168,0,35};
@@ -59,7 +51,8 @@ void get_order(){
 		 switch(test_order){
 		 	case NONE      : break;
 		 	case STOP      : stop_moving(); break;
-		 	case FORWARD   : getParameter(order,label,value);
+		 	case FORWARD   : // testing parameters
+					 getParameter(order,label,value);
 					 move_forward(10,atoi(value));
 					 break;
 		 	case BACKWARD  : move_backward(10,50);break;
@@ -70,26 +63,6 @@ void get_order(){
 
 
 	}
-}
-
-void stop_moving(){
-	Off(ALL_MOTORS);
-}
-void move_forward(int time,int speed){
-	OnFwd(ALL_MOTORS,speed);
-	Wait(time);
-}
-void move_backward(int time,int speed){
-	OnRev(ALL_MOTORS,speed);
-	Wait(time);
-}
-void turn_left(int time,int speed){
-	OnFwd(LEFT_MOTOR,speed);
-	Wait(time);
-}
-void turn_right(int time,int speed){
-	OnFwd(RIGHT_MOTOR,speed);
-	Wait(time);
 }
 
 task main(){
