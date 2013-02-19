@@ -18,7 +18,7 @@ if (isset($_GET["target"])){
 	// TODO error
 }
 
-// reset parameters of specified robot 
+// TODO delete former parameters of the robot which ip is from "target"
 mysqli_query($link,"DELETE FROM Parameter WHERE id_c=$id_c");
 foreach ($_GET as $key => $value){
 	if ($key != "action" & $key != "target"){
@@ -30,9 +30,9 @@ mysqli_query($link,"UPDATE Command c, CommandType ct SET c.action = ct.action WH
 mysqli_close($link);
 ?>
 
-<a href="http://192.168.0.35/projetbip/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=0">NONE</a>
-<a href="http://192.168.0.35/projetbip/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=1">STOP</a>
-<a href="http://192.168.0.35/projetbip/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=2">FORWARD </a>
-<a href="http://192.168.0.35/projetbip/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=3">BACKWARD</a>
-<a href="http://192.168.0.35/projetbip/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=4">LEFT</a>
-<a href="http://192.168.0.35/projetbip/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=5">RIGHT</a>
+<a href="http://192.168.0.35/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=0">NONE</a>
+<a href="http://192.168.0.35/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=1">STOP</a>
+<a href="http://192.168.0.35/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=2">FORWARD </a>
+<a href="http://192.168.0.35/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=3">BACKWARD</a>
+<a href="http://192.168.0.35/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=4">LEFT</a>
+<a href="http://192.168.0.35/giveorder.php?<?php echo "target=",$robot_ip  ?>&action=5">RIGHT</a>

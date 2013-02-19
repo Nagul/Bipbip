@@ -19,7 +19,7 @@ mysqli_query($link,"UPDATE Command c, Parameter p SET p.value = p.value+$speed W
 mysqli_close($link);
 ?>
 
-<a href="http://192.168.0.35/projetbip/faster.php?<?php echo "target=",$robot_ip,"&action=1"  ?>">FASTER</a>
-<a href="http://192.168.0.35/projetbip/faster.php?<?php echo "target=",$robot_ip,"&action=0"  ?>">SLOWER</a>
+<a href="http://192.168.0.35/faster.php?<?php echo "target=",$robot_ip,"&action=1"  ?>">FASTER</a>
+<a href="http://192.168.0.35/faster.php?<?php echo "target=",$robot_ip,"&action=0"  ?>">SLOWER</a>
 <br/>
 speed : <?php echo $speed; ?>

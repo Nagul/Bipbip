@@ -9,7 +9,7 @@
 
 #define WB_PORT IN_4
 
-#define SERVER_ROOT "/projetbip"
+#define SERVER_ROOT ""
 
 #define NONE      0
 #define STOP      1
