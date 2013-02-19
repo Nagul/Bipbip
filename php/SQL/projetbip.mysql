@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS projetbip;
 CREATE DATABASE projetbip;
 USE projetbip;
 
@@ -14,7 +15,7 @@ CREATE TABLE CommandType(
 ) ENGINE = InnoDB;
 
 CREATE TABLE Command(
-   id_c INT AUTO_INCREMENT,
+   seq INT,
    action VARCHAR(255),
    datebegin VARCHAR(255),
    ip VARCHAR(17),
@@ -22,16 +23,19 @@ CREATE TABLE Command(
      ON DELETE SET NULL ON UPDATE CASCADE,
    FOREIGN KEY (ip) REFERENCES Robot (ip) 
      ON DELETE CASCADE ON UPDATE CASCADE,
-   PRIMARY KEY (id_c)
+   PRIMARY KEY (seq,ip)
 ) ENGINE = InnoDB;
 
 CREATE TABLE Parameter(
    label VARCHAR(255),
    value INT NOT NULL,
-   id_c INT,
-   FOREIGN KEY (id_c) REFERENCES Command (id_c) 
+   seq INT,
+   ip VARCHAR(17),
+   FOREIGN KEY (seq) REFERENCES Command (seq) 
      ON DELETE CASCADE ON UPDATE CASCADE,
-   PRIMARY KEY (label,id_c)
+   FOREIGN KEY (ip) REFERENCES Command (ip) 
+     ON DELETE CASCADE ON UPDATE CASCADE,
+   PRIMARY KEY (label,seq,ip)
 ) ENGINE = InnoDB;
 
 CREATE TABLE Feedback(

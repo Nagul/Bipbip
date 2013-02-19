@@ -7,26 +7,30 @@ if(mysqli_connect_errno()){
 }
 // TODO error case (action or target unset)
 $action = $_GET["action"];
-$id_c = 0;
 if (isset($_GET["target"])){
 	$robot_ip = $_GET["target"];
-	$id_result = mysqli_query($link,"SELECT id_c FROM Command WHERE ip='$robot_ip'");
-	$id_row = mysqli_fetch_array($id_result,MYSQLI_ASSOC);
-	$id_c = $id_row["id_c"];
 }else{
 	$robot_ip = 0;
-	// TODO error
+	// TODO error : unset target
+	exit();
+}
+if (isset($_GET["seq"])){
+	$seq = $_GET["seq"];
+}else{
+	$seq = 0;
 }
 
-// TODO delete former parameters of the robot which ip is from "target"
-mysqli_query($link,"DELETE FROM Parameter WHERE id_c=$id_c");
+mysqli_query($link,"INSERT INTO Command (seq,action,datebegin,ip) SELECT '$seq',action,'now','$robot_ip' FROM CommandType WHERE id_nxc = $action");
+
+// reset parameters of specified robot
+//mysqli_query($link,"DELETE FROM Parameter WHERE seq=$seq AND ip=$robot_ip");
 foreach ($_GET as $key => $value){
-	if ($key != "action" & $key != "target"){
+	if ($key != "action" & $key != "target" & $key != "seq"){
 		// add the parameter in the database
-		mysqli_query($link,"INSERT INTO Parameter (label,value,id_c) VALUES ('$key','$value',$id_c)");
+		mysqli_query($link,"INSERT INTO Parameter (label,value,seq,ip) VALUES ('$key','$value',$seq,'$robot_ip')");
 	}
 }
-mysqli_query($link,"UPDATE Command c, CommandType ct SET c.action = ct.action WHERE ct.id_nxc = $action AND c.ip = '$robot_ip'");
+
 mysqli_close($link);
 ?>
 
