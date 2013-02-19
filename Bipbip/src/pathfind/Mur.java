@@ -15,11 +15,28 @@ public class Mur {
 	private final TypeNode PieceDirect;
 	private final TypeNode PieceIndirect;
 	
-	public Mur(Node bd, Node bf, double e, ArrayList<Node> p, String n, TypeNode pD, TypeNode pI) {
+	//tention place de p
+	public Mur(Node bd, Node bf, ArrayList<Node> p, double e, String n, TypeNode pD, TypeNode pI) {
 		BoutDebut = bd;
 		BoutFin = bf;
 		epaisseur = e;
 		portes = p;
+		nom = n;
+		PieceDirect = pD;
+		PieceIndirect = pI;
+	}
+	
+	//meme constructeur, qu'une seule porte (facilite d'ecriture)
+	public Mur(Node bd, Node bf, double e, Node p, String n, TypeNode pD, TypeNode pI) {
+		BoutDebut = bd;
+		BoutFin = bf;
+		epaisseur = e;
+		if (p!=null) {
+			portes = new ArrayList<Node>();
+			portes.add(p);
+		} else {
+			portes = null;
+		}
 		nom = n;
 		PieceDirect = pD;
 		PieceIndirect = pI;
@@ -102,7 +119,7 @@ public class Mur {
 		
 		double epaisseur;
 		double autreEpaisseur;
-		double ecartement = 10;
+		double ecartement = 5;
 		
 		if (ePos) {
 			epaisseur = this.epaisseur + ecartement;

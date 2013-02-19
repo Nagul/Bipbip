@@ -74,17 +74,6 @@ public class WidgetDev extends QMainWindow {
 		//hopital
 		scene.addRect(0, 0, 1000, 1000, penWhite, brushWhite);
 
-		/* ptits carrés pour etre plus beau*/
-		scene.addRect(70, 70, 30, 30, penBlack, brushBlack);
-		scene.addRect(899, 70, 30, 30, penBlack, brushBlack);
-		scene.addRect(70, 899, 30, 30, penBlack, brushBlack);
-		scene.addRect(899, 899, 30, 30, penBlack, brushBlack);
-		
-		scene.addRect(270, 399, 30, 30, penBlack, brushBlack);
-		scene.addRect(699, 399, 30, 30, penBlack, brushBlack);
-		scene.addRect(270, 570, 30, 30, penBlack, brushBlack);
-		scene.addRect(699, 570, 30, 30, penBlack, brushBlack);
-		
 		//nodes utilisateurs
 		for (Node nUser : nodesAl) {
 			scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
@@ -120,7 +109,7 @@ public class WidgetDev extends QMainWindow {
 	private void run() {
 		//affichage des Nodes et arcs (on affiche 2 fois les arcs mais osef)
 		for (Node n : gG.getGraph().getNodes()) {
-			scene.addEllipse(n.getAbscisse(), n.getOrdonnee(), 3, 3, penRed, brushRed);
+			scene.addEllipse(n.getAbscisse(), n.getOrdonnee(), 2, 2, penRed, brushRed);
 			for (Arc a : gG.getGraph().getArcs(n)) {
 				scene.addLine(a.getNodeDepart().getAbscisse(), a.getNodeDepart().getOrdonnee(), a.getNodeArrive().getAbscisse(), a.getNodeArrive().getOrdonnee(), penRed);
 			}

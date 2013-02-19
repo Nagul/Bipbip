@@ -78,18 +78,7 @@ public class WidgetClient extends QMainWindow {
 		for (Node nUser : nodesAl) {
 			scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
 		}
-		
-		/* ptits carrés pour etre plus beau*/
-		scene.addRect(70, 70, 30, 30, penBlack, brushBlack);
-		scene.addRect(899, 70, 30, 30, penBlack, brushBlack);
-		scene.addRect(70, 899, 30, 30, penBlack, brushBlack);
-		scene.addRect(899, 899, 30, 30, penBlack, brushBlack);
-		
-		scene.addRect(270, 399, 30, 30, penBlack, brushBlack);
-		scene.addRect(699, 399, 30, 30, penBlack, brushBlack);
-		scene.addRect(270, 570, 30, 30, penBlack, brushBlack);
-		scene.addRect(699, 570, 30, 30, penBlack, brushBlack);
-		
+				
 		//affichage des murs et portes
 		penBlack.setCapStyle(PenCapStyle.FlatCap);
 		for (Mur m : Bipbip.murs) {

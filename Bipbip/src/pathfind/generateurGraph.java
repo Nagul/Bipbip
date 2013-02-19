@@ -34,7 +34,7 @@ public class generateurGraph {
 		Node nodeNew1;
 		Node nodeNew2;
 		
-		double ecartement = 10;
+		double ecartement = 5;
 		
 		HashMap<Mur, murEtBout> mapAdjacenceMur = this.mapMurAdjacents();
 		
@@ -335,7 +335,6 @@ public class generateurGraph {
 	 *                                 murFinIndirect   ]
 	 *                                 [Vecteur permettant de determiner à quel bout on est]
 	 */
-	// TODO : CORRECTION
 	// INVERSION AU NIVEAU DU SENS EN QT §§§
 	private HashMap<Mur, murEtBout> mapMurAdjacents() {
 		HashMap<Mur, murEtBout> hm = new HashMap<Mur, murEtBout>();
