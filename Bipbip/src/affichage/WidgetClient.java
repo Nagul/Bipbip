@@ -20,7 +20,7 @@ public class WidgetClient extends QMainWindow {
 	private QGraphicsView view;
 	private QGraphicsScene scene;
 	private QToolBar toolbar;
-	private pathfind.generateurGraph gG;
+	private pathfind.GenerateurGraph gG;
 	private ArrayList<Node> nodesAl;
 	
 	//pinceaux
@@ -43,7 +43,7 @@ public class WidgetClient extends QMainWindow {
 		nodesAl = (ArrayList<Node>) nodes.clone();
 		
 		//generation du graphe
-		gG = new generateurGraph(nodes);
+		gG = new GenerateurGraph(nodes);
 
 		
 		setToolbar();
@@ -108,7 +108,7 @@ public class WidgetClient extends QMainWindow {
 
 	private void run() {
 		gG.generationGraph();
-		rechercheGraph rG = new rechercheGraph(gG.getGraph());
+		RechercheGraph rG = new RechercheGraph(gG.getGraph());
 		ArrayList<Node> chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(1));
 		for (int i = 0; i < chemin.size() - 1; i++) {
 			scene.addEllipse(chemin.get(i).getAbscisse(), chemin.get(i).getOrdonnee(), 10, 10, penRed, brushRed);

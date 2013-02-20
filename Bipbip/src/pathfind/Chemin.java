@@ -18,8 +18,8 @@ public class Chemin {
 	}
 	
 	public void calculerDistance() {
-		for (int i = chemin.size() - 1; i > 0; i--) {
-			distance += chemin.get(0).calculerDistance(chemin.get(1));
+		for (int i = 0; i < chemin.size() - 1; i++) {
+			distance += chemin.get(i).calculerDistance(chemin.get(i + 1));
 		}
 	}
 	

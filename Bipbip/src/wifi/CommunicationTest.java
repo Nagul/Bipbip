@@ -1,3 +1,5 @@
+package wifi;
+
 import java.util.Scanner;
 
 /**

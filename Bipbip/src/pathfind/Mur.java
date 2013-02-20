@@ -1,21 +1,17 @@
 package pathfind;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Mur {
 
-	//abscisse/ordonnee du coin en haut à gauche
 	private final Node BoutDebut;
 	private final Node BoutFin;
-	//longueur : taille du mur suivant l'abscisse
-	private final double epaisseur;//à partir du centre
+	private final double epaisseur;
 	private final ArrayList<Node> portes;
 	private final String nom;
 	private final TypeNode PieceDirect;
 	private final TypeNode PieceIndirect;
-	
-	//tention place de p
+
 	public Mur(Node bd, Node bf, ArrayList<Node> p, double e, String n, TypeNode pD, TypeNode pI) {
 		BoutDebut = bd;
 		BoutFin = bf;
@@ -26,7 +22,6 @@ public class Mur {
 		PieceIndirect = pI;
 	}
 	
-	//meme constructeur, qu'une seule porte (facilite d'ecriture)
 	public Mur(Node bd, Node bf, double e, Node p, String n, TypeNode pD, TypeNode pI) {
 		BoutDebut = bd;
 		BoutFin = bf;
@@ -79,7 +74,6 @@ public class Mur {
 		normale[1] = a/q;
 		return normale;
 	}
-	
 
 	public double[] getDirecteur() {
 		double[] directeur = new double[2];
@@ -91,11 +85,11 @@ public class Mur {
 		return directeur;
 	}
 
-	
 	/*
 	 * écart en angle de this à la droite passé en paramètre.
 	 * ecart de 0 à PI
 	 */
+	//TODO : reste surement un bug ici
 	public double ecartDirection(Mur autreMur) {
 		double[] directeur = this.getDirecteur();
 		double[] autreDirecteur = autreMur.getDirecteur();
@@ -156,7 +150,6 @@ public class Mur {
 		return result;
 	}
 
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -166,7 +159,6 @@ public class Mur {
 		return result;
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

@@ -2,19 +2,17 @@ package pathfind;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
-public class generateurGraph {
+public class GenerateurGraph {
 	
 	private Graph graph;
 	private ArrayList<Node> nodes;
 	
-	public generateurGraph(ArrayList<Node> n) {
+	public GenerateurGraph(ArrayList<Node> n) {
 		graph = new Graph();
-		nodes = n;//nodes utilisateurs
+		nodes = n;
 	}
 	
-	//TODO : fusionner les cas 1 mur et n murs pour lisibilité
 	/**
 	 * Crée les arêtes du graphe à partir des sommets.
 	 * @return graph connexe
@@ -38,7 +36,6 @@ public class generateurGraph {
 		
 		HashMap<Mur, murEtBout> mapAdjacenceMur = this.mapMurAdjacents();
 		
-		//TODO : gérer mieux le cas où l'intersection est nulle
 		for (Mur m : affichage.Bipbip.murs) {
 			normale = m.getNormale();
 			epaisseur = m.getEpaisseur() + ecartement;
@@ -62,54 +59,13 @@ public class generateurGraph {
 				chemin.calculerDistance();
 				graph.addArc(new Arc(nodeCourant1, nodeCourant2, chemin));
 				
-			} else if (mapAdjacenceMur.get(m).getMurVecteur()[0].equals(mapAdjacenceMur.get(m).getMurVecteur()[1])) {
-				//Cas UN mur
-				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[0];
-
-				if ((mapAdjacenceMur.get(m).getMurBout()[0])) {
-					coord = m.getIntersection(autreMur, true, false);
-				} else {
-					coord = m.getIntersection(autreMur, true, true);
-				}
-				if (coord==null) {
-					coord = new double[2];
-					coord[0] = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
-					coord[1] = m.getBoutDebut().getOrdonnee() + normale[1]*epaisseur;
-				}
-				nodeCourant1 = graph.rechercheNode(coord[0], coord[1]);
-				if (nodeCourant1==null) {
-					nodeCourant1 = new Node(coord[0], coord[1], m.getNom() + "|" + autreMur.getNom(), m.getPieceDirect());
-					graph.addNode(nodeCourant1);
-				}
-
-				if (mapAdjacenceMur.get(m).getMurBout()[0]) {
-					coord = m.getIntersection(autreMur, false, true);
-				} else {
-					coord = m.getIntersection(autreMur, false, false);
-				}
-				if (coord==null) {
-					coord = new double[2];
-					coord[0] = m.getBoutDebut().getAbscisse() - normale[0]*epaisseur;
-					coord[1] = m.getBoutDebut().getOrdonnee() - normale[1]*epaisseur;
-				}
-				nodeCourant2 = graph.rechercheNode(coord[0], coord[1]);
-				if (nodeCourant2==null) {
-					nodeCourant2 = new Node(coord[0], coord[1], m.getNom() + "|" + autreMur.getNom(), m.getPieceIndirect());
-					graph.addNode(nodeCourant2);
-				}
-
-				
 			} else {
 				//cas plusieurs murs
 				
 				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[0];
-				System.out.println("PLUSIEURS, DEBUT " + m.getNom() + autreMur.getNom());
 
-				if (mapAdjacenceMur.get(m).getMurBout()[0]) {
-					coord = m.getIntersection(autreMur, true, false);
-				} else {
-					coord = m.getIntersection(autreMur, true, true);
-				}
+				coord = m.getIntersection(autreMur, true, !mapAdjacenceMur.get(m).getMurBout()[0]);
+
 				if (coord==null) {
 					coord = new double[2];
 					coord[0] = m.getBoutDebut().getAbscisse() + normale[0]*epaisseur;
@@ -123,13 +79,9 @@ public class generateurGraph {
 
 
 				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[1];
-				System.out.println("PLUSIEURS, DEBUT " + m.getNom() + autreMur.getNom());
 				
-				if (mapAdjacenceMur.get(m).getMurBout()[1]) {
-					coord = m.getIntersection(autreMur, false, true);
-				} else {
-					coord = m.getIntersection(autreMur, false, false);
-				}
+				coord = m.getIntersection(autreMur, false, mapAdjacenceMur.get(m).getMurBout()[1]);
+				
 				if (coord==null) {
 					coord = new double[2];
 					coord[0] = m.getBoutDebut().getAbscisse() - normale[0]*epaisseur;
@@ -143,11 +95,9 @@ public class generateurGraph {
 			}
 
 
-
 			//TODO : BESOIN DE TRIER LES PORTES PAR RAPPORT A DEBUT -> FIN
 			if (m.getPortes()!=null) {
 				for (Node porte : m.getPortes()) {
-					//TODO : donner nom explicatif + génération TypeNode
 					coord[0] = porte.getAbscisse() + normale[0]*epaisseur;
 					coord[1] = porte.getOrdonnee() + normale[1]*epaisseur;
 					nodeNew1 = new Node(coord[0], coord[1], porte.getNom() + "1", m.getPieceDirect());
@@ -200,53 +150,14 @@ public class generateurGraph {
 				chemin.addEtape(nodeNew2);
 				chemin.calculerDistance();
 				graph.addArc(new Arc(nodeNew1, nodeNew2, chemin));
-				
-			} else if (mapAdjacenceMur.get(m).getMurVecteur()[2].equals(mapAdjacenceMur.get(m).getMurVecteur()[3])) {
-				//Cas UN mur
-				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[2];
-
-				if (mapAdjacenceMur.get(m).getMurBout()[2]) {
-					coord = m.getIntersection(autreMur, true, true);
-				} else {
-					coord = m.getIntersection(autreMur, true, false);
-				}
-				if (coord==null) {
-					coord = new double[2];
-					coord[0] = m.getBoutFin().getAbscisse() + normale[0]*epaisseur;
-					coord[1] = m.getBoutFin().getOrdonnee() + normale[1]*epaisseur;
-				}
-				nodeNew1 = graph.rechercheNode(coord[0], coord[1]);
-				if (nodeNew1==null) {
-					nodeNew1 = new Node(coord[0], coord[1], m.getNom() + "|" + autreMur.getNom(), m.getPieceDirect());
-					graph.addNode(nodeNew1);
-				}
-
-				if (mapAdjacenceMur.get(m).getMurBout()[2]) {
-					coord = m.getIntersection(autreMur, false, false);
-				} else {
-					coord = m.getIntersection(autreMur, false, true);
-				}
-				if (coord==null) {
-					coord = new double[2];
-					coord[0] = m.getBoutFin().getAbscisse() - normale[0]*epaisseur;
-					coord[1] = m.getBoutFin().getOrdonnee() - normale[1]*epaisseur;
-				}
-				nodeNew2 = graph.rechercheNode(coord[0], coord[1]);
-				if (nodeNew2==null) {
-					nodeNew2 = new Node(coord[0], coord[1], m.getNom() + "|" + autreMur.getNom(), m.getPieceIndirect());
-					graph.addNode(nodeNew2);
-				}
-				
+					
 			} else {
 				
 				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[2];
-				System.out.println("PLUSIEURS, FIN " + m.getNom() + autreMur.getNom());
-				
-				if (mapAdjacenceMur.get(m).getMurBout()[2]) {
-					coord = m.getIntersection(autreMur, true, true);
-				} else {
-					coord = m.getIntersection(autreMur, true, false);
-				}
+
+
+				coord = m.getIntersection(autreMur, true, mapAdjacenceMur.get(m).getMurBout()[2]);
+
 				if (coord==null) {
 					coord = new double[2];
 					coord[0] = m.getBoutFin().getAbscisse() + normale[0]*epaisseur;
@@ -259,13 +170,9 @@ public class generateurGraph {
 				}
 
 				autreMur = mapAdjacenceMur.get(m).getMurVecteur()[3];
-				System.out.println("PLUSIEURS, FIN " + m.getNom() + autreMur.getNom());
-				
-				if (mapAdjacenceMur.get(m).getMurBout()[3]) {
-					coord = m.getIntersection(autreMur, false, false);
-				} else {
-					coord = m.getIntersection(autreMur, false, true);
-				}
+
+				coord = m.getIntersection(autreMur, false, !mapAdjacenceMur.get(m).getMurBout()[3]);
+
 				if (coord==null) {
 					coord = new double[2];
 					coord[0] = m.getBoutFin().getAbscisse() - normale[0]*epaisseur;
@@ -311,13 +218,11 @@ public class generateurGraph {
 					}
 				}
 			} else if (n.getType() instanceof TypeCouloir) {
-				for (Node autreNode : nodes) {
-					//trouver les nodes PERTINENTS ?
+				//passages piétons
+				//première idée basique : 
+				for (Node autreNode : graph.getNodes()) {
+					
 				}
-			} else if (n.getType() instanceof TypeExterieur) {
-
-			} else {
-
 			}
 			nodes.remove(0);
 		}
@@ -328,13 +233,6 @@ public class generateurGraph {
 		return graph;
 	}
 
-	/*
-	 * Vecteur associé à chaque mur : [murDebutDirect
-	 *                                 murDebutIndirect 
-	 *                                 murFinDirect
-	 *                                 murFinIndirect   ]
-	 *                                 [Vecteur permettant de determiner à quel bout on est]
-	 */
 	// INVERSION AU NIVEAU DU SENS EN QT §§§
 	private HashMap<Mur, murEtBout> mapMurAdjacents() {
 		HashMap<Mur, murEtBout> hm = new HashMap<Mur, murEtBout>();

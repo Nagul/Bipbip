@@ -30,7 +30,6 @@ public class Graph {
 		return graph.keySet();
 	}
 	
-	//TODO : vérifier son utilité
 	public ArrayList<Node> getVoisins(Node n) {
 		ArrayList<Node> voisins = new ArrayList<Node>();
 		for (Arc a : graph.get(n)) {
@@ -51,6 +50,21 @@ public class Graph {
 			}
 		}
 		return null;
+	}
+	
+	/*
+	 * Supprimer les points du graphe non connexe au node nodeSource
+	 */
+	//TODO : OPTIMISER
+	public void garderConnexe(Node nodeSource) {
+		RechercheGraph rG = new RechercheGraph(this);
+		HashMap<Node, ArrayList<Arc>> gClone = (HashMap<Node, ArrayList<Arc>>) graph.clone();
+		Set<Node> kS = graph.keySet();
+		for (Node n : gClone.keySet()) {
+			if (rG.plusCourtChemin(nodeSource, n)==null) {
+				kS.remove(n);
+			}
+		}
 	}
 
 }

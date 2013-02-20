@@ -1,3 +1,5 @@
+package wifi;
+
 import java.net.URL;
 import java.net.HttpURLConnection;
 

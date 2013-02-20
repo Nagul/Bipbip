@@ -3,11 +3,11 @@ package pathfind;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class rechercheGraph {
+public class RechercheGraph {
 
 	private Graph graph;
 
-	public rechercheGraph(Graph g) {
+	public RechercheGraph(Graph g) {
 		graph = g;
 	}
 
@@ -36,7 +36,7 @@ public class rechercheGraph {
 			
 			//cas où les points restants sont innaccessible
 			if (valeurNodeMin.getDistance() == Double.MAX_VALUE) {
-				throw new Error("Le robot ne peut atteindre cette destination");
+				return null;
 			}
 			
 			//cas où le Node destination est le minimal : fini

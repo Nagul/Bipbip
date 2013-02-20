@@ -42,6 +42,7 @@ public class Node {
 				+ Math.pow(this.ordonnee - other.getOrdonnee(), 2));
 	}
 	
+	//TODO : utilite ?
 	/**
 	 * Fonction permettant de vérifier si un node d'un mur appartient
 	 * au voisinage d'un autre mur ou pas.
@@ -49,7 +50,7 @@ public class Node {
 	 * @return le mur auquel le node appartient
 	 */
 	public Mur appartientAutreMur(Mur murTest) {
-		for (Mur m : TestRechercheGraph.murs) {
+		for (Mur m : affichage.Bipbip.murs) {
 			if((this.equals(m.getBoutDebut())
 					||this.equals(m.getBoutFin())
 					||this.calculerDistance(m.getBoutDebut()) + this.calculerDistance(m.getBoutFin()) < m.getBoutDebut().calculerDistance(m.getBoutFin()) + 1

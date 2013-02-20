@@ -20,7 +20,7 @@ public class WidgetDev extends QMainWindow {
 	private QGraphicsView view;
 	private QGraphicsScene scene;
 	private QToolBar toolbar;
-	private pathfind.generateurGraph gG;
+	private pathfind.GenerateurGraph gG;
 	private ArrayList<Node> nodesAl;
 	
 	//pinceaux
@@ -43,9 +43,9 @@ public class WidgetDev extends QMainWindow {
 		
 		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
-		gG = new generateurGraph(nodes);
+		gG = new GenerateurGraph(nodesAl);
 		gG.generationGraph();
-		
+		gG.getGraph().garderConnexe(nodes.get(0));
 		setToolbar();
 		setScene();
 	}
