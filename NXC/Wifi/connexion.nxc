@@ -1,6 +1,7 @@
 #include "WifiBlockHelper.nxc"
 #include "parsing.nxc"
 #include "basicCommands.nxc"
+#include "logiciel_embarque_NXC.nxc"
 
 #define MY_IP_4 36
 #define MY_IP   "192.168.0."
@@ -11,13 +12,17 @@
 
 #define SERVER_ROOT ""
 
-#define NONE      0
-#define STOP      1
-#define FORWARD   2
-#define BACKWARD  3
-#define LEFT      4
-#define RIGHT     5
-#define FEEDBACK  6
+#define NONE         0
+#define FORWARD      1
+#define TURN         2
+#define FOLLOW_WALL  3
+#define CROSSING     4
+#define FEEDBACK     5
+#define STOP         6
+
+#define STEP_SIZE    30
+#define NEAR         10
+
 
 void sendfeedback(string message);
 
@@ -43,9 +48,12 @@ bool connect(){
 }
 
 // get orders from the server and execute them
+// TODO CHANGE AND USE STACK
+// TODO DON'T FORGET TO SORT PARAMETERS IN THE SQL REQUEST
 void get_order(){
 	string label;
 	string value; 
+	int distance_parcourue, alerte_bloque;
 	while(true){
 		string order = quickGET(WB_PORT,server_ip,orders_url);
 		int test_order = getCommand(order);
@@ -57,17 +65,30 @@ void get_order(){
 		}
 		// execute order
 		 switch(test_order){
-		 	case NONE      : break;
-		 	case STOP      : stop_moving(); break;
-		 	case FORWARD   : // testing parameters
-					 getParameter(order,label,value);
-					 move_forward(10,atoi(value));
-					 break;
-		 	case BACKWARD  : move_backward(10,50);break;
-		 	case LEFT      : turn_left(10,50);break;
-		 	case RIGHT     : turn_right(10,50);break;
-		 	case FEEDBACK  : sendfeedback("&distance=5");break;
-		 	default        : break;
+			 case NONE         :  break;
+			 case FORWARD      : getParameter(order,label,value);
+					     int power = atoi(value);
+  					     avancer(power);
+        				     break;
+        		 case TURN         : getParameter(order,label,value);
+        				     int angle = atoi(value);
+  					     tourner(angle);
+        				     break;
+        		 case FOLLOW_WALL  :  getParameter(order,label,value);
+        				      int distance = atoi(value);
+        				      getParameter(order,label,value);
+        				      int speed = atoi(value);
+  					      distance_precise_par_pas(distance, speed, STEP_SIZE, NEAR, distance_parcourue, alerte_bloque); 
+					      break;
+			 case CROSSING     :  getParameter(order,label,value);
+			 // TODO get first parameter
+					      getParameter(order,label,value);
+			 // TODO
+					      int node[]; // TODO get "node" from server
+					      break;
+			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE
+			 case STOP         :  stop_moving();break;
+			 default           :  break;
 		 }
 
 
