@@ -1,0 +1,441 @@
+//***************************************
+//*               Bip-Bip               *
+//***************************************
+
+//******************************************************************************
+/*
+//Liste des fonctions à utiliser
+//Pour avancer d'une distance précise en longeant un mur
+distance_precise_par_pas(int distance int Vit int Dist int TROP_PRES int& distance_parcourue, int& alerte_bloque)  // distance total, vitesse, pas, obstacle trop près, alerte
+
+//Pour Gérer les croisements
+rond_point(int& noeud[], int segment_depart, int direction, int& distance_parcourue, int trois_branches_arrive_T_droite, int& alerte_bloque)
+
+//Pour avancer sans arret à une certaine vitessse
+avancer(int puissance)
+
+//Pour Pivoter le Robot sur lui même d'un certain angle
+tourner(int angle)
+
+
+//Autres fonctions
+translation(int distance)
+regulation_distance_droite(int distance_consigne)
+regulation_distance_gauche(int distance_consigne)
+suivit_mur()
+DistancePrecise(int Dist, int Vit, int TROP_PRES, int& distance_parcourue, int& alerte_bloque)
+coin(int trois_branches_arrive_T_droite)
+
+ */
+//******************************************************************************
+
+// Avancer à une certaine vitesse
+#define avancer(puissance) \
+	OnFwdReg(OUT_BC, puissance, OUT_REGMODE_SYNC);
+
+//tourner d'un angle dans le sens horraire
+#define tourner(angle) \
+	RotateMotorExPID(OUT_BC, 50, (18*angle)/9, sign(angle)*100, true, true, 50, 50, 50); // Valeurs obtenues par expérience
+
+#define LEFT_CASE    1
+#define RIGHT_CASE   2
+#define FORWARD_CASE 3
+
+
+//*****************************************************************************
+//                              suivi de mur
+//*****************************************************************************
+
+//translation d'une certaine distance (distance > 0 vers la droite)
+void translation(int distance){
+	if (distance >= 0){
+		tourner(90)
+			avancer(30)
+			Wait(125*distance);
+		tourner(-90)
+	}
+	else{
+		tourner(-90)
+			avancer(30)
+			Wait(-125*distance);
+		tourner(90)
+	}
+}
+
+//Régulation de distance par rapport à un mur perpendiculaire à gauche
+void regulation_distance_gauche(int distance_consigne){
+	int distance;
+	distance = distance_consigne - SensorUS(IN_4);                                 //comparaison par rapport à la distance de consigne
+
+	if ((distance > 3)||(distance < -3)){                                          //prise en compte de la modofocation de distance seulement si elle est supérieur à 3cm
+		translation(distance);
+	}
+}
+
+//Régulation de distance par rapport à un mur perpendiculaire à droite
+void regulation_distance_droite(int distance_consigne){
+	int distance;
+	distance = distance_consigne - SensorUS(IN_4);
+	if ((distance > 3)||(distance < -3)){
+		translation(-distance);                                                        //on change le signe de la distance pour la fonction translation
+	}
+}
+
+//Régulation angle à droite-----------------------------------------------------
+void regulation_angle_droite(){
+	int distance_x1;
+	int distance_x2;
+	int distance_x3;
+	int angle_au_mur;
+	int angle_tourner;
+	float a;
+	float b;
+	float c;
+	float d;
+	float e;
+	float f;
+
+	//Mesure à 3 angles différents
+	ResetRotationCount(OUT_A);
+	RotateMotorPID(OUT_A, 30, 60, 50, 50, 50);  // 6O°
+	Wait(50);
+	distance_x1 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, 30, 50, 50, 50);  //90°
+	Wait(50);
+	distance_x2 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, 30, 50, 50, 50);  //120°
+	Wait(50);
+	distance_x3 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, -120, 50, 50, 50); //0°
+
+
+	// Prise en compte de la mesure à 90° et de la plus faible parmis les 2 restantes
+	if(distance_x1 < distance_x3){
+		//calculs développés pour éviter les problèmes sur l'automate
+		d = (0.5*distance_x1)*(0.5*distance_x1)+(distance_x2-0.866*distance_x1)*(distance_x2-0.866*distance_x1);
+		b = Sqrt(d);
+		e = (distance_x2-0.866*distance_x1)/b;
+		f = 100*e;
+		a = Acos(b);
+		angle_au_mur = a;
+		angle_tourner = 90 - angle_au_mur;
+		Off(OUT_BC);
+		Wait(10);
+		RotateMotorExPID(OUT_BC, 50, (18*angle_tourner)/9, -1*100, true, true, 50, 50, 50);
+		Wait(50);
+
+	}
+	else{
+		//calculs développés pour éviter les problèmes sur l'automate
+		d = (0.5*distance_x3)*(0.5*distance_x3)+(distance_x2-0.866*distance_x3)*(distance_x2-0.866*distance_x3);
+		b = Sqrt(d);
+		e = (distance_x2-0.866*distance_x3)/b;
+		f = 100*e;
+		a = Acos(b);
+		angle_au_mur = a;
+		angle_tourner = 90 - angle_au_mur;
+		Off(OUT_BC);
+		Wait(10);
+		RotateMotorExPID(OUT_BC, 50, (18*angle_tourner)/9, 100, true, true, 50, 50, 50);
+		Wait(50);
+	}
+}
+
+//Régulation angle à gauche-----------------------------------------------------
+void regulation_angle_gauche(){
+	int distance_x1;
+	int distance_x2;
+	int distance_x3;
+	int angle_au_mur;
+	int angle_tourner;
+	float a;
+	float b;
+	float c;
+	float d;
+	float e;
+	float f;
+
+	//Mesure à 3 angles différents
+	ResetRotationCount(OUT_A);
+	RotateMotorPID(OUT_A, 30, -60, 50, 50, 50);  // 6O°
+	Wait(50);
+	distance_x1 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, -30, 50, 50, 50);  //90°
+	Wait(50);
+	distance_x2 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, -30, 50, 50, 50);  //120°
+	Wait(50);
+	distance_x3 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, 120, 50, 50, 50);  //0°
+
+
+	// Prise en compte de la mesure à 90° et de la plus faible parmis les 2 restantes
+	if(distance_x1 < distance_x3){
+
+		d = (0.5*distance_x1)*(0.5*distance_x1)+(distance_x2-0.866*distance_x1)*(distance_x2-0.866*distance_x1);
+		b = Sqrt(d);
+		e = (distance_x2-0.866*distance_x1)/b;
+		f = 100*e;
+		a = Acos(b);
+		angle_au_mur = a;
+		angle_tourner = 90 - angle_au_mur;
+		Off(OUT_BC);
+		Wait(10);
+		RotateMotorExPID(OUT_BC, 50, (18*angle_tourner)/9, 100, true, true, 50, 50, 50);
+		Wait(50);
+
+	}
+	else{
+
+		d = (0.5*distance_x3)*(0.5*distance_x3)+(distance_x2-0.866*distance_x3)*(distance_x2-0.866*distance_x3);
+		b = Sqrt(d);
+		e = (distance_x2-0.866*distance_x3)/b;
+		f = 100*e;
+		a = Acos(b);
+		angle_au_mur = a;
+		angle_tourner = 90 - angle_au_mur;
+		Off(OUT_BC);
+		Wait(10);
+		RotateMotorExPID(OUT_BC, 50, (18*angle_tourner)/9, -1*100, true, true, 50, 50, 50);
+		Wait(50);
+	}
+}
+
+//suivit de mur le plus proche--------------------------------------------------
+void suivit_mur(){
+	int distance_droite;
+	int distance_gauche;
+	int distance_consigne = 30;
+
+	// On regarde la distance des 2 cotes
+	RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+	Wait(100);
+	distance_droite = SensorUS(IN_4);
+	RotateMotorPID(OUT_A, 30, -180, 50, 50, 50);
+	Wait(100);
+	distance_gauche = SensorUS(IN_4);
+	RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+	Wait(100);
+
+	//On Choisit la distance la plus faible et on effectue la régulation sur cette distance
+	if(distance_droite < distance_gauche){
+
+		regulation_angle_droite();
+		RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);         // on place le capteur à droite
+		Wait(10);
+		regulation_distance_droite(distance_consigne);
+		RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);        // on remet le capteur en posotion "repos"
+		regulation_angle_droite();
+	}
+	else{
+
+		regulation_angle_gauche();
+		RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);        // on place le capteur à gauche
+		Wait(10);
+		regulation_distance_gauche(distance_consigne);
+		RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);         // on remet le capteur en posotion "repos"
+		regulation_angle_gauche();
+	}
+}
+
+//****************************************************************************
+//*                     avancer d'une certaine distance                      *
+//****************************************************************************
+
+// avancer d'une distance précise sans vrérifications d'angle (un seul "pas") et arret en cas d'obstacle
+void DistancePrecise(int Dist, int Vit, int TROP_PRES, int& distance_parcourue, int& alerte_bloque)    //Fonction améliorant la précision pour une distance demandé
+{
+	Dist = Dist*20.8;        //Convertis les degrés en cm
+	int Y = 0;               //Variable associé au compteur de la roue C
+	int Z = 0;               //Variable associé au compteur de la roue B
+	int Erreur=0;            //Variable pour le calcul de l'erreur en fonction de la vitesse
+	ResetRotationCount(OUT_B);
+	Wait(10);
+	ResetRotationCount(OUT_C);
+	Wait(10);
+	int fin_C = 0;
+	int fin_B = 0;
+	int ancien = 0;
+	int compteur = 0;
+
+	do{
+		Y= MotorRotationCount(OUT_C);                                                 //On rentre la valeur du compteur de C dans Y
+		Z= MotorRotationCount(OUT_B);                                                 //On rentre la valeur du compteur de B dans Z
+
+		//****Boucle de sécurité****
+		while(SensorUS(IN_4)<TROP_PRES){
+			Off(OUT_BC);
+			Wait(5);
+			if (compteur >= 1000){                                                      // environ 5s
+				alerte_bloque = 1;
+				TextOut(0,LCD_LINE2, "-----ALERTE-----", true);
+			}
+			else{
+				compteur = compteur + 5;
+				TextOut(0,LCD_LINE2, "------STOP------", true);
+			}
+		} //**fin boucle sécurité**
+		alerte_bloque = 0;                                                          // remise à 0 des variables de sécurité
+		compteur = 0;
+
+		// Dans les lignes qui suivent, on calcul l'erreur selon la vitesse demandée
+		if (Vit >=0)  { if (Vit  >=60){Erreur=0.54*Vit-15.5;}                         // On a quatre calcul dépendant de la valeur de la vitesse.
+			else {Erreur=0.325*Vit-2.6;}                                // Elevé positive, faible positive
+		}
+		else{ if (Vit <= -50) {Erreur=0.54*(-Vit)-11;}                                // Elevé négative, faible négative
+			else {Erreur=0.505*(-Vit)-7.9;}
+		}
+
+
+		// On démarre chaque roue séparément tant que la distance voulu n'est pas parcourue.
+		if (abs(Y) <= Dist-sign(Erreur)*Erreur) {       //Moteur C
+			OnFwd(OUT_C,Vit);
+		}
+		else {
+			Off(OUT_C);
+			fin_C = 1;
+		}
+
+		if (abs(Z) <= Dist-sign(Erreur)*Erreur) {       //Moteur B
+			OnFwd(OUT_B,Vit);
+		}
+		else {
+			Off(OUT_B);
+			fin_B = 1;
+		}
+
+		// compteur distance parcourue et affichaghe
+
+		distance_parcourue = distance_parcourue + (abs(Y)+abs(Z))/41.6 - ancien;
+		ancien = (abs(Y)+abs(Z))/41.6;
+		NumOut(0,LCD_LINE1, distance_parcourue,true);
+
+	}while((fin_C == 0)||(fin_B == 0))
+
+	ResetRotationCount(OUT_B);
+	ResetRotationCount(OUT_C);
+}
+
+
+//******************************************************************************
+//Avancer d'une distance présice avec vérifications de trajectoire---------------
+void distance_precise_par_pas(int distance int Vit int Dist int TROP_PRES int& distance_parcourue, int& alerte_bloque){     // distance total, vitesse, pas, obstacle trop près, alerte
+	int distance_a_parcourir = distance;
+
+	while(distance_a_parcourir > Dist){                                            //on avance par "pas" de Dist
+		DistancePrecise(Dist,Vit,TROP_PRES, distance_parcourue,alerte_bloque);
+		distance_a_parcourir = distance_a_parcourir - Dist;
+		Off(OUT_BC);
+		suivit_mur();
+	}
+
+	DistancePrecise(distance_a_parcourir,Vit,TROP_PRES, distance_parcourue, alerte_bloque);       // On effectue un dernier petit pas
+
+}
+
+
+
+//******************************************************************************
+//*                              Rond point                                    *
+//******************************************************************************
+//vérification coin mur
+void coin(int verification_coin){
+	//vérifier qu'on arrive au coin du mur (la distance donnée en consigne auparavant doit être un peu inférieur à la distance réelle du mur pour s'assurer de ne pas manquer le coin)
+
+	if (verification_coin == 0){                                       //Arrivée par la branche droite du  ----<--
+		avancer(30);                                                                  //                                      |
+		Wait(500);                                                                    //4cm
+	}
+	else{
+
+		RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);                                    //On place le capteur à droite
+		Wait(5);
+		do{
+			avancer(30);
+			Wait(5);
+		}while(SensorUS(IN_4) < 150)                                                  //150 est arbitraire, est inférieur à la distance mesurée apres le coin du mur
+		Off(OUT_BC);
+		RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);                                   //On remet le capteur en posotion "repos"
+		Wait(5);
+	}
+}
+
+bool is_occupe(int node){
+// TODO get data from server
+	return true;
+}
+void set_occupe(int node,int value){
+// TODO set the  truc
+}
+
+//******************************************************************************
+// rond point. Le robot arrive en longeant le mur à droite----------------------
+void rond_point(int numero_noeud, int direction, int& distance_parcourue, int verification_coin, int& alerte_bloque){
+
+
+
+	// On vérifie que le rond point que l'on veut empreinter est libre
+	while(is_occupe(numero_noeud));
+	// dire au serveur que noeud[numero_noeud] = 1
+	set_occupe(numero_noeud,1);
+	coin(verification_coin);                                                     //on verifie que l'on arrive bien au coin du mur
+	switch(direction){
+		case LEFT_CASE:
+			//on effectue la suite de mouvements pour tourner à gauche
+			Off(OUT_BC);
+			DistancePrecise(50, 30, 10, distance_parcourue,alerte_bloque);
+			tourner(-90);
+			DistancePrecise(100, 30, 10, distance_parcourue,alerte_bloque);
+			break;
+			//tourner à droite
+		case RIGHT_CASE:
+			DistancePrecise(30, 30, 10, distance_parcourue, alerte_bloque);
+			Off(OUT_BC);
+			tourner(90);
+			Off(OUT_BC);
+			Wait(5);
+			DistancePrecise(50, 30, 10, distance_parcourue, alerte_bloque);
+			Off(OUT_BC);
+			break;
+
+			//tout droit
+		case FORWARD_CASE:
+			DistancePrecise(80, 30, 10, distance_parcourue, alerte_bloque);
+			Off(OUT_BC);
+			Wait(5);
+			break;
+		default: break;
+	}
+	// dire au serveur que noeud[numero_noeud] = 0;
+	set_occupe(numero_noeud,0);
+
+
+}
+
+
+//******************************************************************************
+//*                                THE MAIN                                    *
+//******************************************************************************
+void main(){
+	SetSensorLowspeed(IN_4);                                                       //Pour pouvoir utiliser le Capteur US sur l'entrée 4.
+	int distance_parcourue = 0;                                                    //Pour conntaître la distance parcourue depuis le lancement du main
+	int alerte_bloque = 0;                                                         //Passe à 1 si le robot rencontre un mêm obstacle pendant plus de 5s
+
+	//définition d'un noeud
+	int noeud[];                                                                   //Définition du vecteur représentant le croisement
+	ArrayInit(noeud,0,5);                                                          //mise à 0 du vecteur
+	int numero_noeud = 1;                                                        //le numéro du segment par lequel on arrive sur le rond-point
+	int direction = 3;                                                             // 1 droite, 2 tout droit, 3 à gauche
+	int verification_coin = 1;                                        // 1 si on arrive par la brache haut droite d'un T sinon 0
+
+	rond_point(numero_noeud,direction,distance_parcourue,verification_coin,alerte_bloque);
+
+}
+
+
