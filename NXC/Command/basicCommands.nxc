@@ -1,3 +1,4 @@
+#include "Wifi/connexion.nxc"
 #define LEFT_MOTOR OUT_B
 #define RIGHT_MOTOR OUT_C
 #define ALL_MOTORS OUT_BC
