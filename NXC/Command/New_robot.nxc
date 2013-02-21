@@ -1,3 +1,4 @@
+#include "WifiBlockHelper.nxc"
 //***************************************
 //*               Bip-Bip               *
 //***************************************
@@ -28,7 +29,6 @@ coin(int trois_branches_arrive_T_droite)
 
  */
 //******************************************************************************
-
 // Avancer à une certaine vitesse
 #define avancer(puissance) \
 	OnFwdReg(OUT_BC, puissance, OUT_REGMODE_SYNC);
@@ -41,6 +41,22 @@ coin(int trois_branches_arrive_T_droite)
 #define RIGHT_CASE   2
 #define FORWARD_CASE 3
 
+#define SERVER_ROOT ""
+#define WB_PORT IN_4
+
+bool get_node_state(int id_node){
+	byte server_ip[] = {192,168,0,35};
+	string getnode_url =StrCat(SERVER_ROOT,"/getnode.php?node=",NumToStr(id_node));
+	string nodestate = quickGET(WB_PORT,server_ip,getnode_url);
+	return (atoi(nodestate)==1);
+}
+
+/** update node state */
+void set_node_state(int id_node,int value){
+	byte server_ip[] = {192,168,0,35};
+	string setnode_url =StrCat(SERVER_ROOT,"/setnode.php?node=",NumToStr(id_node),"&value=",NumToStr(value));
+	quickGET(WB_PORT,server_ip,setnode_url);
+}
 
 //*****************************************************************************
 //                              suivi de mur
@@ -367,13 +383,6 @@ void coin(int verification_coin){
 	}
 }
 
-bool is_occupe(int node){
-// TODO get data from server
-	return true;
-}
-void set_occupe(int node,int value){
-// TODO set the  truc
-}
 
 //******************************************************************************
 // rond point. Le robot arrive en longeant le mur à droite----------------------
@@ -382,9 +391,9 @@ void rond_point(int numero_noeud, int direction, int& distance_parcourue, int ve
 
 
 	// On vérifie que le rond point que l'on veut empreinter est libre
-	while(is_occupe(numero_noeud));
+	while(get_node_state(numero_noeud));
 	// dire au serveur que noeud[numero_noeud] = 1
-	set_occupe(numero_noeud,1);
+	set_node_state(numero_noeud,1);
 	coin(verification_coin);                                                     //on verifie que l'on arrive bien au coin du mur
 	switch(direction){
 		case LEFT_CASE:
@@ -414,7 +423,7 @@ void rond_point(int numero_noeud, int direction, int& distance_parcourue, int ve
 		default: break;
 	}
 	// dire au serveur que noeud[numero_noeud] = 0;
-	set_occupe(numero_noeud,0);
+	set_node_state(numero_noeud,0);
 
 
 }
@@ -423,7 +432,7 @@ void rond_point(int numero_noeud, int direction, int& distance_parcourue, int ve
 //******************************************************************************
 //*                                THE MAIN                                    *
 //******************************************************************************
-void main(){
+void mainbis(){
 	SetSensorLowspeed(IN_4);                                                       //Pour pouvoir utiliser le Capteur US sur l'entrée 4.
 	int distance_parcourue = 0;                                                    //Pour conntaître la distance parcourue depuis le lancement du main
 	int alerte_bloque = 0;                                                         //Passe à 1 si le robot rencontre un mêm obstacle pendant plus de 5s

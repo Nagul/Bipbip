@@ -1,7 +1,6 @@
 #include "WifiBlockHelper.nxc"
 #include "parsing.nxc"
-#include "basicCommands.nxc"
-#include "logiciel_embarque_NXC.nxc"
+#include "../Command/New_robot.nxc"
 
 #define MY_IP_4 36
 #define MY_IP   "192.168.0."
@@ -24,7 +23,9 @@
 #define NEAR         10
 
 
+bool connect();
 void sendfeedback(string message);
+string get_order();
 
 // ip of the server which sends orders
 byte server_ip[] = {192,168,0,35};
@@ -49,13 +50,12 @@ bool connect(){
 
 // get orders from the server and execute them
 // TODO CHANGE AND USE STACK
-// TODO DON'T FORGET TO SORT PARAMETERS IN THE SQL REQUEST
-void get_order(){
+void execute_order(){
 	string label;
 	string value; 
 	int distance_parcourue, alerte_bloque;
 	while(true){
-		string order = quickGET(WB_PORT,server_ip,orders_url);
+		string order = get_order();
 		int test_order = getCommand(order);
 		if (order!="") {
 			TextOut(0,LCD_LINE1,order);
@@ -84,10 +84,9 @@ void get_order(){
 			 // TODO get first parameter
 					      getParameter(order,label,value);
 			 // TODO
-					      int node[]; // TODO get "node" from server
 					      break;
-			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE
-			 case STOP         :  stop_moving();break;
+			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE / REMOVE
+			 case STOP         :  break;
 			 default           :  break;
 		 }
 
@@ -98,6 +97,11 @@ void get_order(){
 void sendfeedback(string message){
 	quickGET(WB_PORT,server_ip,StrCat(feedback_url,message));
 }
+
+string get_order(){
+	quickGET(WB_PORT,server_ip,orders_url);
+}
+
 
 task main(){
 	string my_ip = StrCat(MY_IP,NumToStr(MY_IP_4));
@@ -110,7 +114,7 @@ task main(){
 	// send data to the server
 	feedback_url =StrCat(SERVER_ROOT,"/sendfeedback.php?target=",my_ip);
 	if (connect()){
-		get_order();
+		execute_order();
 	} else{
 		TextOut(0,LCD_LINE1,"CONNECT ERROR");
 	}
