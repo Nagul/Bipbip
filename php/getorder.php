@@ -28,7 +28,7 @@ if (isset($_GET["reset"])){
 $order_result = mysqli_query($link,"SELECT ct.id_nxc FROM Command c, CommandType ct WHERE c.ip = '$robot_ip' AND ct.action = c.action AND seq='$seq'");
 $order = mysqli_fetch_array($order_result,MYSQLI_ASSOC);
 // get parameters of the command
-$param_result = mysqli_query($link,"SELECT label,value FROM Parameter WHERE ip = '$robot_ip' AND seq='$seq'");
+$param_result = mysqli_query($link,"SELECT label,value FROM Parameter WHERE ip = '$robot_ip' AND seq='$seq' ORDER BY label");
 
 // print the result
 echo $order["id_nxc"];

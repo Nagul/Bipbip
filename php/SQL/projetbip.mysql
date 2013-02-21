@@ -48,3 +48,9 @@ CREATE TABLE Feedback(
      ON DELETE CASCADE ON UPDATE CASCADE,
    PRIMARY KEY (label,sending_date,ip)
 ) ENGINE = InnoDB;
+
+CREATE TABLE Node(
+   id_node INT NOT NULL,
+   is_taken BOOL,
+   PRIMARY KEY (id_node)
+) ENGINE = InnoDB;

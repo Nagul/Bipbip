@@ -275,6 +275,7 @@ void DistancePrecise(int Dist, int Vit, int TROP_PRES, int& distance_parcourue, 
 			if (compteur >= 1000){                                                      // environ 5s
 				alerte_bloque = 1;
 				TextOut(0,LCD_LINE2, "-----ALERTE-----", true);
+				// TODO send alarm message to the server
 			}
 			else{
 				compteur = compteur + 5;
