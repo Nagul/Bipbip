@@ -1,46 +1,76 @@
 #include "Command/New_robot.nxc"
 #include "Wifi/connexion.nxc"
 
+#define NONE         0
+#define FORWARD      1
+#define TURN         2
+#define FOLLOW_WALL  3
+#define CROSSING     4
+#define FEEDBACK     5
+#define STOP         6
+#define TEST         7
+
+#define STEP_SIZE    30
+#define NEAR         10
+
 // get orders from the server and execute them
 // TODO CHANGE AND USE STACK
 void execute_order(){
 	string label;
 	string value; 
 	int distance_parcourue, alerte_bloque;
+	int current_order = 1;
 	while(true){
-		string order = get_order();
+		NumOut(0,LCD_LINE3,current_order);
+	//TODO it currently takes the first order from the list
+		string order = get_order(current_order);
 		int test_order = getCommand(order);
+		NumOut(0,LCD_LINE5,test_order);
 		if (order!="") {
 			TextOut(0,LCD_LINE1,order);
 		}
 		else {
-			TextOut(0,LCD_LINE2,"NO PARAMETER");
+			TextOut(0,LCD_LINE4,"NO PARAMETER");
 		}
 		// execute order
 		 switch(test_order){
-			 case NONE         :  break;
+			 case NONE         : current_order=1; break;
 			 case FORWARD      : getParameter(order,label,value);
 					     int power = atoi(value);
   					     avancer(power);
+					     current_order++;
         				     break;
         		 case TURN         : getParameter(order,label,value);
         				     int angle = atoi(value);
   					     tourner(angle);
+					     current_order++;
         				     break;
         		 case FOLLOW_WALL  :  getParameter(order,label,value);
         				      int distance = atoi(value);
         				      getParameter(order,label,value);
         				      int speed = atoi(value);
   					      distance_precise_par_pas(distance, speed, STEP_SIZE, NEAR, distance_parcourue, alerte_bloque); 
+					     current_order++;
 					      break;
 			 case CROSSING     :  getParameter(order,label,value);
 			 // TODO get first parameter
 					      getParameter(order,label,value);
 			 // TODO
+					     current_order++;
 					      break;
 			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE / REMOVE
 			 case STOP         :  break;
-			 default           :  break;
+			 // add your test functions here
+			 case TEST         :  if(get_node_state(4)){
+						      TextOut(0,LCD_LINE4,"C'est vrai!");
+						      set_node_state(4,0);
+					      }else{
+						      TextOut(0,LCD_LINE4,"C'est faux...");
+						      set_node_state(4,1);
+					      }
+					     current_order++;
+					     break;
+			 default           :  current_order = 1;break;
 		 }
 
 

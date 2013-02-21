@@ -13,23 +13,12 @@
 
 #define SERVER_ROOT ""
 
-#define NONE         0
-#define FORWARD      1
-#define TURN         2
-#define FOLLOW_WALL  3
-#define CROSSING     4
-#define FEEDBACK     5
-#define STOP         6
-
-#define STEP_SIZE    30
-#define NEAR         10
-
 // TODO ADD COMMENTS
 
 /** connection to the local network (WIFI) */
 bool connect();
 void sendfeedback(string message);
-string get_order();
+string get_order(int seq);
 bool get_node_state(int id_node);
 /** update node state */
 void set_node_state(int id_node,int value);
@@ -58,8 +47,12 @@ void sendfeedback(string message){
 	quickGET(WB_PORT,server_ip,StrCat(feedback_url,message));
 }
 
-string get_order(){
-	quickGET(WB_PORT,server_ip,orders_url);
+/** 
+ * get command which index is seq from server
+ * @param seq 
+ */
+string get_order(int seq){
+	return quickGET(WB_PORT,server_ip,StrCat(orders_url,"&seq=",NumToStr(seq)));
 }
 
 bool get_node_state(int id_node){
