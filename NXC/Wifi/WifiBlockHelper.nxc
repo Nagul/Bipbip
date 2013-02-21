@@ -9,7 +9,7 @@
 #ifndef INCLUDE_WIFIBLOCK_HELPER
 #define INCLUDE_WIFIBLOCK_HELPER
 
-#include "WifiBlock.nxc"
+#include "Wifi/WifiBlock.nxc"
 
 bool quickConnect(int port,string ssid,int security,string pass,byte ip[],byte mask[],byte gw[]) {
   wb_initPort(port);

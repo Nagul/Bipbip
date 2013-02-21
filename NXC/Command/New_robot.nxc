@@ -1,4 +1,4 @@
-#include "WifiBlockHelper.nxc"
+#include "Wifi/connexion.nxc"
 //***************************************
 //*               Bip-Bip               *
 //***************************************
@@ -41,22 +41,6 @@ coin(int trois_branches_arrive_T_droite)
 #define RIGHT_CASE   2
 #define FORWARD_CASE 3
 
-#define SERVER_ROOT ""
-#define WB_PORT IN_4
-
-bool get_node_state(int id_node){
-	byte server_ip[] = {192,168,0,35};
-	string getnode_url =StrCat(SERVER_ROOT,"/getnode.php?node=",NumToStr(id_node));
-	string nodestate = quickGET(WB_PORT,server_ip,getnode_url);
-	return (atoi(nodestate)==1);
-}
-
-/** update node state */
-void set_node_state(int id_node,int value){
-	byte server_ip[] = {192,168,0,35};
-	string setnode_url =StrCat(SERVER_ROOT,"/setnode.php?node=",NumToStr(id_node),"&value=",NumToStr(value));
-	quickGET(WB_PORT,server_ip,setnode_url);
-}
 
 //*****************************************************************************
 //                              suivi de mur

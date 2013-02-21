@@ -1,0 +1,65 @@
+#include "Command/New_robot.nxc"
+#include "Wifi/connexion.nxc"
+
+// get orders from the server and execute them
+// TODO CHANGE AND USE STACK
+void execute_order(){
+	string label;
+	string value; 
+	int distance_parcourue, alerte_bloque;
+	while(true){
+		string order = get_order();
+		int test_order = getCommand(order);
+		if (order!="") {
+			TextOut(0,LCD_LINE1,order);
+		}
+		else {
+			TextOut(0,LCD_LINE2,"NO PARAMETER");
+		}
+		// execute order
+		 switch(test_order){
+			 case NONE         :  break;
+			 case FORWARD      : getParameter(order,label,value);
+					     int power = atoi(value);
+  					     avancer(power);
+        				     break;
+        		 case TURN         : getParameter(order,label,value);
+        				     int angle = atoi(value);
+  					     tourner(angle);
+        				     break;
+        		 case FOLLOW_WALL  :  getParameter(order,label,value);
+        				      int distance = atoi(value);
+        				      getParameter(order,label,value);
+        				      int speed = atoi(value);
+  					      distance_precise_par_pas(distance, speed, STEP_SIZE, NEAR, distance_parcourue, alerte_bloque); 
+					      break;
+			 case CROSSING     :  getParameter(order,label,value);
+			 // TODO get first parameter
+					      getParameter(order,label,value);
+			 // TODO
+					      break;
+			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE / REMOVE
+			 case STOP         :  break;
+			 default           :  break;
+		 }
+
+
+	}
+}
+
+task main(){
+	string my_ip = StrCat(MY_IP,NumToStr(MY_IP_4));
+	// send a stop command to the server
+	stop_url =StrCat(SERVER_ROOT,"/giveorder.php?target=",my_ip,"&action=1");
+	// get orders from the server
+	orders_url =StrCat(SERVER_ROOT,"/getorder.php?target=",my_ip);
+	// connection to the server
+	connect_url =StrCat(SERVER_ROOT,"/connection.php?target=",my_ip);
+	// send data to the server
+	feedback_url =StrCat(SERVER_ROOT,"/sendfeedback.php?target=",my_ip);
+	if (connect()){
+		execute_order();
+	} else{
+		TextOut(0,LCD_LINE1,"CONNECT ERROR");
+	}
+}

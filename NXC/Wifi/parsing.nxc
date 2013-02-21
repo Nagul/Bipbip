@@ -1,3 +1,5 @@
+#ifndef INCLUDE_PARSING
+#define INCLUDE_PARSING
 /**
  * strtok c
  */
@@ -49,18 +51,4 @@ int getCommand(string &s){
 	return cmd;
 }
 
-
-//void testest(string test){
-//	string label;
-//	string value;
-//	while(!getParameter(test,label,value)){
-//		TextOut(0,LCD_LINE1,label);
-//		TextOut(0,LCD_LINE2,value);
-//		Wait(100);
-//		ClearScreen();
-//	}
-//	TextOut(0,LCD_LINE1,label);
-//	TextOut(0,LCD_LINE2,value);
-//	Wait(100);
-//	ClearScreen();
-//}
+#endif
