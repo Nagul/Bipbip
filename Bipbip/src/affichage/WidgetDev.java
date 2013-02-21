@@ -28,7 +28,7 @@ public class WidgetDev extends QMainWindow {
 	private final QBrush brushBlack = new QBrush(QColor.black, Qt.BrushStyle.SolidPattern);
 	private final QPen penWhite = new QPen(QColor.white);
 	private final QBrush brushWhite = new QBrush(QColor.white, Qt.BrushStyle.SolidPattern);
-	private final QPen penRed = new QPen(QColor.red, 5);
+	private final QPen penRed = new QPen(QColor.red, 2);
 	private final QBrush brushRed = new QBrush(QColor.red, Qt.BrushStyle.SolidPattern);
 	private final QPen penBlue = new QPen(QColor.blue);
 	private final QBrush brushBlue = new QBrush(QColor.blue, Qt.BrushStyle.SolidPattern);
@@ -43,9 +43,9 @@ public class WidgetDev extends QMainWindow {
 		
 		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
-		gG = new GenerateurGraph(nodesAl);
+		gG = new GenerateurGraph(nodes);
 		gG.generationGraph();
-		gG.getGraph().garderConnexe(nodes.get(0));
+		gG.getGraph().garderConnexe(nodesAl.get(0));
 		setToolbar();
 		setScene();
 	}
@@ -76,7 +76,9 @@ public class WidgetDev extends QMainWindow {
 
 		//nodes utilisateurs
 		for (Node nUser : nodesAl) {
-			scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
+			if (nUser.getType() instanceof TypePiece) {
+				scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
+			}
 		}
 
 		//affichage des murs et portes

@@ -278,38 +278,43 @@ public class Hopital {
 		Node porteD16 = new Node(300, 430, "porteD16", null);
 		Node porteD17 = new Node(350, 405, "porteD17", null);
 		
-		murs.add(new Mur(pIGH1, pIGH2, 2, porteD09, "mIGH1", tpD09, tc));
-		murs.add(new Mur(pIGH2, pIGH9, 2, null, "mIGH2", tpD09, tpD10));
-		murs.add(new Mur(pIGH2, pIGH3, 2, porteD10, "mIGH3", tpD10, tc));
-		murs.add(new Mur(pIGH3, pIGH8, 2, null, "mIGH4", tpD10, tpD11));
-		murs.add(new Mur(pIGH3, pIGH4, 2, porteD11, "mIGH5", tpD11, tc));
-		murs.add(new Mur(pIGH4, pIGH7, 2, null, "mIGH6", tpD11, tpD12));
-		murs.add(new Mur(pIGH4, pIGH5, 2, null, "mIGH7", tpD12, tc));
-		murs.add(new Mur(pIGH5, pIGH6, 2, porteD12, "mIGH8", tpD12, tc));
+		murs.add(new Mur(pIGH1, pIGH2, 2, porteD09, "mIGH1", tc, tpD09));
+		murs.add(new Mur(pIGH2, pIGH9, 2, null, "mIGH2", tpD10, tpD09));
+		//bug
+		murs.add(new Mur(pIGH3, pIGH2, 2, porteD10, "mIGH3", tpD10, tc));
+		murs.add(new Mur(pIGH3, pIGH8, 2, null, "mIGH4", tpD11, tpD10));
+		murs.add(new Mur(pIGH3, pIGH4, 2, porteD11, "mIGH5", tc, tpD11));
+		murs.add(new Mur(pIGH4, pIGH7, 2, null, "mIGH6", tpD12, tpD11));
+		//
+		murs.add(new Mur(pIGH5, pIGH4, 2, null, "mIGH7", tpD12, tc));
+		murs.add(new Mur(pIGH5, pIGH6, 2, porteD12, "mIGH8", tc, tpD12));
 		murs.add(new Mur(pIGH6, pIGB6, 2, null, "mIGH9", tc, tc));
-		murs.add(new Mur(pIGH6, pIGH7, 2, null, "mIGH10", tpD12, tc));
-		murs.add(new Mur(pIGH7, pIGH8, 2, null, "mIGH11", tpD11, tc));
-		murs.add(new Mur(pIGH8, pIGH9, 2, null, "mIGH12", tpD10, tc));
-		murs.add(new Mur(pIGH9, pIGH10, 2, null, "mIGH13", tpD09, tc));
-		murs.add(new Mur(pIGH10, pIGH1, 2, null, "mIGH14", tpD09, tc));
+		murs.add(new Mur(pIGH6, pIGH7, 2, null, "mIGH10", tc, tpD12));
+		murs.add(new Mur(pIGH7, pIGH8, 2, null, "mIGH11", tc, tpD11));
+		murs.add(new Mur(pIGH8, pIGH9, 2, null, "mIGH12", tc, tpD10));
+		murs.add(new Mur(pIGH9, pIGH10, 2, null, "mIGH13", tc, tpD09));
+		murs.add(new Mur(pIGH10, pIGH1, 2, null, "mIGH14", tc, tpD09));
 			
 		murs.add(new Mur(pIGH10, pIGB1, 2, null, "mIGB1", tc, tc));
-		murs.add(new Mur(pIGB1, pIGB2, 2, null, "mIGB2", tpD13, tc));
-		murs.add(new Mur(pIGB2, pIGB11, 2, null, "mIGB3", tpD13, tpD14));
-		murs.add(new Mur(pIGB2, pIGB3, 2, null, "mIGB4", tpD14, tc));
-		murs.add(new Mur(pIGB3, pIGB10, 2, porteD15, "mIGB5", tpD14, tpD15));
-		murs.add(new Mur(pIGB3, pIGB4, 2, null, "mIGB6", tpD15, tc));
-		murs.add(new Mur(pIGB4, pIGB9, 2, null, "mIGB7", tpD15, tpD16));
-		murs.add(new Mur(pIGB4, pIGB5, 2, null, "mIGB8", tpD16, tc));
-		murs.add(new Mur(pIGB5, pIGB8, 2, null, "mIGB9", tpD16, tpD17));
-		murs.add(new Mur(pIGB5, pIGB6, 2, null, "mIGB10", tpD17, tc));
-		murs.add(new Mur(pIGB6, pIGB7, 2, porteD17, "mIGB11", tpD17, tc));
-		murs.add(new Mur(pIGB7, pIGB8, 2, null, "mIGB12", tpD17, tc));
-		murs.add(new Mur(pIGB8, pIGB9, 2, porteD16, "mIGB13", tpD16, tc));
-		murs.add(new Mur(pIGB9, pIGB10, 2, null, "mIGB14", tpD15, tc));
-		murs.add(new Mur(pIGB10, pIGB11, 2, porteD14, "mIGB15", tpD14, tc));
-		murs.add(new Mur(pIGB11, pIGB12, 2, porteD13, "mIGB16", tpD13, tc));
-		murs.add(new Mur(pIGB12, pIGB1, 2, null, "mIGB17", tpD13, tc));
+		murs.add(new Mur(pIGB1, pIGB2, 2, null, "mIGB2", tc, tpD13));
+		murs.add(new Mur(pIGB2, pIGB11, 2, null, "mIGB3", tpD14, tpD13));
+		murs.add(new Mur(pIGB2, pIGB3, 2, null, "mIGB4", tc, tpD14));
+		murs.add(new Mur(pIGB3, pIGB10, 2, porteD15, "mIGB5", tpD15, tpD14));
+		murs.add(new Mur(pIGB3, pIGB4, 2, null, "mIGB6", tc, tpD15));
+		murs.add(new Mur(pIGB4, pIGB9, 2, null, "mIGB7", tpD16, tpD15));
+		murs.add(new Mur(pIGB4, pIGB5, 2, null, "mIGB8", tc, tpD16));
+		murs.add(new Mur(pIGB5, pIGB8, 2, null, "mIGB9", tpD17, tpD16));
+		murs.add(new Mur(pIGB5, pIGB6, 2, null, "mIGB10", tc, tpD17));
+		//
+		murs.add(new Mur(pIGB7, pIGB6, 2, porteD17, "mIGB11", tpD17, tc));
+		murs.add(new Mur(pIGB7, pIGB8, 2, null, "mIGB12", tc, tpD17));
+		//
+		murs.add(new Mur(pIGB9, pIGB8, 2, porteD16, "mIGB13", tpD16, tc));
+		murs.add(new Mur(pIGB9, pIGB10, 2, null, "mIGB14", tc, tpD15));
+		//
+		murs.add(new Mur(pIGB11, pIGB10, 2, porteD14, "mIGB15", tpD14, tc));
+		murs.add(new Mur(pIGB11, pIGB12, 2, porteD13, "mIGB16", tc, tpD13));
+		murs.add(new Mur(pIGB12, pIGB1, 2, null, "mIGB17", tc, tpD13));
 		
 		//bloc milieu Droite-milieu-haut
 		Node pIDH1 = new Node (380, 180);
@@ -328,19 +333,21 @@ public class Hopital {
 		Node porteD19 = new Node(380, 260, "porteD19", null);
 		Node porteD20 = new Node(460, 250, "porteD20", null);
 		
-		murs.add(new Mur(pIDH1, pIDH2, 2, null, "mIDH1", tpD18, tc));
-		murs.add(new Mur(pIDH2, pIDH3, 2, null, "mIDH2", tpD18, tc));
-		murs.add(new Mur(pIDH3, pIDH4, 2, null, "mIDH3", tpD18, tc));
-		murs.add(new Mur(pIDH4, pIDH5, 2, porteD18, "mIDH4", tpD18, tc));
-		murs.add(new Mur(pIDH5, pIDH6, 2, null, "mIDH5", tpD18, tc));
-		murs.add(new Mur(pIDH6, pIDH11, 2, null, "mIDH6", tpD18, tpD20));
-		murs.add(new Mur(pIDH6, pIDH7, 2, porteD20, "mIDH7", tpD20, tc));
-		murs.add(new Mur(pIDH7, pIDH8, 2, null, "mIDH8", tpD20, tc));
-		murs.add(new Mur(pIDH8, pIDH11, 2, null, "mIDH9", tpD20, tpD19));
-		murs.add(new Mur(pIDH8, pIDH9, 2, null, "mIDH10", tpD19, tc));
-		murs.add(new Mur(pIDH9, pIDH10, 2, porteD19, "mIDH11", tpD19, tc));
-		murs.add(new Mur(pIDH10, pIDH11, 2, null, "mIDH12", tpD19, tpD18));
-		murs.add(new Mur(pIDH10, pIDH1, 2, null, "mIDH13", tpD18, tc));
+		murs.add(new Mur(pIDH1, pIDH2, 2, null, "mIDH1", tc, tpD18));
+		murs.add(new Mur(pIDH2, pIDH3, 2, null, "mIDH2", tc, tpD18));
+		murs.add(new Mur(pIDH3, pIDH4, 2, null, "mIDH3", tc, tpD18));
+		murs.add(new Mur(pIDH4, pIDH5, 2, porteD18, "mIDH4", tc, tpD18));
+		murs.add(new Mur(pIDH5, pIDH6, 2, null, "mIDH5", tc, tpD18));
+		murs.add(new Mur(pIDH6, pIDH11, 2, null, "mIDH6", tpD20, tpD18));
+		murs.add(new Mur(pIDH6, pIDH7, 2, porteD20, "mIDH7", tc, tpD20));
+		murs.add(new Mur(pIDH7, pIDH8, 2, null, "mIDH8", tc, tpD20));
+		murs.add(new Mur(pIDH8, pIDH11, 2, null, "mIDH9", tpD19, tpD20));
+		//
+		murs.add(new Mur(pIDH9, pIDH8, 2, null, "mIDH10", tpD19, tc));
+		//
+		murs.add(new Mur(pIDH10, pIDH9, 2, porteD19, "mIDH11", tpD19, tc));
+		murs.add(new Mur(pIDH10, pIDH11, 2, null, "mIDH12", tpD18, tpD19));
+		murs.add(new Mur(pIDH10, pIDH1, 2, null, "mIDH13", tc, tpD18));
 		
 		//bloc milieu Droite-milieu-bas
 		Node pIDB1 = new Node (380, 310);
@@ -358,19 +365,19 @@ public class Hopital {
 		Node porteD23 = new Node(400, 430, "porteD23", null);
 		Node porteD24 = new Node(420, 430, "porteD24", null);
 		
-		murs.add(new Mur(pIDB1, pIDB2, 2, null, "mIDB1", tpD21, tc));
-		murs.add(new Mur(pIDB2, pIDB3, 2, null, "mIDB2", tpD22, tc));
-		murs.add(new Mur(pIDB3, pIDB4, 2, null, "mIDB3", tpD22, tc));
-		murs.add(new Mur(pIDB4, pIDB5, 2, null, "mIDB4", tpD22, tc));
-		murs.add(new Mur(pIDB5, pIDB6, 2, porteD24, "mIDB5", tpD24, tc));
-		murs.add(new Mur(pIDB6, pIDB7, 2, porteD23, "mIDB6", tpD23, tc));
-		murs.add(new Mur(pIDB7, pIDB8, 2, null, "mIDB7", tpD23, tc));
-		murs.add(new Mur(pIDB8, pIDB1, 2, porteD21, "mIDB8", tpD21, tc));
-		murs.add(new Mur(pIDB2, pIDB10, 2, null, "mIDB9", tpD21, tpD22));
-		murs.add(new Mur(pIDB10, pIDB5, 2, null, "mIDB10", tpD24, tpD22));
-		murs.add(new Mur(pIDB10, pIDB9, 2, null, "mIDB11", tpD21, tpD24));
-		murs.add(new Mur(pIDB9, pIDB6, 2, null, "mIDB12", tpD23, tpD24));
-		murs.add(new Mur(pIDB9, pIDB8, 2, null, "mIDB13", tpD21, tpD23));
+		murs.add(new Mur(pIDB1, pIDB2, 2, null, "mIDB1", tc, tpD21));
+		murs.add(new Mur(pIDB2, pIDB3, 2, null, "mIDB2", tc, tpD22));
+		murs.add(new Mur(pIDB3, pIDB4, 2, null, "mIDB3", tc, tpD22));
+		murs.add(new Mur(pIDB4, pIDB5, 2, null, "mIDB4", tc, tpD22));
+		murs.add(new Mur(pIDB5, pIDB6, 2, porteD24, "mIDB5", tc, tpD24));
+		murs.add(new Mur(pIDB6, pIDB7, 2, porteD23, "mIDB6", tc, tpD23));
+		murs.add(new Mur(pIDB7, pIDB8, 2, null, "mIDB7", tc, tpD23));
+		murs.add(new Mur(pIDB8, pIDB1, 2, porteD21, "mIDB8", tc, tpD21));
+		murs.add(new Mur(pIDB2, pIDB10, 2, null, "mIDB9", tpD22, tpD21));
+		murs.add(new Mur(pIDB10, pIDB5, 2, null, "mIDB10", tpD22, tpD24));
+		murs.add(new Mur(pIDB10, pIDB9, 2, null, "mIDB11", tpD24, tpD21));
+		murs.add(new Mur(pIDB9, pIDB6, 2, null, "mIDB12", tpD24, tpD23));
+		murs.add(new Mur(pIDB9, pIDB8, 2, null, "mIDB13", tpD23, tpD21));
 		
 		//bloc milieu Droite-droite
 		Node pID1 = new Node (500, 180);
@@ -499,11 +506,30 @@ public class Hopital {
 
 
 		//Points d'intérêts
-		Node user1 = new Node(60, 60, "user1", tpC09);
+		Node user1 = new Node(60, 480, "user1", tpC12);
 		listUser.add(user1);
 
 		Node user2 = new Node(650, 500, "user2", tpINF);
 		listUser.add(user2);
+		
+		Node user3 = new Node(80, 100, "user2", tpC09);
+		listUser.add(user3);
+		
+		
+		Node carrefour1 = new Node(485, 445, "carrefour1", tc);
+		listUser.add(carrefour1);
+		Node carrefour2 = new Node(365, 445, "carrefour2", tc);
+		listUser.add(carrefour2);
+		Node carrefour3 = new Node(146, 442, "carrefour3", tc);
+		listUser.add(carrefour3);
+		Node carrefour4 = new Node(146, 168, "carrefour4", tc);
+		listUser.add(carrefour4);
+		Node carrefour5 = new Node(366, 168, "carrefour5", tc);
+		listUser.add(carrefour5);
+		Node carrefour6 = new Node(374, 293, "carrefour6", tc);
+		listUser.add(carrefour6);
+		Node carrefour7 = new Node(474, 293, "carrefour7", tc);
+		listUser.add(carrefour7);
 	}
 	
 	public ArrayList<Node> getListUser() {

@@ -23,16 +23,19 @@ public class WidgetClient extends QMainWindow {
 	private pathfind.GenerateurGraph gG;
 	private ArrayList<Node> nodesAl;
 	
+	private int step;//juste pour des tests
+	private RechercheGraph rG;
+	
 	//pinceaux
 	
 	private final QBrush brushBlack = new QBrush(QColor.black, Qt.BrushStyle.SolidPattern);
 	private final QPen penWhite = new QPen(QColor.white);
 	private final QBrush brushWhite = new QBrush(QColor.white, Qt.BrushStyle.SolidPattern);
-	private final QPen penRed = new QPen(QColor.red, 5);
+	private final QPen penRed = new QPen(QColor.red, 2);
 	private final QBrush brushRed = new QBrush(QColor.red, Qt.BrushStyle.SolidPattern);
-	private final QPen penBlue = new QPen(QColor.blue);
+	private final QPen penBlue = new QPen(QColor.blue, 2);
 	private final QBrush brushBlue = new QBrush(QColor.blue, Qt.BrushStyle.SolidPattern);
-	private final QPen penGreen = new QPen(QColor.green);
+	private final QPen penGreen = new QPen(QColor.green, 2);
 	private final QBrush brushGreen = new QBrush(QColor.green, Qt.BrushStyle.SolidPattern);
 
 	//pinceau pour les murs
@@ -40,12 +43,15 @@ public class WidgetClient extends QMainWindow {
 	
 	public WidgetClient(ArrayList<Node> nodes) {
 		super();
-		nodesAl = (ArrayList<Node>) nodes.clone();
+		step = 0;
 		
+		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
 		gG = new GenerateurGraph(nodes);
-
+		gG.generationGraph();
+		gG.getGraph().garderConnexe(nodesAl.get(0));
 		
+		rG = new RechercheGraph(gG.getGraph());
 		setToolbar();
 		setScene();
 	}
@@ -76,7 +82,9 @@ public class WidgetClient extends QMainWindow {
 		
 		//nodes utilisateurs
 		for (Node nUser : nodesAl) {
-			scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
+			if (nUser.getType() instanceof TypePiece) {
+				scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
+			}
 		}
 				
 		//affichage des murs et portes
@@ -107,16 +115,29 @@ public class WidgetClient extends QMainWindow {
 	}
 
 	private void run() {
-		gG.generationGraph();
-		RechercheGraph rG = new RechercheGraph(gG.getGraph());
-		ArrayList<Node> chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(1));
-		for (int i = 0; i < chemin.size() - 1; i++) {
-			scene.addEllipse(chemin.get(i).getAbscisse(), chemin.get(i).getOrdonnee(), 10, 10, penRed, brushRed);
-			scene.addLine(chemin.get(i).getAbscisse(), chemin.get(i).getOrdonnee(), chemin.get(i + 1).getAbscisse(),chemin.get(i + 1).getOrdonnee(), penRed);
+		if (step == 0) {
+			Chemin chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(1));
+			System.out.println(chemin.getDistance());
+			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
+				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penRed);
+			}
+			//affichage du chemin choisi EN BOURRIN
+			step += 1;
+		} else if (step == 1) {
+			Chemin chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(2));
+			System.out.println(chemin.getDistance());
+			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
+				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penGreen);
+			}
+			step += 1;
+		} else {
+			Chemin chemin = rG.plusCourtChemin(nodesAl.get(1), nodesAl.get(2));
+			System.out.println(chemin.getDistance());
+			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
+				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penBlue);
+			}
+			step += 1;
 		}
-		scene.addEllipse(chemin.get(chemin.size() - 1).getAbscisse(), chemin.get(chemin.size() - 1).getOrdonnee(), 10, 10, penRed, brushRed);
-		//affichage du chemin choisi EN BOURRIN
-
 	}
 
 }

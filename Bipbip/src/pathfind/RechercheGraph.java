@@ -11,9 +11,9 @@ public class RechercheGraph {
 		graph = g;
 	}
 
-	public ArrayList<Node> plusCourtChemin(Node depart, Node arrive) {
+	public Chemin plusCourtChemin(Node depart, Node arrive) {
 		
-		ArrayList<Node> chemin = new ArrayList<Node>();
+		Chemin chemin = new Chemin();
 		//initialisation
 		//Q : liste triée des noeuds non encore optimisés.
 		ArrayList<valeurNode> Q = new ArrayList<valeurNode>();
@@ -43,7 +43,7 @@ public class RechercheGraph {
 			if (valeurNodeMin.getNode().equals(arrive)) {
 				valeurNode nodeChemin = valeurNodeMin;
 				while (nodeChemin != null) {
-					chemin.add(nodeChemin.getNode());
+					chemin.addEtape(nodeChemin.getNode());
 					nodeChemin = nodeChemin.getPrecedent();
 				}
 				break;
@@ -68,7 +68,8 @@ public class RechercheGraph {
 			}
 		}
 
-		Collections.reverse(chemin);
+		chemin.reverse();
+		chemin.calculerDistance();
 		return chemin;
 	}
 	

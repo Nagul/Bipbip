@@ -107,7 +107,7 @@ public class Mur {
 	 * @param autreMur
 	 * @param ePos prendre la normale positivement
 	 * @param auPos prendre l'autre normale positivement
-	 * @return [0] : abscisse, [1] : coordonnee
+	 * @return [0] : abscisse, [1] : ordonnee
 	 */
 	public double[] getIntersection(Mur autreMur, boolean ePos, boolean auPos) {
 		

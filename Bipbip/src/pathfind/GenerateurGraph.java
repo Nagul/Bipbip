@@ -219,9 +219,21 @@ public class GenerateurGraph {
 				}
 			} else if (n.getType() instanceof TypeCouloir) {
 				//passages piétons
-				//première idée basique : 
+				/*
+				 * Première idée basique : placer les passage
+				 * à la main, puis les rrelier à tous les trucs à proximité
+				 */
 				for (Node autreNode : graph.getNodes()) {
-					
+					if (n.getType().getId()==autreNode.getType().getId()
+							&&!n.equals(autreNode)
+							&&n.calculerDistance(autreNode)<25) {
+						chemin = new Chemin();
+						chemin.addEtape(n);
+						chemin.addEtape(autreNode);
+						chemin.calculerDistance();
+						Arc a = new Arc(n, autreNode, chemin);
+						graph.addArc(a);
+					}
 				}
 			}
 			nodes.remove(0);
@@ -233,7 +245,7 @@ public class GenerateurGraph {
 		return graph;
 	}
 
-	// INVERSION AU NIVEAU DU SENS EN QT §§§
+
 	private HashMap<Mur, murEtBout> mapMurAdjacents() {
 		HashMap<Mur, murEtBout> hm = new HashMap<Mur, murEtBout>();
 		Mur[] murVecteur;
@@ -315,7 +327,6 @@ public class GenerateurGraph {
 
 			}
 
-			//TODO : INVERSION DES MURS
 			murVecteur[1] = murMin;
 			if (murMin!=null) {
 				murBout[1] = murMin.getBoutDebut().equals(m.getBoutDebut());

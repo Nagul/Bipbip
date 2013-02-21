@@ -1,6 +1,7 @@
 package pathfind;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Chemin {
 
@@ -15,6 +16,10 @@ public class Chemin {
 	
 	public void addEtape(Node n) {
 		chemin.add(n);
+	}
+	
+	public void reverse() {
+		Collections.reverse(chemin);
 	}
 	
 	public void calculerDistance() {
