@@ -1,10 +1,14 @@
 <?php
-// add the ip address of a robot to the database and initialize its order
+/** 
+ * Add the ip address of a robot to the database and initialize its order.
+ * @author Faly Razakarison
+ * @version 1.1
+ * @since 2013-02-15
+ */
 if (isset($_GET["target"])){
 	$robot_ip = $_GET["target"];
 }else{
 	$robot_ip = 0;
-	// TODO error : unset target
 	echo "undefined target";
 	exit();
 }

@@ -1,6 +1,9 @@
 <project name="BipBipProject" default="run" basedir=".">
     <description>
-        simple example build file
+	    Build file.
+	    Author : Faly Razakarison
+	    Version : 1.0 
+	    Since : 2013-02-20
     </description>
   <property name="src" location="src"/>
   <property name="build" location="build"/>
@@ -34,6 +37,7 @@
 
   <target name="run" depends="compile"
 	  description="run the program ">
+	  <!-- Run the java code -->
 	  <java classname="affichage.Bipbip" fork="true" dir="${build}">
 		  <classpath refid="qtpath"/>
 	  </java>

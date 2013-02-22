@@ -3,7 +3,10 @@ package wifi;
 import java.util.Scanner;
 
 /**
- * Test the Communication class with some URLs 
+ * Test the Communication class with some URLs. 
+ * @author Faly Razakarison
+ * @version 1.0
+ * @since 2013-02-20
  */
 class CommunicationTest{
 	public static void main(String[] args){

@@ -1,5 +1,10 @@
 <?php
-// connect to the database and send information from a robot to the server
+/** 
+ * Connect to the database and send information from a robot to the server.
+ * @author Faly Razakarison
+ * @version 1.0
+ * @since 2013-02-18
+ */
 $link = mysqli_connect('localhost','root','projetbip','projetbip');
 if(mysqli_connect_errno()){
 	echo 'Connection error';
@@ -9,7 +14,7 @@ if (isset($_GET["target"])){
 	$robot_ip = $_GET["target"];
 }else{
 	$robot_ip = 0;
-	// TODO error : unset target
+	echo "undefined target";
 	exit();
 }
 

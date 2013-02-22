@@ -9,12 +9,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- * Class which provides methods to communicate with the server
+ * Class which provides methods to communicate with the server.
+ * @author Faly Razakarison
+ * @version 1.0
+ * @since 2013-02-20
  */
 class Communication{
 
 	/**
-	 * Do a post request to the server
+	 * Do a post request to the server.
 	 * @param targetURL absolute URL of a resource 
 	 */
 	public static String executePost(String targetURL)
