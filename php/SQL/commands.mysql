@@ -1,0 +1,20 @@
+# SQL file to insert the list of commands stored in
+# the NXC Block
+# @author : Faly Razakarison
+#
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("NONE",0);
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("FORWARD",1);
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("TURN",2);
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("FOLLOW_WALL",3);
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("CROSSING",4);
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("FEEDBACK",5);
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("STOP",6);
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("TEST",7);

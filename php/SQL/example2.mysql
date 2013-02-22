@@ -1,21 +1,5 @@
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("NONE",0);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("FORWARD",1);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("TURN",2);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("FOLLOW_WALL",3);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("CROSSING",4);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("FEEDBACK",5);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("STOP",6);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("TEST",7);
-
-
+# SQL file used during the test phase
+# @author : Faly Razakarison
 INSERT INTO Robot (ip,is_connected)
 VALUES ('192.168.0.36','1');
 INSERT INTO Command (seq,ip,action,datebegin)

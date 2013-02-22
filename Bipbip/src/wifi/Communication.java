@@ -8,13 +8,18 @@ import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import entities.Robot;
+import entities.Command;
+
 /**
  * Class which provides methods to communicate with the server.
  * @author Faly Razakarison
  * @version 1.0
  * @since 2013-02-20
  */
-class Communication{
+public class Communication{
+
+	public static final String serverRoot = "http://127.0.0.1";
 
 	/**
 	 * Do a post request to the server.
@@ -59,5 +64,27 @@ class Communication{
 				connection.disconnect(); 
 			}
 		}
+	}
+
+	/**
+	 * Send request to receive information about a robot from the server.
+	 * @param r the robot that is sending information
+	 * @return a string containing data
+	 */
+	public static String getFeedback(Robot r){
+		String result = executePost(serverRoot+"/getfeedback.php?target="+r.getIP());
+		//TODO test
+		//System.out.println(result);
+		return result;
+	}
+
+	/**
+	 * Send a command to a robot 
+	 * @param r the robot receiving the order
+	 * @param c the command to execute
+	 * @param seq the sequence place (TODO translate : quelle place dans la pile d'instructions)
+	 */
+	public static void sendCommand(Robot r, Command c,int seq){
+		executePost(serverRoot+"/giveorder.php?target="+r.getIP()+"&action="+c.getAction()+c.paramsToString()+"&seq="+seq);
 	}
 }

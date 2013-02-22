@@ -1,5 +1,6 @@
 package entities;
 
+import wifi.Communication;
 import java.util.ArrayList;
 
 /**
@@ -64,5 +65,28 @@ public class Robot{
 			c.setTarget(this);
 			commands.add(c);
 		}
+	}
+
+	/**
+	 * Get information send by server
+	 */
+	public String getFeedback(){
+		return Communication.getFeedback(this);
+	}
+
+	/**
+	 * Execute a command
+	 * @param c the command to execute
+	 * @param seq the sequence place (TODO translate : quelle place dans la pile d'instructions)
+	 */
+	public void executeCommand(Command c, int seq){
+		Communication.sendCommand(this, c, seq);
+	}
+
+	/**
+	 * Execute all instructions from the commands list
+	 */
+	public void executeStack(){
+		// TODO for each command in commands do : executeCommand(command,seq) end
 	}
 }

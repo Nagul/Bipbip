@@ -8,14 +8,29 @@ import java.util.ArrayList;
  * @since 2013-02-22
  */
 public class Command{
-	/**
-	 * Name of the function to call
+
+	/*
+	 * list of id of commands which are defined in the NXC program
 	 */
-	private String name;
+	public static final int NONE        = 0;
+	public static final int FORWARD     = 1;
+	public static final int TURN        = 2;
+	public static final int FOLLOW_WALL = 3;
+	public static final int CROSSING    = 4;
+	public static final int FEEDBACK    = 5;
+	public static final int STOP        = 6;
+        public static final int TEST        = 7;
+
+	/**
+	 * id of the function to call
+	 */
+	private int action;
+
 	/**
 	 * Robot which will execute the command
 	 */
 	private Robot target;
+
 	/**
 	 * Function parameters. They have to be sorted in the same order as in the NXC function
 	 */
@@ -25,6 +40,7 @@ public class Command{
 	 * Class constructor.
 	 */
 	public Command(){
+		action = NONE;
 		parameters = new ArrayList<Parameter>();
 	}
 
@@ -78,6 +94,28 @@ public class Command{
 				target.getCommands().add(this);
 			}
 		}
+	}
+	
+	/**
+	 * @param a action id to set
+	 */
+	public void setAction(int a){
+		this.action = a;
+	}
+	 
+	/**
+	 * @return current command id
+	 */
+	public int getAction(){
+		return this.action;
+	}
+
+	/**
+	 * @return parameters in URL format
+	 */
+	public String paramsToString(){
+		//TODO
+		return "";
 	}
 
 }

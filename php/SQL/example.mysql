@@ -1,3 +1,5 @@
+# SQL file used during the test phase
+# @author : Faly Razakarison
 INSERT INTO CommandType(action,id_nxc)
 VALUES ("NONE",0);
 INSERT INTO CommandType(action,id_nxc)
