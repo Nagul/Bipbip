@@ -43,6 +43,14 @@
 	  </java>
   </target>
 
+  <target name="test" depends="compile"
+	  description="test a function in the program ">
+	  <!-- Run the java code -->
+	  <java classname="entities.TestRobot" fork="true" dir="${build}">
+		  <classpath refid="qtpath"/>
+	  </java>
+  </target>
+
   <target name="clean"
         description="clean up" >
     <!-- Delete the ${build} directory trees -->
