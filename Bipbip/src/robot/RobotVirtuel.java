@@ -70,13 +70,13 @@ public class RobotVirtuel {
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
-				command.addParameter(new Parameter("angle", angle));
+				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
 				//se deplacer
 				command = new Command();
 				command.setAction(1);
 				distance = (int) depart.calculerDistance(arrive);
-				command.addParameter(new Parameter("distance", distance));
+				command.addParameter(new Parameter("distance", distance), 0);
 				robot.addCommand(command);
 				
 			} else if ((depart.getType() instanceof TypePiece
