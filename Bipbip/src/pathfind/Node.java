@@ -60,6 +60,23 @@ public class Node {
 		}
 		return null;
 	}
+	
+	/*
+	 * calcul l'angle formé avec un autre node par rapport aux conventions
+	 */
+	public int angleAutreNode(Node autreNode) {
+		double a = this.getAbscisse() - autreNode.getAbscisse();
+		double b = this.getOrdonnee() - autreNode.getOrdonnee();
+		double q = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+		double[] directeur = new double[2];
+		directeur[0] = a/q;
+		directeur[1] = b/q;
+		if (directeur[1]<= 0) {
+			return (int) (Math.acos(directeur[0])*360/(2*Math.PI));
+		} else {
+			return (int) ((2*Math.PI - Math.acos(directeur[0]))*360/(2*Math.PI));
+		}
+	}
 
 	public boolean equals(Object obj) {
 		if (this == obj)

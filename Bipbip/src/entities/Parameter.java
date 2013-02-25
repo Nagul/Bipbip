@@ -20,6 +20,14 @@ public class Parameter{
 	 */
 	public Parameter(){
 	}
+	
+	/**
+	 * Class constructor better
+	 */
+	public Parameter(String n, int v){
+		name = n;
+		value = v;
+	}
 
 	/**
 	 * @return the name of the parameter

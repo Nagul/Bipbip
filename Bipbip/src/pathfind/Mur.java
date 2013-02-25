@@ -93,8 +93,7 @@ public class Mur {
 	public double ecartDirection(Mur autreMur) {
 		double[] directeur = this.getDirecteur();
 		double[] autreDirecteur = autreMur.getDirecteur();
-		double[] normale = this.getNormale();
-		if (normale[0]*autreDirecteur[0] + normale[1]*autreDirecteur[1] <= 0) {
+		if (directeur[1]*autreDirecteur[0] - directeur[0]*autreDirecteur[1] <= 0) {
 			return (Math.acos(directeur[0]*autreDirecteur[0] + directeur[1]*autreDirecteur[1]));
 		} else {
 			return (2*Math.PI - Math.acos(directeur[0]*autreDirecteur[0] + directeur[1]*autreDirecteur[1]));

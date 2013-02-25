@@ -45,7 +45,7 @@ public class WidgetDev extends QMainWindow {
 		//generation du graphe
 		gG = new GenerateurGraph(nodes);
 		gG.generationGraph();
-		gG.getGraph().garderConnexe(nodesAl.get(0));
+		//gG.getGraph().garderConnexe(nodesAl.get(0));
 		setToolbar();
 		setScene();
 	}
@@ -69,10 +69,10 @@ public class WidgetDev extends QMainWindow {
 	
 	private void setScene() {
 		scene = new QGraphicsScene(this);
-		scene.setSceneRect(0, 0, 1000, 1000);
+		scene.setSceneRect(-10, -10, 1000, 1000);
 		
 		//hopital
-		scene.addRect(0, 0, 1000, 1000, penWhite, brushWhite);
+		scene.addRect(-10, -10, 1000, 1000, penWhite, brushWhite);
 
 		//nodes utilisateurs
 		for (Node nUser : nodesAl) {

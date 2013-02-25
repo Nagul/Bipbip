@@ -221,7 +221,7 @@ public class GenerateurGraph {
 				//passages piétons
 				/*
 				 * Première idée basique : placer les passage
-				 * à la main, puis les rrelier à tous les trucs à proximité
+				 * à la main, puis les relier à tous les trucs à proximité
 				 */
 				for (Node autreNode : graph.getNodes()) {
 					if (n.getType().getId()==autreNode.getType().getId()
@@ -251,8 +251,8 @@ public class GenerateurGraph {
 		Mur[] murVecteur;
 		boolean[] murBout;
 		murEtBout meb;
-		ArrayList<Mur> murListDebut;
-		ArrayList<Mur> murListFin;
+		ArrayList<Mur> murListDebut = new ArrayList<Mur>();
+		ArrayList<Mur> murListFin = new ArrayList<Mur>();
 		Mur murMin;
 		Mur murMax;
 		double ecartMin = 0;
@@ -261,8 +261,8 @@ public class GenerateurGraph {
 		for (Mur m : affichage.Bipbip.murs) {
 			murVecteur = new Mur[4];
 			murBout = new boolean[4];
-			murListDebut = new ArrayList<Mur>();
-			murListFin = new ArrayList<Mur>();
+			murListDebut.clear();
+			murListFin.clear();
 			//rechercher les murs touchant
 			for (Mur autreM : affichage.Bipbip.murs) {
 				if((m.getBoutDebut().equals(autreM.getBoutDebut())
