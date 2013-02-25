@@ -13,7 +13,7 @@
 
 #define SERVER_ROOT ""
 
-// TODO ADD COMMENTS
+// TODO ADD COMMENTS (OU PAS)
 
 /** connection to the local network (WIFI) */
 bool connect();
@@ -22,12 +22,13 @@ string get_order(int seq);
 bool get_node_state(int id_node);
 /** update node state */
 void set_node_state(int id_node,int value);
+void delete_order(int seq);
 
 // ip of the server which sends orders
 byte server_ip[] = {192,168,0,35};
 // list of server links
-string stop_url;
 string orders_url;
+string delete_url;
 string connect_url;
 string feedback_url;
 
@@ -53,6 +54,10 @@ void sendfeedback(string message){
  */
 string get_order(int seq){
 	return quickGET(WB_PORT,server_ip,StrCat(orders_url,"&seq=",NumToStr(seq)));
+}
+
+void delete_order(int seq){
+	quickGET(WB_PORT,server_ip,StrCat(delete_url,"&seq=",NumToStr(seq)));
 }
 
 bool get_node_state(int id_node){

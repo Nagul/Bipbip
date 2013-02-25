@@ -10,8 +10,10 @@
 #define STOP         6
 #define TEST         7
 
-#define STEP_SIZE    30
+#define STEP_LENGTH    30
 #define NEAR         10
+
+void update_order(int &current_order);
 
 // get orders from the server and execute them
 // TODO CHANGE AND USE STACK
@@ -22,7 +24,6 @@ void execute_order(){
 	int current_order = 1;
 	while(true){
 		NumOut(0,LCD_LINE3,current_order);
-	//TODO it currently takes the first order from the list
 		string order = get_order(current_order);
 		int test_order = getCommand(order);
 		NumOut(0,LCD_LINE5,test_order);
@@ -38,25 +39,27 @@ void execute_order(){
 			 case FORWARD      : getParameter(order,label,value);
 					     int power = atoi(value);
   					     avancer(power);
-					     current_order++;
+					     update_order(current_order);
+					     //current_order++;
         				     break;
         		 case TURN         : getParameter(order,label,value);
         				     int angle = atoi(value);
   					     tourner(angle);
-					     current_order++;
+					     update_order(current_order);
+					     //current_order++;
         				     break;
         		 case FOLLOW_WALL  :  getParameter(order,label,value);
         				      int distance = atoi(value);
         				      getParameter(order,label,value);
         				      int speed = atoi(value);
-  					      distance_precise_par_pas(distance, speed, STEP_SIZE, NEAR, distance_parcourue, alerte_bloque); 
-					     current_order++;
+  					      distance_precise_par_pas(distance, speed, STEP_LENGTH, NEAR, distance_parcourue, alerte_bloque); 
+					      update_order(current_order);
 					      break;
 			 case CROSSING     :  getParameter(order,label,value);
 			 // TODO get first parameter
 					      getParameter(order,label,value);
 			 // TODO
-					     current_order++;
+					      update_order(current_order);
 					      break;
 			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE / REMOVE
 			 case STOP         :  break;
@@ -68,7 +71,8 @@ void execute_order(){
 						      TextOut(0,LCD_LINE4,"C'est faux...");
 						      set_node_state(4,1);
 					      }
-					     current_order++;
+					      //delete_order(1);
+					      update_order(current_order);
 					     break;
 			 default           :  current_order = 1;break;
 		 }
@@ -77,10 +81,15 @@ void execute_order(){
 	}
 }
 
+void update_order(int &current_order){
+	delete_order(current_order);
+	current_order++;
+}
+
 task main(){
 	string my_ip = StrCat(MY_IP,NumToStr(MY_IP_4));
-	// send a stop command to the server
-	stop_url =StrCat(SERVER_ROOT,"/giveorder.php?target=",my_ip,"&action=1");
+	// delete a command in the server
+	delete_url =StrCat(SERVER_ROOT,"/deleteorder.php?target=",my_ip);
 	// get orders from the server
 	orders_url =StrCat(SERVER_ROOT,"/getorder.php?target=",my_ip);
 	// connection to the server

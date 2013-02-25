@@ -26,11 +26,6 @@ if (isset($_GET["seq"])){
 	echo $nb_cmd[0];
 	exit();
 }
-if (isset($_GET["reset"])){
-	// delete all commands for the target
-	mysqli_query($link,"DELETE FROM Command WHERE ip='$robot_ip'");
-	exit();
-}
 
 // get order id
 $order_result = mysqli_query($link,"SELECT ct.id_nxc FROM Command c, CommandType ct WHERE c.ip = '$robot_ip' AND ct.action = c.action AND seq='$seq'");
