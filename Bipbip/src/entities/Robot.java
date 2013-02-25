@@ -20,10 +20,11 @@ public class Robot{
 
 	/**
 	 * Class constructor.
+	 * @param ip robot ip address
 	 */
-	public Robot(){
+	public Robot(String ip){
 		commands = new ArrayList<Command>();
-		ip = "";
+		this.ip = ip;
 	}
 
 	/**

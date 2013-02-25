@@ -62,9 +62,9 @@ public class Command{
 	 * Add a parameter to the function.
 	 * @param p parameter to add
 	 */
-	public void addParameter(Parameter p){
+	public void addParameter(Parameter p, int position){
 		if(!parameters.contains(p)){
-			parameters.add(p);
+			parameters.add(position,p);
 		}
 	}
 
@@ -115,7 +115,12 @@ public class Command{
 	 */
 	public String paramsToString(){
 		//TODO
-		return "";
+		String result = "";
+		int i;
+		for (i = 0;i < parameters.size();i++){
+			result += "&p"+i+"="+parameters.get(i).getValue();
+		}
+		return result;
 	}
 
 }
