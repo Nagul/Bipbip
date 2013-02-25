@@ -27,11 +27,6 @@ public class Command{
 	private int action;
 
 	/**
-	 * Robot which will execute the command
-	 */
-	private Robot target;
-
-	/**
 	 * Function parameters. They have to be sorted in the same order as in the NXC function
 	 */
 	private ArrayList<Parameter> parameters;
@@ -61,25 +56,12 @@ public class Command{
 	/**
 	 * Add a parameter to the function.
 	 * @param p parameter to add
+	 * @param position position in the function definition
 	 */
 	public void addParameter(Parameter p, int position){
 		if(!parameters.contains(p)){
 			parameters.add(position,p);
 		}
-	}
-
-	/**
-	 * @return the target robot of the command
-	 */
-	public Robot getTarget(){
-		return target;
-	}
-
-	/**
-	 * @param r the target robot 
-	 */
-	public void setTarget(Robot r){
-		this.target = r;
 	}
 
 	/**
@@ -89,9 +71,7 @@ public class Command{
 	public void addRobot(Robot r){
 		if (r != null){
 			if (!r.getCommands().contains(this)){
-				if (target != null)  target.remove(this);
-				this.setTarget(r);
-				target.getCommands().add(this);
+				r.getCommands().add(this);
 			}
 		}
 	}
@@ -114,7 +94,6 @@ public class Command{
 	 * @return parameters in URL format
 	 */
 	public String paramsToString(){
-		//TODO
 		String result = "";
 		int i;
 		for (i = 0;i < parameters.size();i++){

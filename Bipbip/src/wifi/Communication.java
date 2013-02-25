@@ -82,7 +82,7 @@ public class Communication{
 	 * Send a command to a robot 
 	 * @param r the robot receiving the order
 	 * @param c the command to execute
-	 * @param seq the sequence place (TODO translate : quelle place dans la pile d'instructions)
+	 * @param seq the position of the command in instructions list
 	 */
 	public static void sendCommand(Robot r, Command c,int seq){
 		executePost(serverRoot+"/giveorder.php?target="+r.getIP()+"&action="+c.getAction()+c.paramsToString()+"&seq="+seq);

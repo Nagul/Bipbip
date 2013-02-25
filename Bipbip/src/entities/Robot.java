@@ -59,11 +59,20 @@ public class Robot{
 	/**
 	 * Add a command to execute.
 	 * @param c the command to execute
+	 * @param position the position of the command in the stack
+	 */
+	public void addCommand(Command c,int position){
+		if (!commands.contains(c)){
+			commands.add(position,c);
+		}
+	}
+
+	/**
+	 * Add a command to execute.
+	 * @param c the command to execute
 	 */
 	public void addCommand(Command c){
 		if (!commands.contains(c)){
-			if (c.getTarget() != null) c.getTarget().remove(c);
-			c.setTarget(this);
 			commands.add(c);
 		}
 	}
@@ -78,7 +87,7 @@ public class Robot{
 	/**
 	 * Execute a command
 	 * @param c the command to execute
-	 * @param seq the sequence place (TODO translate : quelle place dans la pile d'instructions)
+	 * @param seq the position of the command in instructions list
 	 */
 	public void executeCommand(Command c, int seq){
 		Communication.sendCommand(this, c, seq);
@@ -88,6 +97,10 @@ public class Robot{
 	 * Execute all instructions from the commands list
 	 */
 	public void executeStack(){
-		// TODO for each command in commands do : executeCommand(command,seq) end
+		int i;
+		for (i = 0;i < commands.size();i++){
+			// i+1 to avoid error case from server
+			executeCommand(commands.get(i),i+1);
+		}
 	}
 }

@@ -22,7 +22,9 @@ public class Parameter{
 	}
 	
 	/**
-	 * Class constructor better
+	 * Class constructor.
+	 * @param n parameter name
+	 * @param v parameter value
 	 */
 	public Parameter(String n, int v){
 		name = n;
