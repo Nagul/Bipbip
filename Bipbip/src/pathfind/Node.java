@@ -64,6 +64,7 @@ public class Node {
 	/*
 	 * calcul l'angle formé avec un autre node par rapport aux conventions
 	 */
+	//TODO : tester
 	public int angleAutreNode(Node autreNode) {
 		double a = this.getAbscisse() - autreNode.getAbscisse();
 		double b = this.getOrdonnee() - autreNode.getOrdonnee();
@@ -74,7 +75,7 @@ public class Node {
 		if (directeur[1]<= 0) {
 			return (int) (Math.acos(directeur[0])*360/(2*Math.PI));
 		} else {
-			return (int) ((2*Math.PI - Math.acos(directeur[0]))*360/(2*Math.PI));
+			return (int) (360 - Math.acos(directeur[0])*360/(2*Math.PI));
 		}
 	}
 

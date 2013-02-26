@@ -115,8 +115,9 @@ public class WidgetClient extends QMainWindow {
 	}
 
 	private void run() {
+		Chemin chemin;
 		if (step == 0) {
-			Chemin chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(1));
+			chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(1));
 			System.out.println(chemin.getDistance());
 			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
 				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penRed);
@@ -124,20 +125,21 @@ public class WidgetClient extends QMainWindow {
 			//affichage du chemin choisi EN BOURRIN
 			step += 1;
 		} else if (step == 1) {
-			Chemin chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(2));
+			chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(2));
 			System.out.println(chemin.getDistance());
 			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
 				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penGreen);
 			}
 			step += 1;
 		} else {
-			Chemin chemin = rG.plusCourtChemin(nodesAl.get(1), nodesAl.get(2));
+			chemin = rG.plusCourtChemin(nodesAl.get(1), nodesAl.get(2));
 			System.out.println(chemin.getDistance());
 			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
 				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penBlue);
 			}
 			step += 1;
 		}
+		Bipbip.equipe.getEquipe().get(0).sendInstruction(chemin);
 	}
 
 }

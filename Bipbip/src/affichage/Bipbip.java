@@ -10,11 +10,11 @@ import com.trolltech.qt.gui.QApplication;
 public class Bipbip {
 	
 	public static ArrayList<Mur> murs;
+	public static EquipeRobot equipe;
 	
 	public static void main(String[] args) {
 		
 		murs = new ArrayList<Mur>();
-		
 		
 		SalleTest salleTest = new SalleTest();
 		salleTest.initialisation();
@@ -26,11 +26,17 @@ public class Bipbip {
 		ArrayList<Node> listUser = hopital.getListUser();
 		*/
 		
+		
+		equipe = new EquipeRobot(listUser.get(0));
+		equipe.initialize();
+		
+		
 		QApplication.initialize(args);
-		//WidgetClient test = new WidgetClient(listUser);
-		WidgetDev test = new WidgetDev(listUser);
+		WidgetClient test = new WidgetClient(listUser);
+		//WidgetDev test = new WidgetDev(listUser);
 		test.show();
 		QApplication.exec();
+		
 	}
 
 }

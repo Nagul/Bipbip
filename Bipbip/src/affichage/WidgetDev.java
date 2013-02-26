@@ -45,7 +45,8 @@ public class WidgetDev extends QMainWindow {
 		//generation du graphe
 		gG = new GenerateurGraph(nodes);
 		gG.generationGraph();
-		//gG.getGraph().garderConnexe(nodesAl.get(0));
+		gG.getGraph().garderConnexe(nodesAl.get(0));
+		
 		setToolbar();
 		setScene();
 	}

@@ -19,7 +19,6 @@ public class GenerateurGraph {
 	 */
 	public Graph generationGraph() {
 		
-		//PUTAIN DE QT DE SENS HORAIRE DE MERDE
 		//génération initiale
 		// TODO : pas generer les points qui sont en type exterieur
 		double epaisseur;
@@ -226,7 +225,7 @@ public class GenerateurGraph {
 				for (Node autreNode : graph.getNodes()) {
 					if (n.getType().getId()==autreNode.getType().getId()
 							&&!n.equals(autreNode)
-							&&n.calculerDistance(autreNode)<25) {
+							&&n.calculerDistance(autreNode)<70) {
 						chemin = new Chemin();
 						chemin.addEtape(n);
 						chemin.addEtape(autreNode);

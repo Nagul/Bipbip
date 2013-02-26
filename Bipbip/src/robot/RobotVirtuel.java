@@ -7,7 +7,6 @@ import pathfind.Arc;
 import pathfind.Chemin;
 import pathfind.Node;
 import pathfind.TypeCouloir;
-import pathfind.TypePiece;
 
 public class RobotVirtuel {
 
@@ -16,15 +15,15 @@ public class RobotVirtuel {
 	private double clock;
 	//orientation par rapport à DROITE, sens trigo, en degree
 	private int orientation;
-	private double vitesse;
+	private int vitesse;
 	private Robot robot;
 	
 	public RobotVirtuel(Node depart, int orientationInit, Robot r) {
 		dernierNode = depart;
 		arcCourant = null;
-		clock = 0;
+		clock = 0;//à gérer
 		orientation = orientationInit;
-		vitesse = 10;//à changer
+		vitesse = 75;
 		robot = r;
 	}
 
@@ -63,46 +62,45 @@ public class RobotVirtuel {
 			depart = chemin.getChemin().get(i);
 			arrive = chemin.getChemin().get(i + 1);
 			
-			if (depart.getType() instanceof TypePiece
-					&&arrive.getType() instanceof TypePiece) {
-				//cas déplacement à l'intérieur d'une piece
+			if (!(depart.getType() instanceof TypeCouloir)
+					||!(arrive.getType() instanceof TypeCouloir)) {
+				//cas déplacement à l'intérieur d'une piece ou piece/couloir
 				//s'orienter face a l'objectif
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
+				orientation = angle;
 				//se deplacer
 				command = new Command();
-				command.setAction(1);
+				command.setAction(Command.FORWARD);
 				distance = (int) depart.calculerDistance(arrive);
 				command.addParameter(new Parameter("distance", distance), 0);
 				robot.addCommand(command);
 				
-			} else if ((depart.getType() instanceof TypePiece
-					&&arrive.getType() instanceof TypeCouloir)
-					||(depart.getType() instanceof TypeCouloir
-							&&arrive.getType() instanceof TypePiece)) {
-				//cas passer une porte
-				//s'orienter face a l'objectif
-				command = new Command();
-				command.setAction(2);
-				//TODO : rajouter paramètre
-				robot.addCommand(command);
-				//se deplacer
-				command = new Command();
-				command.setAction(1);
-				//TODO : rajouter paramètre
-				robot.addCommand(command);
-				
 			} else {
 				//cas suivre un mur
+				//s'orienter face a l'objectif
 				command = new Command();
-				command.setAction(3);
-				//TODO : rajouter paramètre
+				command.setAction(Command.TURN);
+				angle = depart.angleAutreNode(arrive) - orientation;
+				command.addParameter(new Parameter("angle", angle), 0);
+				robot.addCommand(command);
+				orientation = angle;
+				//se deplacer
+				command = new Command();
+				command.setAction(Command.FOLLOW_WALL);
+				distance = (int) depart.calculerDistance(arrive);
+				command.addParameter(new Parameter("distance", distance), 0);
+				command.addParameter(new Parameter("vitesse", vitesse), 1);
 				robot.addCommand(command);
 			}
 		}
+		command = new Command();
+		command.setAction(Command.STOP);
+		robot.addCommand(command);
+		robot.executeStack();
 	}
 	
 	public Node getDernierNode() {

@@ -175,6 +175,31 @@ public class SalleTest {
 		murs.add(new Mur(nIP11HG, nIP11HD, 2, porteP11, "mIP11H", tc, tp11));
 		murs.add(new Mur(nIP11HD, nEB1, 2, null, "mIP11D", tc, tp11));
 		
+		//point de depart/arrive
+		listUser.add(new Node(50, 40, "user1", tp1));
+		listUser.add(new Node(600, 600, "user2", tp11));
+		listUser.add(new Node(600, 50, "user3", tp3));
+		
+		/*
+		//passage piéton
+		Node carrefour1 = new Node(115, 145, "carrefour1", tc);
+		listUser.add(carrefour1);
+		Node carrefour2 = new Node(400, 145, "carrefour2", tc);
+		listUser.add(carrefour2);
+		Node carrefour3 = new Node(115, 330, "carrefour3", tc);
+		listUser.add(carrefour3);
+		Node carrefour4 = new Node(400, 330, "carrefour4", tc);
+		listUser.add(carrefour4);
+		Node carrefour5 = new Node(400, 400, "carrefour5", tc);
+		listUser.add(carrefour5);
+		Node carrefour6 = new Node(630, 400, "carrefour6", tc);
+		listUser.add(carrefour6);
+		Node carrefour7 = new Node(160, 500, "carrefour7", tc);
+		listUser.add(carrefour7);
+		Node carrefour8 = new Node(370, 500, "carrefour8", tc);
+		listUser.add(carrefour8);
+		*/
+		
 	}
 	
 	public ArrayList<Node> getListUser() {
