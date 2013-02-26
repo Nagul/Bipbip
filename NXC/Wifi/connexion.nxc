@@ -9,7 +9,7 @@
 #define ESSID "freebox_4fantastiques"
 #define WIFI_PASSWORD "@enigmA2"
 
-#define WB_PORT IN_4
+#define WB_PORT IN_1
 
 #define SERVER_ROOT ""
 
