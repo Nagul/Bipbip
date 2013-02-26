@@ -72,11 +72,7 @@ public class Node {
 		double[] directeur = new double[2];
 		directeur[0] = -a/q;
 		directeur[1] = -b/q;
-		if (directeur[1]<= 0) {
-			return (int) (Math.acos(directeur[0])*360/(2*Math.PI));
-		} else {
-			return (int) (360 - Math.acos(directeur[0])*360/(2*Math.PI));
-		}
+		return (int) (Math.acos(directeur[0])*360/(2*Math.PI));
 	}
 
 	public boolean equals(Object obj) {
