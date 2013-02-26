@@ -27,7 +27,6 @@ public class Bipbip {
 		*/
 		
 		
-		
 		equipe = new EquipeRobot(listUser.get(0));
 		equipe.initialize();
 		
