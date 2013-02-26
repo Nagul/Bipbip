@@ -12,16 +12,17 @@
 #define TEST         7
 
 #define STEP_LENGTH    30
-#define NEAR         1
+#define NEAR           10
+#define SENSOR         IN_4
 
 void update_order(int &current_order);
 
 // get orders from the server and execute them
 // TODO CHANGE AND USE STACK
-void execute_order(){
+void execute_order(int &distance_parcourue,int &alerte_bloque){
 	string label;
 	string value; 
-	int distance_parcourue, alerte_bloque;
+	//int distance_parcourue, alerte_bloque;
 	int current_order = 1;
 	while(true){
 		NumOut(0,LCD_LINE3,current_order);
@@ -37,14 +38,12 @@ void execute_order(){
 		// execute order
 		 switch(test_order){
 			 case NONE         : current_order=1; break;
-			 case FORWARD      : //getParameter(order,label,value);
-					     //int dist = atoi(value);
-			                     //getParameter(order,label,value);
-					     //int sped = atoi(value);
-					     int distance_parcourue=0;
-					     int alerte_bloque=0;
+			 case FORWARD      : getParameter(order,label,value);
+					     int dist = atoi(value);
+			                     getParameter(order,label,value);
+					     int sped = atoi(value);
 					     //move_forward(time,power);
-					     DistancePrecise(40,75,10, distance_parcourue, alerte_bloque);
+					     DistancePrecise(dist,sped,NEAR, distance_parcourue, alerte_bloque);
   					     //avancer(power);
 					     update_order(current_order);
 					     //current_order++;
@@ -97,6 +96,9 @@ void update_order(int &current_order){
 }
 
 task main(){
+	SetSensorLowspeed(SENSOR);                                                       //Pour pouvoir utiliser le Capteur US sur l'entrée 4.
+	int distance_parcourue = 0;                                                    //Pour conntaître la distance parcourue depuis le lancement du main
+	int alerte_bloque = 0;                                                         //Passe à 1 si le robot rencontre un mêm obstacle pendant plus de 5s
 	string my_ip = StrCat(MY_IP,NumToStr(MY_IP_4));
 	// delete a command in the server
 	delete_url =StrCat(SERVER_ROOT,"/deleteorder.php?target=",my_ip);
@@ -107,7 +109,7 @@ task main(){
 	// send data to the server
 	feedback_url =StrCat(SERVER_ROOT,"/sendfeedback.php?target=",my_ip);
 	if (connect()){
-		execute_order();
+		execute_order(distance_parcourue,alerte_bloque);
 	} else{
 		TextOut(0,LCD_LINE1,"CONNECT ERROR");
 	}
