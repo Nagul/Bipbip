@@ -87,12 +87,12 @@ public class SalleTest {
 		Node porteP2 = new Node(210, 90, "porteP2", null);
 		Node porteP3 = new Node(480, 90, "porteP3", null);
 		
-		murs.add(new Mur(nEG4, nIP1P2, 2, porteP1, "mIP1", tp1, tc));
-		murs.add(new Mur(nIP1P2, nIP2P3, 2, porteP2, "mIP2", tp2, tc));
-		murs.add(new Mur(nIP2P3, nED1, 2, porteP3, "mIP3", tp3, tc));
+		murs.add(new Mur(nEG4, nIP1P2, 10, porteP1, "mIP1", tp1, tc));
+		murs.add(new Mur(nIP1P2, nIP2P3, 10, porteP2, "mIP2", tp2, tc));
+		murs.add(new Mur(nIP2P3, nED1, 10, porteP3, "mIP3", tp3, tc));
 		
-		murs.add(new Mur(nIP1P2, nEH2, 2, null, "mIP1P2", tp1, tp2));
-		murs.add(new Mur(nIP2P3, nEH3, 2, null, "mIP2P3", tp2, tp3));
+		murs.add(new Mur(nIP1P2, nEH2, 10, null, "mIP1P2", tp1, tp2));
+		murs.add(new Mur(nIP2P3, nEH3, 10, null, "mIP2P3", tp2, tp3));
 		
 		//Piece 4
 		Node nIP4H = new Node(70, 180);
@@ -100,9 +100,9 @@ public class SalleTest {
 		
 		Node porteP4 = new Node(70, 340, "porteP4", null);
 		
-		murs.add(new Mur(nEG3, nIP4H, 2, null, "mIP4H", tc, tp4));
-		murs.add(new Mur(nIP4H, nIP4B, 2, porteP4, "mIP4D", tc, tp4));
-		murs.add(new Mur(nIP4B, nEG2, 2, null, "mIP4B", tc, tp4));
+		murs.add(new Mur(nEG3, nIP4H, 10, null, "mIP4H", tc, tp4));
+		murs.add(new Mur(nIP4H, nIP4B, 10, porteP4, "mIP4D", tc, tp4));
+		murs.add(new Mur(nIP4B, nEG2, 10, null, "mIP4B", tc, tp4));
 		
 		//Piece 5
 		Node nIP5HG = new Node(160, 200);
@@ -113,10 +113,10 @@ public class SalleTest {
 		Node porteP5H = new Node(270, 200, "porteP5H", null);
 		Node porteP5B = new Node(270, 270, "porteP5B", null);
 		
-		murs.add(new Mur(nIP5HG, nIP5HD, 2, porteP5H, "mIP5H", tc, tp5));
-		murs.add(new Mur(nIP5HD, nIP5BD, 2, null, "mIP5D", tc, tp5));
-		murs.add(new Mur(nIP5BD, nIP5BG, 2, porteP5B, "mIP5B", tc, tp5));
-		murs.add(new Mur(nIP5BG, nIP5HG, 2, null, "mIP5G", tc, tp5));
+		murs.add(new Mur(nIP5HG, nIP5HD, 10, porteP5H, "mIP5H", tc, tp5));
+		murs.add(new Mur(nIP5HD, nIP5BD, 10, null, "mIP5D", tc, tp5));
+		murs.add(new Mur(nIP5BD, nIP5BG, 10, porteP5B, "mIP5B", tc, tp5));
+		murs.add(new Mur(nIP5BG, nIP5HG, 10, null, "mIP5G", tc, tp5));
 		
 		//Pieces 6 -> 7
 		Node nIP6HG = new Node(450, 200);
@@ -129,14 +129,14 @@ public class SalleTest {
 		Node porteP6 = new Node(540, 200, "porteP6", null);
 		Node porteP7 = new Node(540, 340, "porteP7", null);
 		
-		murs.add(new Mur(nIP6HG, nIP6HD, 2, porteP6, "mIP6H", tc, tp6));
-		murs.add(new Mur(nIP6HD, nIP6P7D, 2, null, "mIP6D", tc, tp6));
-		murs.add(new Mur(nIP6P7D, nIP7BD, 2, null, "mIP7D", tc, tp7));
-		murs.add(new Mur(nIP7BD, nIP7BG, 2, porteP7, "mIP7B", tc, tp7));
-		murs.add(new Mur(nIP7BG, nIP6P7G, 2, null, "mIP7D", tc, tp7));
-		murs.add(new Mur(nIP6P7G, nIP6HG, 2, null, "mIP6D", tc, tp6));
+		murs.add(new Mur(nIP6HG, nIP6HD, 10, porteP6, "mIP6H", tc, tp6));
+		murs.add(new Mur(nIP6HD, nIP6P7D, 10, null, "mIP6D", tc, tp6));
+		murs.add(new Mur(nIP6P7D, nIP7BD, 10, null, "mIP7D", tc, tp7));
+		murs.add(new Mur(nIP7BD, nIP7BG, 10, porteP7, "mIP7B", tc, tp7));
+		murs.add(new Mur(nIP7BG, nIP6P7G, 10, null, "mIP7D", tc, tp7));
+		murs.add(new Mur(nIP6P7G, nIP6HG, 10, null, "mIP6D", tc, tp6));
 		
-		murs.add(new Mur(nIP6P7G, nIP6P7D, 2, null, "mIP6P7", tp6, tp7));	
+		murs.add(new Mur(nIP6P7G, nIP6P7D, 10, null, "mIP6P7", tp6, tp7));	
 		
 		//Piece 8
 		Node nIP8HG = new Node(160, 380);
@@ -147,10 +147,10 @@ public class SalleTest {
 		Node porteP8H = new Node(270, 380, "porteP8H", null);
 		Node porteP8B = new Node(270, 450, "porteP8B", null);
 		
-		murs.add(new Mur(nIP8HG, nIP8HD, 2, porteP8H, "mIP8H", tc, tp8));
-		murs.add(new Mur(nIP8HD, nIP8BD, 2, null, "mIP8D", tc, tp8));
-		murs.add(new Mur(nIP8BD, nIP8BG, 2, porteP8B, "mIP8B", tc, tp8));
-		murs.add(new Mur(nIP8BG, nIP8HG, 2, null, "mIP8G", tc, tp8));
+		murs.add(new Mur(nIP8HG, nIP8HD, 10, porteP8H, "mIP8H", tc, tp8));
+		murs.add(new Mur(nIP8HD, nIP8BD, 10, null, "mIP8D", tc, tp8));
+		murs.add(new Mur(nIP8BD, nIP8BG, 10, porteP8B, "mIP8B", tc, tp8));
+		murs.add(new Mur(nIP8BG, nIP8HG, 10, null, "mIP8G", tc, tp8));
 		
 		//Pieces 9 -> 10
 		Node nIP9P10 = new Node(290, 540);
@@ -159,11 +159,11 @@ public class SalleTest {
 		Node porteP9 = new Node(180, 540, "porteP9", null);
 		Node porteP10 = new Node(360, 630, "porteP10", null);
 		
-		murs.add(new Mur(nEG1, nIP9P10, 2, porteP9, "mIP9H", tc, tp9));
-		murs.add(new Mur(nIP9P10, nIP10HD, 2, null, "mIP9H", tc, tp10));
-		murs.add(new Mur(nIP10HD, nEB3, 2, porteP10, "mIP9D", tc, tp10));
+		murs.add(new Mur(nEG1, nIP9P10, 10, porteP9, "mIP9H", tc, tp9));
+		murs.add(new Mur(nIP9P10, nIP10HD, 10, null, "mIP9H", tc, tp10));
+		murs.add(new Mur(nIP10HD, nEB3, 10, porteP10, "mIP9D", tc, tp10));
 		
-		murs.add(new Mur(nIP9P10, nEB4, 2, null, "mIP9P10", tp10, tp9));
+		murs.add(new Mur(nIP9P10, nEB4, 10, null, "mIP9P10", tp10, tp9));
 		
 		//Piece 11
 		Node nIP11HG = new Node(450, 450);
@@ -171,9 +171,9 @@ public class SalleTest {
 		
 		Node porteP11 = new Node(540, 450, "porteP11", null);
 		
-		murs.add(new Mur(nEB2, nIP11HG, 2, null, "mIP11G", tc, tp11));
-		murs.add(new Mur(nIP11HG, nIP11HD, 2, porteP11, "mIP11H", tc, tp11));
-		murs.add(new Mur(nIP11HD, nEB1, 2, null, "mIP11D", tc, tp11));
+		murs.add(new Mur(nEB2, nIP11HG, 10, null, "mIP11G", tc, tp11));
+		murs.add(new Mur(nIP11HG, nIP11HD, 10, porteP11, "mIP11H", tc, tp11));
+		murs.add(new Mur(nIP11HD, nEB1, 10, null, "mIP11D", tc, tp11));
 		
 		//point de depart/arrive
 		listUser.add(new Node(640, 50, "user3", tp3));

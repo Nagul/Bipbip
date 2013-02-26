@@ -112,7 +112,7 @@ public class Mur {
 		
 		double epaisseur;
 		double autreEpaisseur;
-		double ecartement = 5;
+		double ecartement = 10;
 		
 		if (ePos) {
 			epaisseur = this.epaisseur + ecartement;
