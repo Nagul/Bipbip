@@ -31,7 +31,7 @@ public class GenerateurGraph {
 		Node nodeNew1;
 		Node nodeNew2;
 		
-		double ecartement = 10;
+		double ecartement = 30;
 		
 		HashMap<Mur, murEtBout> mapAdjacenceMur = this.mapMurAdjacents();
 		

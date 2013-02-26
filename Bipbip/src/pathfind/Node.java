@@ -66,13 +66,17 @@ public class Node {
 	 */
 	//TODO : tester
 	public int angleAutreNode(Node autreNode) {
-		double a = this.getAbscisse() - autreNode.getAbscisse();
-		double b = this.getOrdonnee() - autreNode.getOrdonnee();
+		double a = autreNode.getAbscisse() - this.getAbscisse();
+		double b = autreNode.getOrdonnee() - this.getOrdonnee();
 		double q = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 		double[] directeur = new double[2];
-		directeur[0] = -a/q;
-		directeur[1] = -b/q;
-		return (int) (Math.acos(directeur[0])*360/(2*Math.PI));
+		directeur[0] = a/q;
+		directeur[1] = b/q;
+		if (directeur[1] >= 0) {
+			return (int) (Math.acos(directeur[0])*360/(2*Math.PI));
+		} else {
+			return (int) (360-Math.acos(directeur[0])*360/(2*Math.PI));
+		}
 	}
 
 	public boolean equals(Object obj) {

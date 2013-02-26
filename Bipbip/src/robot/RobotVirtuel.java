@@ -72,6 +72,7 @@ public class RobotVirtuel {
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
 				orientation += angle;
+				System.out.println(angle);
 				//se deplacer
 				command = new Command();
 				command.setAction(Command.FORWARD);
@@ -89,6 +90,7 @@ public class RobotVirtuel {
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
 				orientation += angle;
+				System.out.println(angle);
 				//se deplacer
 				command = new Command();
 				command.setAction(Command.FOLLOW_WALL);
