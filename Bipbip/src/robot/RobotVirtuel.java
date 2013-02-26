@@ -77,6 +77,7 @@ public class RobotVirtuel {
 				command.setAction(Command.FORWARD);
 				distance = (int) depart.calculerDistance(arrive);
 				command.addParameter(new Parameter("distance", distance), 0);
+				command.addParameter(new Parameter("vitesse", vitesse), 1);
 				robot.addCommand(command);
 				
 			} else {

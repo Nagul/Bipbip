@@ -20,7 +20,7 @@ public class EquipeRobot {
 	
 	public void initialize() {
 		//TODO : adresse IP
-		equipe.add(new RobotVirtuel(depart, 0, new Robot("")));
+		equipe.add(new RobotVirtuel(depart, 0, new Robot("192.168.0.36")));
 	}
 
 	public ArrayList<RobotVirtuel> getEquipe() {
