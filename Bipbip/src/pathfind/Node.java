@@ -70,8 +70,8 @@ public class Node {
 		double b = this.getOrdonnee() - autreNode.getOrdonnee();
 		double q = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 		double[] directeur = new double[2];
-		directeur[0] = a/q;
-		directeur[1] = b/q;
+		directeur[0] = -a/q;
+		directeur[1] = -b/q;
 		if (directeur[1]<= 0) {
 			return (int) (Math.acos(directeur[0])*360/(2*Math.PI));
 		} else {
