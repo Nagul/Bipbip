@@ -1,4 +1,5 @@
 #include "Command/New_robot.nxc"
+#include "Command/basicCommands.nxc"
 #include "Wifi/connexion.nxc"
 
 #define NONE         0
@@ -11,7 +12,7 @@
 #define TEST         7
 
 #define STEP_LENGTH    30
-#define NEAR         10
+#define NEAR         1
 
 void update_order(int &current_order);
 
@@ -36,14 +37,23 @@ void execute_order(){
 		// execute order
 		 switch(test_order){
 			 case NONE         : current_order=1; break;
-			 case FORWARD      : getParameter(order,label,value);
-					     int power = atoi(value);
-  					     avancer(power);
+			 case FORWARD      : //getParameter(order,label,value);
+					     //int dist = atoi(value);
+			                     //getParameter(order,label,value);
+					     //int sped = atoi(value);
+					     int distance_parcourue=0;
+					     int alerte_bloque=0;
+					     //move_forward(time,power);
+					     DistancePrecise(40,75,10, distance_parcourue, alerte_bloque);
+  					     //avancer(power);
 					     update_order(current_order);
 					     //current_order++;
         				     break;
         		 case TURN         : getParameter(order,label,value);
         				     int angle = atoi(value);
+			                     //getParameter(order,label,value);
+					     //int pow = atoi(value);
+					     //turn_right(angle,pow);
   					     tourner(angle);
 					     update_order(current_order);
 					     //current_order++;
@@ -62,7 +72,7 @@ void execute_order(){
 					      update_order(current_order);
 					      break;
 			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE / REMOVE
-			 case STOP         :  break;
+			 case STOP         :  stop_moving();break;
 			 // add your test functions here
 			 case TEST         :  if(get_node_state(4)){
 						      TextOut(0,LCD_LINE4,"C'est vrai!");
@@ -74,7 +84,7 @@ void execute_order(){
 					      //delete_order(1);
 					      update_order(current_order);
 					     break;
-			 default           :  current_order = 1;break;
+			 default           :  break;
 		 }
 
 
@@ -82,7 +92,7 @@ void execute_order(){
 }
 
 void update_order(int &current_order){
-	delete_order(current_order);
+	//delete_order(current_order);
 	current_order++;
 }
 

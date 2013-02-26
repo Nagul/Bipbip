@@ -15,16 +15,20 @@ void stop_moving(){
 void move_forward(int time,int speed){
 	OnFwd(ALL_MOTORS,speed);
 	Wait(time);
+	stop_moving();
 }
 void move_backward(int time,int speed){
 	OnRev(ALL_MOTORS,speed);
 	Wait(time);
+	stop_moving();
 }
 void turn_left(int time,int speed){
 	OnFwd(LEFT_MOTOR,speed);
 	Wait(time);
+	stop_moving();
 }
 void turn_right(int time,int speed){
 	OnFwd(RIGHT_MOTOR,speed);
 	Wait(time);
+	stop_moving();
 }
