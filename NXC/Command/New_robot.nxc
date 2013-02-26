@@ -28,6 +28,7 @@ DistancePrecise(int Dist, int Vit, int TROP_PRES, int& distance_parcourue, int& 
 coin(int trois_branches_arrive_T_droite)
 
  */
+#define DISTANCE_CONSIGNE 10
 //******************************************************************************
 // Avancer à une certaine vitesse
 #define avancer(puissance) \
@@ -211,7 +212,7 @@ void regulation_angle_gauche(){
 void suivit_mur(){
 	int distance_droite;
 	int distance_gauche;
-	int distance_consigne = 30;
+	
 
 	// On regarde la distance des 2 cotes
 	RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
@@ -229,7 +230,7 @@ void suivit_mur(){
 		regulation_angle_droite();
 		RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);         // on place le capteur à droite
 		Wait(10);
-		regulation_distance_droite(distance_consigne);
+		regulation_distance_droite(DISTANCE_CONSIGNE);
 		RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);        // on remet le capteur en posotion "repos"
 		regulation_angle_droite();
 	}
@@ -238,7 +239,7 @@ void suivit_mur(){
 		regulation_angle_gauche();
 		RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);        // on place le capteur à gauche
 		Wait(10);
-		regulation_distance_gauche(distance_consigne);
+		regulation_distance_gauche(DISTANCE_CONSIGNE);
 		RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);         // on remet le capteur en posotion "repos"
 		regulation_angle_gauche();
 	}
