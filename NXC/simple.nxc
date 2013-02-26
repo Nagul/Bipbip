@@ -26,6 +26,8 @@ void execute_order(int &distance_parcourue,int &alerte_bloque){
 	int current_order = 1;
 	while(true){
 		NumOut(0,LCD_LINE3,current_order);
+		int distance;
+		int speed;
 		string order = get_order(current_order);
 		int test_order = getCommand(order);
 		NumOut(0,LCD_LINE5,test_order);
@@ -39,31 +41,27 @@ void execute_order(int &distance_parcourue,int &alerte_bloque){
 		 switch(test_order){
 			 case NONE         : current_order=1; break;
 			 case FORWARD      : getParameter(order,label,value);
-					     int dist = atoi(value);
+					     distance = atoi(value);
 			                     getParameter(order,label,value);
-					     int sped = atoi(value);
-					     //move_forward(time,power);
-					     DistancePrecise(dist,sped,NEAR, distance_parcourue, alerte_bloque);
-  					     //avancer(power);
+					     speed = atoi(value);
+					     DistancePrecise(distance,speed,NEAR, distance_parcourue, alerte_bloque);
+					     sendfeedback("&forward="+NumToStr(distance)+";"+NumToStr(speed));
 					     update_order(current_order);
-					     //current_order++;
         				     break;
-        		 case TURN         : getParameter(order,label,value);
-        				     int angle = atoi(value);
-			                     //getParameter(order,label,value);
-					     //int pow = atoi(value);
-					     //turn_right(angle,pow);
-  					     tourner(angle);
-					     update_order(current_order);
-					     //current_order++;
-        				     break;
-        		 case FOLLOW_WALL  :  getParameter(order,label,value);
-        				      int distance = atoi(value);
-        				      getParameter(order,label,value);
-        				      int speed = atoi(value);
-  					      distance_precise_par_pas(distance, speed, STEP_LENGTH, NEAR, distance_parcourue, alerte_bloque); 
+        		 case TURN         :  getParameter(order,label,value);
+        				      int angle = atoi(value);
+  					      tourner(angle);
+					      sendfeedback("&turn="+NumToStr(angle));
 					      update_order(current_order);
-					      break;
+        				      break;
+        		 case FOLLOW_WALL  : getParameter(order,label,value);
+        				     distance = atoi(value);
+        				     getParameter(order,label,value);
+        				     speed = atoi(value);
+  					     distance_precise_par_pas(distance, speed, STEP_LENGTH, NEAR, distance_parcourue, alerte_bloque); 
+					     sendfeedback("&dpp="+NumToStr(distance)+";"+NumToStr(speed));
+					     update_order(current_order);
+					     break;
 			 case CROSSING     :  getParameter(order,label,value);
 			 // TODO get first parameter
 					      getParameter(order,label,value);
@@ -71,7 +69,9 @@ void execute_order(int &distance_parcourue,int &alerte_bloque){
 					      update_order(current_order);
 					      break;
 			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE / REMOVE
-			 case STOP         :  stop_moving();break;
+			 case STOP         :  stop_moving();
+					      sendfeedback("&stop=true");
+					      break;
 			 // add your test functions here
 			 case TEST         :  if(get_node_state(4)){
 						      TextOut(0,LCD_LINE4,"C'est vrai!");

@@ -28,7 +28,7 @@ DistancePrecise(int Dist, int Vit, int TROP_PRES, int& distance_parcourue, int& 
 coin(int trois_branches_arrive_T_droite)
 
  */
-#define DISTANCE_CONSIGNE 10
+#define DISTANCE_CONSIGNE 30
 //******************************************************************************
 // Avancer à une certaine vitesse
 #define avancer(puissance) \
