@@ -177,8 +177,9 @@ public class SalleTest {
 		
 		//point de depart/arrive
 		listUser.add(new Node(50, 40, "user1", tp1));
-		listUser.add(new Node(600, 600, "user2", tp11));
 		listUser.add(new Node(600, 50, "user3", tp3));
+		listUser.add(new Node(600, 600, "user2", tp11));
+
 		
 		/*
 		//passage piéton
