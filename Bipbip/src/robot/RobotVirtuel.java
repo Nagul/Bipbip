@@ -71,7 +71,7 @@ public class RobotVirtuel {
 				angle = depart.angleAutreNode(arrive) - orientation;
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
-				orientation = angle;
+				orientation += angle;
 				//se deplacer
 				command = new Command();
 				command.setAction(Command.FORWARD);
@@ -88,7 +88,7 @@ public class RobotVirtuel {
 				angle = depart.angleAutreNode(arrive) - orientation;
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
-				orientation = angle;
+				orientation += angle;
 				//se deplacer
 				command = new Command();
 				command.setAction(Command.FOLLOW_WALL);
