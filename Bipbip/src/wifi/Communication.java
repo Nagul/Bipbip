@@ -87,4 +87,13 @@ public class Communication{
 	public static void sendCommand(Robot r, Command c,int seq){
 		executePost(serverRoot+"/giveorder.php?target="+r.getIP()+"&action="+c.getAction()+c.paramsToString()+"&seq="+seq);
 	}
+
+	/**
+	 * Removes all of the commands for a robot from the server 
+	 * @param r the target robot
+	 */
+	public static void clearCommands(Robot r){
+		executePost(serverRoot+"/deleteorder.php?target="+r.getIP());
+	}
+
 }

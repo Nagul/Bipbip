@@ -70,6 +70,7 @@ public class TestRobot{
 			e.printStackTrace();
 		}
 		
+		r.clearCommands();
 
 
 	}

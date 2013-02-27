@@ -103,4 +103,12 @@ public class Robot{
 			executeCommand(commands.get(i),i+1);
 		}
 	}
+
+	/**
+	 * Resets instruction lists. Removes all of the commands from the local list and from the server
+	 */
+	public void clearCommands(){
+		this.commands.clear();
+		Communication.clearCommands(this);
+	}
 }
