@@ -20,7 +20,7 @@ public class WidgetDev extends QMainWindow {
 	private QGraphicsView view;
 	private QGraphicsScene scene;
 	private QToolBar toolbar;
-	private pathfind.GenerateurGraph gG;
+	private pathfind.GeneratorGraph gG;
 	private ArrayList<Node> nodesAl;
 	
 	//pinceaux
@@ -38,14 +38,15 @@ public class WidgetDev extends QMainWindow {
 	//pinceau pour les murs
 	private QPen penBlack = new QPen(QColor.black);
 	
+	@SuppressWarnings("unchecked")
 	public WidgetDev(ArrayList<Node> nodes) {
 		super();
 		
 		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
-		gG = new GenerateurGraph(nodes);
-		gG.generationGraph();
-		gG.getGraph().garderConnexe(nodesAl.get(0));
+		gG = new GeneratorGraph(nodes);
+		gG.generatateGraph();
+		gG.getGraph().keepConnected(nodesAl.get(0));
 		
 		setToolbar();
 		setScene();
@@ -78,43 +79,46 @@ public class WidgetDev extends QMainWindow {
 		//nodes utilisateurs
 		for (Node nUser : nodesAl) {
 			if (nUser.getType() instanceof TypePiece) {
-				scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
+				scene.addEllipse(nUser.getAbscissa(), nUser.getOrdinate(), 10, 10, penGreen, brushGreen);
 			}
 		}
 
 		//affichage des murs et portes
 		penBlack.setCapStyle(PenCapStyle.FlatCap);
-		for (Mur m : Bipbip.murs) {
-			penBlack.setWidthF(2*m.getEpaisseur());
-			scene.addLine(m.getBoutDebut().getAbscisse(), m.getBoutDebut().getOrdonnee(), m.getBoutFin().getAbscisse(), m.getBoutFin().getOrdonnee(), penBlack);
+		for (Wall m : Bipbip.walls) {
+			penBlack.setWidthF(2*m.getWidth());
+			scene.addLine(m.getCornerStart().getAbscissa(), m.getCornerStart().getOrdinate(), m.getCornerEnd().getAbscissa(), m.getCornerEnd().getOrdinate(), penBlack);
 			//TODO : joli affichage des portes
-			if (m.getPortes()!=null) {
-				for (Node n : m.getPortes()) {
-					scene.addEllipse(n.getAbscisse(), n.getOrdonnee(), 10, 10, penBlue, brushBlue);
+			if (m.getDoors()!=null) {
+				for (Node n : m.getDoors()) {
+					scene.addEllipse(n.getAbscissa(), n.getOrdinate(), 10, 10, penBlue, brushBlue);
 				}
 			}
 		}
-		
+
 		
 		view = new QGraphicsView(scene);
 		view.setBackgroundBrush(brushBlack);
 		this.setCentralWidget(view);
 	}
 	
+	@SuppressWarnings("unused")
 	private void zoom() {
 		view.scale(2,2);
 	}
 
+	@SuppressWarnings("unused")
 	private void dezoom() {
 		view.scale(0.5,0.5);
 	}
 	
+	@SuppressWarnings("unused")
 	private void run() {
 		//affichage des Nodes et arcs (on affiche 2 fois les arcs mais osef)
 		for (Node n : gG.getGraph().getNodes()) {
-			scene.addEllipse(n.getAbscisse(), n.getOrdonnee(), 2, 2, penRed, brushRed);
+			scene.addEllipse(n.getAbscissa(), n.getOrdinate(), 2, 2, penRed, brushRed);
 			for (Arc a : gG.getGraph().getArcs(n)) {
-				scene.addLine(a.getNodeDepart().getAbscisse(), a.getNodeDepart().getOrdonnee(), a.getNodeArrive().getAbscisse(), a.getNodeArrive().getOrdonnee(), penRed);
+				scene.addLine(a.getNodeStart().getAbscissa(), a.getNodeStart().getOrdinate(), a.getNodeTarget().getAbscissa(), a.getNodeTarget().getOrdinate(), penRed);
 			}
 		}
 	}

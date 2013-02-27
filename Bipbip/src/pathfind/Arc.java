@@ -2,30 +2,38 @@ package pathfind;
 
 public class Arc {
 	
-	private final Node nodeDepart;
-	private final Node nodeArrive;
-	private final Chemin chemin;
+	private final Node nodeStart;
+	private final Node nodeTarget;
+	private final Path path;
 	
-	public Arc(Node n1, Node n2, Chemin c) {
-		nodeDepart = n1;
-		nodeArrive = n2;
-		chemin = c;
+	/**
+	 * 
+	 * @param nS the first node of the path
+	 * @param nT the last node of the path
+	 * @param p the path used by robots
+	 */
+	public Arc(Node nS, Node nT, Path p) {
+		nodeStart = nS;
+		nodeTarget = nT;
+		path= p;
 	}
 
-	public Node getNodeDepart() {
-		return nodeDepart;
+	public Node getNodeStart() {
+		return nodeStart;
 	}
 
-	public Node getNodeArrive() {
-		return nodeArrive;
+	public Node getNodeTarget() {
+		return nodeTarget;
 	}
 
-	public Chemin getChemin() {
-		return chemin;
+	public Path getPath() {
+		return path;
 	}
 	
 	public String toString() {
-		return "[" + nodeDepart + " ," + nodeArrive + "]";
+		return "[" + nodeStart + " ," + nodeTarget + "]";
 	}
+	
+	
 	
 }

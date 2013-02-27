@@ -9,12 +9,12 @@ import com.trolltech.qt.gui.QApplication;
 
 public class Bipbip {
 	
-	public static ArrayList<Mur> murs;
+	public static ArrayList<Wall> walls;
 	public static EquipeRobot equipe;
 	
 	public static void main(String[] args) {
 		
-		murs = new ArrayList<Mur>();
+		walls = new ArrayList<Wall>();
 		
 		SalleTest salleTest = new SalleTest();
 		salleTest.initialisation();

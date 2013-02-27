@@ -1,10 +1,7 @@
-package robot;
+package entities;
 
-import entities.Command;
-import entities.Parameter;
-import entities.Robot;
 import pathfind.Arc;
-import pathfind.Chemin;
+import pathfind.Path;
 import pathfind.Node;
 import pathfind.TypeCouloir;
 
@@ -32,17 +29,17 @@ public class RobotVirtuel {
 		
 		if (arcCourant==null) {
 			//pas en mouvement
-			position[0] = dernierNode.getAbscisse();
-			position[1] = dernierNode.getOrdonnee();
+			position[0] = dernierNode.getAbscissa();
+			position[1] = dernierNode.getOrdinate();
 		} else {
 			//en mouvement
 			//TODO : adapter ça en chemin et pas en arc
-			double distance = arcCourant.getChemin().getDistance();
-			position[0] = arcCourant.getNodeDepart().getAbscisse()
-					+ (arcCourant.getNodeArrive().getAbscisse() - arcCourant.getNodeDepart().getAbscisse())
+			double distance = arcCourant.getPath().getDistance();
+			position[0] = arcCourant.getNodeStart().getAbscissa()
+					+ (arcCourant.getNodeTarget().getAbscissa() - arcCourant.getNodeStart().getAbscissa())
 					*clock*vitesse/distance;
-			position[1] = arcCourant.getNodeDepart().getOrdonnee()
-					+ (arcCourant.getNodeArrive().getOrdonnee() - arcCourant.getNodeDepart().getOrdonnee())
+			position[1] = arcCourant.getNodeStart().getOrdinate()
+					+ (arcCourant.getNodeTarget().getOrdinate() - arcCourant.getNodeStart().getOrdinate())
 					*clock*vitesse/distance;
 		}
 		
@@ -50,7 +47,7 @@ public class RobotVirtuel {
 	}
 	
 	//TODO : gérer le cas des chmins et non des arcs
-	public void sendInstruction(Chemin chemin) {
+	public void sendInstruction(Path chemin) {
 		int i;
 		int angle;
 		int distance;
@@ -58,9 +55,9 @@ public class RobotVirtuel {
 		Node depart;
 		Node arrive;
 		
-		for (i = 0; i < chemin.getChemin().size() - 1; i++) {
-			depart = chemin.getChemin().get(i);
-			arrive = chemin.getChemin().get(i + 1);
+		for (i = 0; i < chemin.getPath().size() - 1; i++) {
+			depart = chemin.getPath().get(i);
+			arrive = chemin.getPath().get(i + 1);
 			
 			if (!(depart.getType() instanceof TypeCouloir)
 					||!(arrive.getType() instanceof TypeCouloir)) {
@@ -76,7 +73,7 @@ public class RobotVirtuel {
 				//se deplacer
 				command = new Command();
 				command.setAction(Command.FORWARD);
-				distance = (int) depart.calculerDistance(arrive);
+				distance = (int) depart.calculateDistance(arrive);
 				command.addParameter(new Parameter("distance", distance), 0);
 				command.addParameter(new Parameter("vitesse", vitesse), 1);
 				robot.addCommand(command);
@@ -94,7 +91,7 @@ public class RobotVirtuel {
 				//se deplacer
 				command = new Command();
 				command.setAction(Command.FOLLOW_WALL);
-				distance = (int) depart.calculerDistance(arrive);
+				distance = (int) depart.calculateDistance(arrive);
 				command.addParameter(new Parameter("distance", distance), 0);
 				command.addParameter(new Parameter("vitesse", vitesse), 1);
 				robot.addCommand(command);
@@ -103,7 +100,7 @@ public class RobotVirtuel {
 		command = new Command();
 		command.setAction(Command.STOP);
 		robot.addCommand(command);
-		robot.executeStack();
+		//robot.executeStack();
 	}
 	
 	public Node getDernierNode() {

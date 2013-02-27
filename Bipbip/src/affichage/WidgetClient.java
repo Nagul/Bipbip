@@ -20,11 +20,11 @@ public class WidgetClient extends QMainWindow {
 	private QGraphicsView view;
 	private QGraphicsScene scene;
 	private QToolBar toolbar;
-	private pathfind.GenerateurGraph gG;
+	private pathfind.GeneratorGraph gG;
 	private ArrayList<Node> nodesAl;
 	
 	private int step;//juste pour des tests
-	private RechercheGraph rG;
+	private GraphSearch rG;
 	
 	//pinceaux
 	
@@ -41,17 +41,18 @@ public class WidgetClient extends QMainWindow {
 	//pinceau pour les murs
 	private QPen penBlack = new QPen(QColor.black);
 	
+	@SuppressWarnings("unchecked")
 	public WidgetClient(ArrayList<Node> nodes) {
 		super();
 		step = 0;
 		
 		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
-		gG = new GenerateurGraph(nodes);
-		gG.generationGraph();
-		gG.getGraph().garderConnexe(nodesAl.get(0));
+		gG = new GeneratorGraph(nodes);
+		gG.generatateGraph();
+		gG.getGraph().keepConnected(nodesAl.get(0));
 		
-		rG = new RechercheGraph(gG.getGraph());
+		rG = new GraphSearch(gG.getGraph());
 		setToolbar();
 		setScene();
 	}
@@ -83,19 +84,19 @@ public class WidgetClient extends QMainWindow {
 		//nodes utilisateurs
 		for (Node nUser : nodesAl) {
 			if (nUser.getType() instanceof TypePiece) {
-				scene.addEllipse(nUser.getAbscisse(), nUser.getOrdonnee(), 10, 10, penGreen, brushGreen);
+				scene.addEllipse(nUser.getAbscissa(), nUser.getOrdinate(), 10, 10, penGreen, brushGreen);
 			}
 		}
 				
 		//affichage des murs et portes
 		penBlack.setCapStyle(PenCapStyle.FlatCap);
-		for (Mur m : Bipbip.murs) {
-			penBlack.setWidthF(2*m.getEpaisseur());
-			scene.addLine(m.getBoutDebut().getAbscisse(), m.getBoutDebut().getOrdonnee(), m.getBoutFin().getAbscisse(), m.getBoutFin().getOrdonnee(), penBlack);
+		for (Wall m : Bipbip.walls) {
+			penBlack.setWidthF(2*m.getWidth());
+			scene.addLine(m.getCornerStart().getAbscissa(), m.getCornerStart().getOrdinate(), m.getCornerEnd().getAbscissa(), m.getCornerEnd().getOrdinate(), penBlack);
 			//TODO : joli affichage des portes
-			if (m.getPortes()!=null) {
-				for (Node n : m.getPortes()) {
-					scene.addEllipse(n.getAbscisse(), n.getOrdonnee(), 10, 10, penBlue, brushBlue);
+			if (m.getDoors()!=null) {
+				for (Node n : m.getDoors()) {
+					scene.addEllipse(n.getAbscissa(), n.getOrdinate(), 10, 10, penBlue, brushBlue);
 				}
 			}
 		}
@@ -106,36 +107,39 @@ public class WidgetClient extends QMainWindow {
 		this.setCentralWidget(view);
 	}
 	
+	@SuppressWarnings("unused")
 	private void zoom() {
 		view.scale(2,2);
 	}
 
+	@SuppressWarnings("unused")
 	private void dezoom() {
 		view.scale(0.5,0.5);
 	}
 
+	@SuppressWarnings("unused")
 	private void run() {
-		Chemin chemin;
+		Path chemin;
 		if (step == 0) {
-			chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(1));
+			chemin = rG.shorterPath(nodesAl.get(0), nodesAl.get(1));
 			System.out.println(chemin.getDistance());
-			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
-				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penRed);
+			for (int i = 0; i < chemin.getPath().size() - 1; i++) {
+				scene.addLine(chemin.getPath().get(i).getAbscissa(), chemin.getPath().get(i).getOrdinate(), chemin.getPath().get(i + 1).getAbscissa(),chemin.getPath().get(i + 1).getOrdinate(), penRed);
 			}
 			//affichage du chemin choisi EN BOURRIN
 			step += 1;
 		} else if (step == 1) {
-			chemin = rG.plusCourtChemin(nodesAl.get(0), nodesAl.get(2));
+			chemin = rG.shorterPath(nodesAl.get(0), nodesAl.get(2));
 			System.out.println(chemin.getDistance());
-			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
-				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penGreen);
+			for (int i = 0; i < chemin.getPath().size() - 1; i++) {
+				scene.addLine(chemin.getPath().get(i).getAbscissa(), chemin.getPath().get(i).getOrdinate(), chemin.getPath().get(i + 1).getAbscissa(),chemin.getPath().get(i + 1).getOrdinate(), penGreen);
 			}
 			step += 1;
 		} else {
-			chemin = rG.plusCourtChemin(nodesAl.get(1), nodesAl.get(2));
+			chemin = rG.shorterPath(nodesAl.get(1), nodesAl.get(2));
 			System.out.println(chemin.getDistance());
-			for (int i = 0; i < chemin.getChemin().size() - 1; i++) {
-				scene.addLine(chemin.getChemin().get(i).getAbscisse(), chemin.getChemin().get(i).getOrdonnee(), chemin.getChemin().get(i + 1).getAbscisse(),chemin.getChemin().get(i + 1).getOrdonnee(), penBlue);
+			for (int i = 0; i < chemin.getPath().size() - 1; i++) {
+				scene.addLine(chemin.getPath().get(i).getAbscissa(), chemin.getPath().get(i).getOrdinate(), chemin.getPath().get(i + 1).getAbscissa(),chemin.getPath().get(i + 1).getOrdinate(), penBlue);
 			}
 			step += 1;
 		}

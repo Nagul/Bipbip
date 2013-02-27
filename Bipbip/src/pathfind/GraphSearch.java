@@ -3,23 +3,29 @@ package pathfind;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class RechercheGraph {
+public class GraphSearch {
 
 	private Graph graph;
 
-	public RechercheGraph(Graph g) {
+	public GraphSearch(Graph g) {
 		graph = g;
 	}
 
-	public Chemin plusCourtChemin(Node depart, Node arrive) {
+	/**
+	 * Calculate the shorter path from node start to node target following Dijkstra's algorithm
+	 * @param start the start Node
+	 * @param target the target Node
+	 * @return the shorter path if start and target are connected, otherwise null
+	 */
+	public Path shorterPath(Node start, Node target) {
 		
-		Chemin chemin = new Chemin();
+		Path chemin = new Path();
 		//initialisation
-		//Q : liste triée des noeuds non encore optimisés.
+		//Q : liste triee des noeuds non encore optimises.
 		ArrayList<valeurNode> Q = new ArrayList<valeurNode>();
 		valeurNode newVN;
 		for (Node n : graph.getNodes()) {
-			if (!n.equals(depart)) {
+			if (!n.equals(start)) {
 				newVN = new valeurNode(n, Double.MAX_VALUE, null);
 				Q.add(newVN);
 			} else {
@@ -40,10 +46,10 @@ public class RechercheGraph {
 			}
 			
 			//cas où le Node destination est le minimal : fini
-			if (valeurNodeMin.getNode().equals(arrive)) {
+			if (valeurNodeMin.getNode().equals(target)) {
 				valeurNode nodeChemin = valeurNodeMin;
 				while (nodeChemin != null) {
-					chemin.addEtape(nodeChemin.getNode());
+					chemin.addStep(nodeChemin.getNode());
 					nodeChemin = nodeChemin.getPrecedent();
 				}
 				break;
@@ -54,10 +60,10 @@ public class RechercheGraph {
 
 			Node nodeVoisin;
 			for (Arc arcVoisin : graph.getArcs(valeurNodeMin.getNode())) {
-				nodeVoisin = arcVoisin.getNodeArrive();
+				nodeVoisin = arcVoisin.getNodeTarget();
 				for (valeurNode vnv : Q) {
 					if (vnv.getNode().equals(nodeVoisin)) {
-						double alt = valeurNodeMin.getDistance() + arcVoisin.getChemin().getDistance();
+						double alt = valeurNodeMin.getDistance() + arcVoisin.getPath().getDistance();
 						if (alt < vnv.getDistance()) {
 							vnv.setDistance(alt);
 							vnv.setPrecedent(valeurNodeMin);
@@ -69,7 +75,6 @@ public class RechercheGraph {
 		}
 
 		chemin.reverse();
-		chemin.calculerDistance();
 		return chemin;
 	}
 	

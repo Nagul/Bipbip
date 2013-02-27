@@ -2,44 +2,61 @@ package pathfind;
 
 public class Node {
 	
-	private final double abscisse;
-	private final double ordonnee;
-	private final String nom;
+	private final double abscissa;
+	private final double ordinate;
+	private final String name;
 	private final TypeNode type;
 	
+	/**
+	 * 
+	 * @param a the abscissa of the node
+	 * @param o the ordinate of the node
+	 * @param n the name of the node
+	 * @param t the type of the node
+	 */
 	public Node(double a, double o, String n, TypeNode t) {
-		abscisse = a;
-		ordonnee = o;
-		nom = n;
+		abscissa = a;
+		ordinate = o;
+		name = n;
 		type = t;
 	}
 	
+	/**
+	 * Create a new Node without name or type
+	 * @param a the abscissa of the node
+	 * @param o the ordinate of the node
+	 */
 	public Node(double a, double o) {
-		abscisse = a;
-		ordonnee = o;
-		nom = null;
+		abscissa = a;
+		ordinate = o;
+		name = null;
 		type = null;
 	}
 
-	public double getAbscisse() {
-		return abscisse;
+	public double getAbscissa() {
+		return abscissa;
 	}
 
-	public double getOrdonnee() {
-		return ordonnee;
+	public double getOrdinate() {
+		return ordinate;
 	}
 	
-	public String getNom() {
-		return nom;
+	public String getName() {
+		return name;
 	}
 
 	public TypeNode getType() {
 		return type;
 	}
 	
-	public double calculerDistance(Node other) {
-		return  Math.sqrt(Math.pow(this.abscisse - other.getAbscisse(), 2) 
-				+ Math.pow(this.ordonnee - other.getOrdonnee(), 2));
+	/**
+	 * Calculate the euclidean distance between this node and another node
+	 * @param otherNode
+	 * @return the euclidean distance between this node and another node
+	 */
+	public double calculateDistance(Node otherNode) {
+		return  Math.sqrt(Math.pow(this.abscissa - otherNode.getAbscissa(), 2) 
+				+ Math.pow(this.ordinate - otherNode.getOrdinate(), 2));
 	}
 	
 	//TODO : utilite ?
@@ -49,25 +66,26 @@ public class Node {
 	 * @param murTest le mur auquel le node appartient
 	 * @return le mur auquel le node appartient
 	 */
-	public Mur appartientAutreMur(Mur murTest) {
-		for (Mur m : affichage.Bipbip.murs) {
-			if((this.equals(m.getBoutDebut())
-					||this.equals(m.getBoutFin())
-					||this.calculerDistance(m.getBoutDebut()) + this.calculerDistance(m.getBoutFin()) < m.getBoutDebut().calculerDistance(m.getBoutFin()) + 1
+	public Wall appartientAutreMur(Wall murTest) {
+		for (Wall m : affichage.Bipbip.walls) {
+			if((this.equals(m.getCornerStart())
+					||this.equals(m.getCornerEnd())
+					||this.calculateDistance(m.getCornerStart()) + this.calculateDistance(m.getCornerEnd()) < m.getCornerStart().calculateDistance(m.getCornerEnd()) + 1
 					)&&!murTest.equals(m)) {
 				return m;
 			}
 		}
 		return null;
 	}
-	
-	/*
-	 * calcul l'angle formé avec un autre node par rapport aux conventions
+
+	/**
+	 * Calculate the angle formed between the abscissa axis and the vector (thisNode, otherNode)
+	 * @param otherNode the other node to define the vector
+	 * @return the angle formed between the abscissa axis and the vector (thisNode, otherNode)
 	 */
-	//TODO : tester
-	public int angleAutreNode(Node autreNode) {
-		double a = autreNode.getAbscisse() - this.getAbscisse();
-		double b = autreNode.getOrdonnee() - this.getOrdonnee();
+	public int angleAutreNode(Node otherNode) {
+		double a = otherNode.getAbscissa() - this.abscissa;
+		double b = otherNode.getOrdinate() - this.ordinate;
 		double q = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 		double[] directeur = new double[2];
 		directeur[0] = a/q;
@@ -79,6 +97,7 @@ public class Node {
 		}
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -87,28 +106,30 @@ public class Node {
 		if (getClass() != obj.getClass())
 			return false;
 		Node other = (Node) obj;
-		if (Double.doubleToLongBits(abscisse) != Double
-				.doubleToLongBits(other.abscisse))
+		if (Double.doubleToLongBits(abscissa) != Double
+				.doubleToLongBits(other.abscissa))
 			return false;
-		if (Double.doubleToLongBits(ordonnee) != Double
-				.doubleToLongBits(other.ordonnee))
+		if (Double.doubleToLongBits(ordinate) != Double
+				.doubleToLongBits(other.ordinate))
 			return false;
 		return true;
 	}
 	
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(abscisse);
+		temp = Double.doubleToLongBits(abscissa);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(ordonnee);
+		temp = Double.doubleToLongBits(ordinate);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 	
+	@Override
 	public String toString() {
-		return (nom + " [" + abscisse + ", " + ordonnee + "]");
+		return (name + " [" + abscissa + ", " + ordinate + "]");
 	}
 	
 }

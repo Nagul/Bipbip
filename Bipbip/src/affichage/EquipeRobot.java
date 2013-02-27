@@ -3,10 +3,10 @@ package affichage;
 import java.util.ArrayList;
 
 import entities.Robot;
+import entities.RobotVirtuel;
 
 import pathfind.Node;
 
-import robot.RobotVirtuel;
 
 public class EquipeRobot {
 
