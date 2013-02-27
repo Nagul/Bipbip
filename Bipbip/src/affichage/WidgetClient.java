@@ -143,7 +143,7 @@ public class WidgetClient extends QMainWindow {
 			}
 			step += 1;
 		}
-		Bipbip.equipe.getEquipe().get(0).sendInstruction(chemin);
+		Bipbip.team.getTeam().get(0).sendInstruction(chemin);
 	}
 
 }

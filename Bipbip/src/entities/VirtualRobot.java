@@ -5,49 +5,52 @@ import pathfind.Path;
 import pathfind.Node;
 import pathfind.TypeCouloir;
 
-public class RobotVirtuel {
+public class VirtualRobot {
 
-	private Node dernierNode;
-	private Arc arcCourant;
-	private double clock;
-	//orientation par rapport à DROITE, sens trigo, en degree
-	private int orientation;
-	private int vitesse;
+	private Node lastNode;
+	private Arc currentArc;
+	private double clock;	//TODO
+	private int orientation;	//to abscissa/ordinate axis
+	private int speed;
 	private Robot robot;
 	
-	public RobotVirtuel(Node depart, int orientationInit, Robot r) {
-		dernierNode = depart;
-		arcCourant = null;
-		clock = 0;//à gérer
+	public VirtualRobot(Node start, int orientationInit, Robot r) {
+		lastNode = start;
+		currentArc = null;
+		clock = 0;
 		orientation = orientationInit;
-		vitesse = 75;
+		speed = 75;
 		robot = r;
 	}
 
 	public double[] getPosition() {
 		double[] position = new double[2];
 		
-		if (arcCourant==null) {
-			//pas en mouvement
-			position[0] = dernierNode.getAbscissa();
-			position[1] = dernierNode.getOrdinate();
+		if (currentArc==null) {
+			//moving
+			position[0] = lastNode.getAbscissa();
+			position[1] = lastNode.getOrdinate();
 		} else {
-			//en mouvement
-			//TODO : adapter ça en chemin et pas en arc
-			double distance = arcCourant.getPath().getDistance();
-			position[0] = arcCourant.getNodeStart().getAbscissa()
-					+ (arcCourant.getNodeTarget().getAbscissa() - arcCourant.getNodeStart().getAbscissa())
-					*clock*vitesse/distance;
-			position[1] = arcCourant.getNodeStart().getOrdinate()
-					+ (arcCourant.getNodeTarget().getOrdinate() - arcCourant.getNodeStart().getOrdinate())
-					*clock*vitesse/distance;
+			//not moving
+			//TODO : better feedback with path instead of node
+			double distance = currentArc.getPath().getDistance();
+			position[0] = currentArc.getNodeStart().getAbscissa()
+					+ (currentArc.getNodeTarget().getAbscissa() - currentArc.getNodeStart().getAbscissa())
+					*clock*speed/distance;
+			position[1] = currentArc.getNodeStart().getOrdinate()
+					+ (currentArc.getNodeTarget().getOrdinate() - currentArc.getNodeStart().getOrdinate())
+					*clock*speed/distance;
 		}
 		
 		return position;
 	}
 	
-	//TODO : gérer le cas des chmins et non des arcs
-	public void sendInstruction(Path chemin) {
+	/**
+	 * Send the needed instructions to the robot
+	 * @param path the path calculated by GraphSearc.shortherDistance
+	 */
+	//TODO : working with path instead of arc
+	public void sendInstruction(Path path) {
 		int i;
 		int angle;
 		int distance;
@@ -55,14 +58,14 @@ public class RobotVirtuel {
 		Node depart;
 		Node arrive;
 		
-		for (i = 0; i < chemin.getPath().size() - 1; i++) {
-			depart = chemin.getPath().get(i);
-			arrive = chemin.getPath().get(i + 1);
+		for (i = 0; i < path.getPath().size() - 1; i++) {
+			depart = path.getPath().get(i);
+			arrive = path.getPath().get(i + 1);
 			
 			if (!(depart.getType() instanceof TypeCouloir)
 					||!(arrive.getType() instanceof TypeCouloir)) {
-				//cas déplacement à l'intérieur d'une piece ou piece/couloir
-				//s'orienter face a l'objectif
+				//moving in/out a room
+				//orientation
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
@@ -70,17 +73,17 @@ public class RobotVirtuel {
 				robot.addCommand(command);
 				orientation += angle;
 				System.out.println(angle);
-				//se deplacer
+				//move
 				command = new Command();
 				command.setAction(Command.FORWARD);
 				distance = (int) depart.calculateDistance(arrive);
 				command.addParameter(new Parameter("distance", distance), 0);
-				command.addParameter(new Parameter("vitesse", vitesse), 1);
+				command.addParameter(new Parameter("vitesse", speed), 1);
 				robot.addCommand(command);
 				
 			} else {
-				//cas suivre un mur
-				//s'orienter face a l'objectif
+				//follow a wall
+				//orientation
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
@@ -88,12 +91,12 @@ public class RobotVirtuel {
 				robot.addCommand(command);
 				orientation += angle;
 				System.out.println(angle);
-				//se deplacer
+				//move
 				command = new Command();
 				command.setAction(Command.FOLLOW_WALL);
 				distance = (int) depart.calculateDistance(arrive);
 				command.addParameter(new Parameter("distance", distance), 0);
-				command.addParameter(new Parameter("vitesse", vitesse), 1);
+				command.addParameter(new Parameter("vitesse", speed), 1);
 				robot.addCommand(command);
 			}
 		}
@@ -103,12 +106,12 @@ public class RobotVirtuel {
 		//robot.executeStack();
 	}
 	
-	public Node getDernierNode() {
-		return dernierNode;
+	public Node getLastNode() {
+		return lastNode;
 	}
 
-	public Arc getArcCourant() {
-		return arcCourant;
+	public Arc getCurrentArc() {
+		return currentArc;
 	}
 
 	public double getClock() {

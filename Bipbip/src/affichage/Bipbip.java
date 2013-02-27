@@ -10,7 +10,7 @@ import com.trolltech.qt.gui.QApplication;
 public class Bipbip {
 	
 	public static ArrayList<Wall> walls;
-	public static EquipeRobot equipe;
+	public static RobotTeam team;
 	
 	public static void main(String[] args) {
 		
@@ -27,8 +27,8 @@ public class Bipbip {
 		*/
 		
 		
-		equipe = new EquipeRobot(listUser.get(0));
-		equipe.initialize();
+		team = new RobotTeam(listUser.get(0));
+		team.initialize();
 		
 		
 		QApplication.initialize(args);
