@@ -1,5 +1,6 @@
 # SQL file used during the test phase
 # @author : Faly Razakarison
+USE projetbip;
 INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.36','1');
 INSERT INTO Command (seq,ip,action,datebegin)
