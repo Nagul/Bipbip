@@ -24,7 +24,7 @@ $feedback_result = mysqli_query($link,"SELECT label, value, sending_date FROM Fe
 
 // print the result
 while ($feedback = mysqli_fetch_array($feedback_result,MYSQLI_ASSOC)){
-	echo $feedback["sending_date"]." : ".$feedback["label"]." => ".$feedback["value"]." <br/>";
+	echo $feedback["sending_date"]." -> ".$feedback["label"]." => ".$feedback["value"]." <br/>";
 }
 mysqli_free_result($feedback_result);
 mysqli_close($link);
