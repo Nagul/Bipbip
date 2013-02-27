@@ -59,13 +59,14 @@ void execute_order(int &distance_parcourue,int &alerte_bloque){
         				     getParameter(order,label,value);
         				     speed = atoi(value);
   					     distance_precise_par_pas(distance, speed, STEP_LENGTH, NEAR, distance_parcourue, alerte_bloque); 
-					     sendfeedback("&dpp="+NumToStr(distance)+";"+NumToStr(speed));
+					     sendfeedback("&wall="+NumToStr(distance)+";"+NumToStr(speed));
 					     update_order(current_order);
 					     break;
 			 case CROSSING     :  getParameter(order,label,value);
 			 // TODO get first parameter
 					      getParameter(order,label,value);
 			 // TODO
+					      sendfeedback("&crossing=TODO");
 					      update_order(current_order);
 					      break;
 			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE / REMOVE
@@ -109,6 +110,7 @@ task main(){
 	// send data to the server
 	feedback_url =StrCat(SERVER_ROOT,"/sendfeedback.php?target=",my_ip);
 	if (connect()){
+		sendfeedback("&online=true");
 		execute_order(distance_parcourue,alerte_bloque);
 	} else{
 		TextOut(0,LCD_LINE1,"CONNECT ERROR");

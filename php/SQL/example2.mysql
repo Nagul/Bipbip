@@ -1,11 +1,11 @@
 # SQL file used during the test phase
 # @author : Faly Razakarison
-INSERT INTO Robot (ip,is_connected)
+INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.36','1');
 INSERT INTO Command (seq,ip,action,datebegin)
 VALUES (0,'192.168.0.36','NONE','now');
 
-INSERT INTO Robot (ip,is_connected)
+INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.37','1');
 INSERT INTO Command (seq,ip,action,datebegin)
 VALUES (0,'192.168.0.37','NONE','now');

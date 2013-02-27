@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.lang.String;
 
+import wifi.Communication;
+
 public class TestRobot{
 	public static void main(String args[]){
 		// creation du robot
@@ -50,15 +52,18 @@ public class TestRobot{
 		// execution des commandes par le robot
 		r.executeStack();
 
-		String fileName = "log.txt";
-		String filePath = System.getProperty("user.dir")+"/"+fileName;
+		// Méthode pour traiter les Feedback 
 		String log = r.getFeedback();
 		String[] tmp = log.split("<br/>");
 		for (int i = 0; i < tmp.length; i++){
 			Feedback f = new Feedback(tmp[i]);
-			System.out.println(f.getDetails());
+			System.out.println(f.getAction()+f.getDate()+f.getDetails());
 		}
 
+		
+		// Méthode pour stocker les logs dans le fichier log.txt
+		String fileName = "log.txt";
+		String filePath = System.getProperty("user.dir")+"/"+fileName;
 		log = log.replaceAll("<br/>","\n");
 		try{
 			FileWriter fw = new FileWriter(filePath,true);
@@ -70,8 +75,14 @@ public class TestRobot{
 			e.printStackTrace();
 		}
 		
+		// Test de la suppression des commandes
 		r.clearCommands();
 
+		// Test de l'affichage des robots connectés
+		String[] robotList = Communication.getOnlineRobots();
+		for (int j = 0;j < robotList.length; j++){
+			System.out.println(robotList[j]);
+		}
 
 	}
 

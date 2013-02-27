@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import java.lang.String;
+
 import entities.Robot;
 import entities.Command;
 
@@ -79,7 +81,7 @@ public class Communication{
 	}
 
 	/**
-	 * Send a command to a robot 
+	 * Send a command to a robot.
 	 * @param r the robot receiving the order
 	 * @param c the command to execute
 	 * @param seq the position of the command in instructions list
@@ -89,11 +91,20 @@ public class Communication{
 	}
 
 	/**
-	 * Removes all of the commands for a robot from the server 
+	 * Removes all of the commands for a robot from the server.
 	 * @param r the target robot
 	 */
 	public static void clearCommands(Robot r){
 		executePost(serverRoot+"/deleteorder.php?target="+r.getIP());
+	}
+
+	/**
+	 * Get a list of online robots. 
+	 * @return a list of ip addresses of online robots.
+	 */
+	public static String[] getOnlineRobots(){
+		String robotsIp = executePost(serverRoot+"/getrobotsip.php");
+		return robotsIp.split("<br/>");
 	}
 
 }

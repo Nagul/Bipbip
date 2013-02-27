@@ -15,32 +15,32 @@ VALUES ("RIGHT",5);
 INSERT INTO CommandType(action,id_nxc)
 VALUES ("PERSO",6);
 
-INSERT INTO Robot (ip,is_connected)
+INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.36','1');
 INSERT INTO Command (seq,ip,action,datebegin)
 VALUES (0,'192.168.0.36','NONE','now');
 
-INSERT INTO Robot (ip,is_connected)
+INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.37','1');
 INSERT INTO Command (seq,ip,action,datebegin)
 VALUES (0,'192.168.0.37','NONE','now');
 
-INSERT INTO Robot (ip,is_connected)
+INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.38','1');
 INSERT INTO Command (seq,ip,action,datebegin)
 VALUES (0,'192.168.0.38','NONE','now');
 
-INSERT INTO Robot (ip,is_connected)
+INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.39','1');
 INSERT INTO Command (seq,ip,action,datebegin)
 VALUES (0,'192.168.0.39','NONE','now');
 
-INSERT INTO Robot (ip,is_connected)
+INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.40','1');
 INSERT INTO Command (seq,ip,action,datebegin)
 VALUES (0,'192.168.0.40','NONE','now');
 
-INSERT INTO Robot (ip,is_connected)
+INSERT INTO Robot (ip,online)
 VALUES ('192.168.0.41','1');
 INSERT INTO Command (seq,ip,action,datebegin)
 VALUES (0,'192.168.0.41','NONE','now');

@@ -9,7 +9,7 @@ USE projetbip;
 
 CREATE TABLE Robot(
    ip VARCHAR(17),
-   is_connected BOOL,
+   online BOOL,
    PRIMARY KEY (ip)
 ) ENGINE = InnoDB;
 
