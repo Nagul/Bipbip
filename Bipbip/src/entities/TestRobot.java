@@ -14,40 +14,53 @@ public class TestRobot{
 
 		// creation de la commande
 		Command c = new Command();
-		c.setAction(Command.FORWARD);
+		//c.setAction(Command.FORWARD);
+		c.setAction(Command.FOLLOW_WALL);
 
 		// creation des parametres et ajout a la commande c
-		c.addParameter(new Parameter("dista",200),0);
-		c.addParameter(new Parameter("speed",75),1);
+		c.addParameter(new Parameter("wall",2),0);
+		c.addParameter(new Parameter("dist",60),1);
+
+		Command corner = new Command();
+		corner.setAction(Command.FIND_CORNER);
+
+		corner.addParameter(new Parameter("wall",2),0);
 
 		// creation d'une deuxieme commande
 		Command c2 = new Command();
-		c2.setAction(Command.FEEDBACK);
+		c2.setAction(Command.CROSSING);
 
-		// ajout d'un parametre a cette commande
-		//c2.addParameter(new Parameter("angle",90),0);
-		//c2.addParameter(new Parameter("speed",30),1);
+		// creation des parametres et ajout a la commande c2
+		c2.addParameter(new Parameter("noeud",1),0);
+		c2.addParameter(new Parameter("direction",1),1);
+		c2.addParameter(new Parameter("cote",2),2);
 		
-		// creation d'une deuxieme commande
+		// creation d'une troisieme commande
 		Command c3 = new Command();
-		c3.setAction(Command.FORWARD);
+		c3.setAction(Command.FOLLOW_WALL);
 
-		//// ajout d'un parametre a cette commande
-		c3.addParameter(new Parameter("time",30),0);
-		c3.addParameter(new Parameter("speed",40),1);
+		// creation des parametres et ajout a la commande c3
+		c3.addParameter(new Parameter("wall",2),0);
+		c3.addParameter(new Parameter("dist",130),1);
 		  
-		Command c5 = new Command();
-		c5.setAction(Command.FEEDBACK);
-
+		// creation d'une quatrieme commande
 		Command c4 = new Command();
-		c4.setAction(Command.STOP);
+		c4.setAction(Command.FIND_CORNER);
+
+		// creation des parametres et ajout a la commande c4
+		c4.addParameter(new Parameter("wall",2),0);
+
+		// Commande stop
+		Command c5 = new Command();
+		c5.setAction(Command.STOP);
 
 		// ajout des commandes dans la liste des commandes a effectuer par le robot
 		r.addCommand(c,0);
+		//r.addCommand(corner,1);
 		r.addCommand(c2,1);
 		r.addCommand(c3,2);
-		r.addCommand(c5,3);
-		r.addCommand(c4,4);
+		r.addCommand(c4,3);
+		r.addCommand(c5,4);
 		 
 		// execution des commandes par le robot
 		r.executeStack();

@@ -19,3 +19,5 @@ INSERT INTO CommandType(action,id_nxc)
 VALUES ("STOP",6);
 INSERT INTO CommandType(action,id_nxc)
 VALUES ("TEST",7);
+INSERT INTO CommandType(action,id_nxc)
+VALUES ("FIND_CORNER",8);

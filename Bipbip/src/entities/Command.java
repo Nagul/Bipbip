@@ -20,6 +20,7 @@ public class Command{
 	public static final int FEEDBACK    = 5;
 	public static final int STOP        = 6;
         public static final int TEST        = 7;
+        public static final int FIND_CORNER = 8;
 
 	/**
 	 * id of the function to call
@@ -97,8 +98,10 @@ public class Command{
 		String result = "";
 		int i;
 		for (i = 0;i < parameters.size();i++){
-			result += "&p"+i+"="+parameters.get(i).getValue();
+			int asc = 97+i;
+			result += "&"+Character.toString((char)asc)+"="+parameters.get(i).getValue();
 		}
+		System.out.println(result);
 		return result;
 	}
 
