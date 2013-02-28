@@ -137,11 +137,10 @@ public class Wall {
 	 * @param oPos take the Other normal positively
 	 * @return the intersection of this wall and otherWall
 	 */
-	public double[] getIntersection(Wall otherWall, boolean tPos, boolean oPos) {
+	public double[] getIntersection(Wall otherWall, boolean tPos, boolean oPos, double space) {
 		
 		double width;
 		double otherWidth;
-		double space = 30;
 		
 		if (tPos) {
 			width = this.width + space;

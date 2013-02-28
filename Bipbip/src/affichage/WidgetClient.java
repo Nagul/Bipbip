@@ -50,7 +50,7 @@ public class WidgetClient extends QMainWindow {
 		//generation du graphe
 		gG = new GeneratorGraph(nodes);
 		gG.generatateGraph();
-		gG.getGraph().keepConnected(nodesAl.get(0));
+		//gG.getGraph().keepConnected(nodesAl.get(0));
 		
 		rG = new GraphSearch(gG.getGraph());
 		setToolbar();

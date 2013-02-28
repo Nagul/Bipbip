@@ -176,9 +176,11 @@ public class SalleTest {
 		murs.add(new Wall(nIP11HD, nEB1, 10, null, "mIP11D", tc, tp11));
 		
 		//point de depart/arrive
+		
 		listUser.add(new Node(640, 50, "user3", tp3));
 		listUser.add(new Node(50, 40, "user1", tp1));
 		listUser.add(new Node(600, 600, "user2", tp11));
+		
 
 		
 		/*
