@@ -1,0 +1,359 @@
+#include "Wifi/connexion.nxc"
+//***************************************
+//*               Bip-Bip
+//*
+//***************************************
+
+#define DISTANCE_CONSIGNE 30
+#define TROP_PRES 10
+#define LEFT_CROSSING    1
+#define RIGHT_CROSSING   2
+#define FORWARD_CROSSING 3
+
+#define RIGHT_WALL 1
+#define LEFT_WALL 2
+
+/*fonction intéressantes  ******************************************************
+tourner(angle)
+foward_clean(int distance, int& alerte_bloque)
+follow_wall(cote, distance, pas, alerte_bloque)
+trouver_coin(cote)
+crossing(numero_noeud, direction, alerte_bloque, cote)
+*******************************************************************************/
+
+// Avancer à une certaine vitesse
+#define avancer(puissance) \
+	OnFwdReg(OUT_BC, puissance, OUT_REGMODE_SYNC);
+
+//tourner d'un angle dans le sens horraire
+#define tourner(angle) \
+	RotateMotorExPID(OUT_BC, 50, (18*angle)/9, sign(angle)*100, true, true, 50, 50, 50); // Valeurs obtenues par expérience
+
+//avancer d'une distance précise
+	void foward_clean(int distance, int& alerte_bloque){
+ // vitesse 30 facteur 125
+ // vitesse 50 facteur 66
+ int facteur = 66;
+ int compteur = 0;
+ 
+ //****Boucle de s?curit?****
+		while(SensorUS(IN_4)<TROP_PRES){
+			Off(OUT_BC);
+			Wait(5);
+			if (compteur >= 1000){                                                      // environ 5s
+				alerte_bloque = 1;
+				TextOut(0,LCD_LINE2, "-----ALERTE-----", true);
+				// TODO send alarm message to the server
+			}
+			else{
+				compteur = compteur + 5;
+				TextOut(0,LCD_LINE2, "------STOP------", true);
+			}
+		} //**fin boucle s?curit?**
+		alerte_bloque = 0;                                                          // remise ? 0 des variables de s?curit?
+		compteur = 0;
+ 
+ avancer(50);
+ Wait(facteur*distance);
+ Off(OUT_BC);
+}
+
+//*******************************************************translation************
+//translation d'une certaine distance (distance > 0 vers la droite)
+void translation(int distance){
+	if (distance >= 0){
+		tourner(90)
+			avancer(30)
+			Wait(125*distance);
+		tourner(-90)
+	}
+	else{
+		tourner(-90)
+			avancer(30)
+			Wait(-125*distance);
+		tourner(90)
+	}
+}
+//******************************************************************************
+//regulation orientation à droite
+void regulation_angle_droite(){
+	int distance_x1;
+	int distance_x2;
+	int distance_x3;
+	int angle_au_mur;
+	int angle_tourner;
+	float a;
+	float b;
+	float c;
+	float d;
+	float e;
+	float f;
+
+	//Mesure à 3 angles différents
+	ResetRotationCount(OUT_A);
+	RotateMotorPID(OUT_A, 30, 60, 50, 50, 50);  // 6O°
+	Wait(50);
+	distance_x1 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, 30, 50, 50, 50);  //90°
+	Wait(50);
+	distance_x2 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, 30, 50, 50, 50);  //120°
+	Wait(50);
+	distance_x3 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, -120, 50, 50, 50); //0°
+
+
+	// Prise en compte de la mesure à 90° et de la plus faible parmis les 2 restantes
+	if(distance_x1 < distance_x3){
+		//calculs développés pour éviter les problèmes sur l'automate
+		d = (0.5*distance_x1)*(0.5*distance_x1)+(distance_x2-0.866*distance_x1)*(distance_x2-0.866*distance_x1);
+		b = Sqrt(d);
+		e = (distance_x2-0.866*distance_x1)/b;
+		f = 100*e;
+		a = Acos(b);
+		angle_au_mur = a;
+		angle_tourner = 90 - angle_au_mur;
+		Off(OUT_BC);
+		Wait(10);
+		RotateMotorExPID(OUT_BC, 50, (18*angle_tourner)/9, -1*100, true, true, 50, 50, 50);
+		Wait(50);
+
+	}
+	else{
+		//calculs développés pour éviter les problèmes sur l'automate
+		d = (0.5*distance_x3)*(0.5*distance_x3)+(distance_x2-0.866*distance_x3)*(distance_x2-0.866*distance_x3);
+		b = Sqrt(d);
+		e = (distance_x2-0.866*distance_x3)/b;
+		f = 100*e;
+		a = Acos(b);
+		angle_au_mur = a;
+		angle_tourner = 90 - angle_au_mur;
+		Off(OUT_BC);
+		Wait(10);
+		RotateMotorExPID(OUT_BC, 50, (18*angle_tourner)/9, 100, true, true, 50, 50, 50);
+		Wait(50);
+	}
+}
+
+//Régulation angle à gauche-----------------------------------------------------
+void regulation_angle_gauche(){
+	int distance_x1;
+	int distance_x2;
+	int distance_x3;
+	int angle_au_mur;
+	int angle_tourner;
+	float a;
+	float b;
+	float c;
+	float d;
+	float e;
+	float f;
+
+	//Mesure à 3 angles différents
+	ResetRotationCount(OUT_A);
+	RotateMotorPID(OUT_A, 30, -60, 50, 50, 50);  // 6O°
+	Wait(50);
+	distance_x1 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, -30, 50, 50, 50);  //90°
+	Wait(50);
+	distance_x2 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, -30, 50, 50, 50);  //120°
+	Wait(50);
+	distance_x3 = SensorUS(IN_4);
+	Wait(50);
+	RotateMotorPID(OUT_A, 30, 120, 50, 50, 50);  //0°
+
+
+	// Prise en compte de la mesure à 90° et de la plus faible parmis les 2 restantes
+	if(distance_x1 < distance_x3){
+
+		d = (0.5*distance_x1)*(0.5*distance_x1)+(distance_x2-0.866*distance_x1)*(distance_x2-0.866*distance_x1);
+		b = Sqrt(d);
+		e = (distance_x2-0.866*distance_x1)/b;
+		f = 100*e;
+		a = Acos(b);
+		angle_au_mur = a;
+		angle_tourner = 90 - angle_au_mur;
+		Off(OUT_BC);
+		Wait(10);
+		RotateMotorExPID(OUT_BC, 50, (18*angle_tourner)/9, 100, true, true, 50, 50, 50);
+		Wait(50);
+
+	}
+	else{
+
+		d = (0.5*distance_x3)*(0.5*distance_x3)+(distance_x2-0.866*distance_x3)*(distance_x2-0.866*distance_x3);
+		b = Sqrt(d);
+		e = (distance_x2-0.866*distance_x3)/b;
+		f = 100*e;
+		a = Acos(b);
+		angle_au_mur = a;
+		angle_tourner = 90 - angle_au_mur;
+		Off(OUT_BC);
+		Wait(10);
+		RotateMotorExPID(OUT_BC, 50, (18*angle_tourner)/9, -1*100, true, true, 50, 50, 50);
+		Wait(50);
+	}
+}
+
+//******************************************************************************
+//R?gulation de distance par rapport ? un mur perpendiculaire ? droite
+void regulation_distance_droite(){
+	int distance;
+  RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+  Wait(10);
+	distance = DISTANCE_CONSIGNE- SensorUS(IN_4);
+	RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
+  Wait(10);
+	if ((distance > 3)||(distance < -3)){
+		translation(-distance);                                                        //on change le signe de la distance pour la fonction translation
+	}
+}
+
+//R?gulation de distance par rapport ? un mur perpendiculaire ? gauche
+void regulation_distance_gauche(){
+	int distance;
+	 RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
+   Wait(10);
+	 distance = DISTANCE_CONSIGNE - SensorUS(IN_4);
+   RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+   Wait(10);                                //comparaison par rapport ? la distance de consigne
+	if ((distance > 3)||(distance < -3)){                                          //prise en compte de la modofocation de distance seulement si elle est sup?rieur ? 3cm
+		translation(distance);
+	}
+ }
+
+//******************************************************************************
+//                             Follow Wall
+//******************************************************************************
+
+void follow_wall(int cote, int distance, int pas, int& alerte_bloque){   // cote 1 droite 2 gauche, distance totale, pas
+ int distance_mesure;
+ int distance_a_parcourir = distance;
+
+ while(distance_a_parcourir > pas){                                            //on avance par "pas"
+  foward_clean(pas, alerte_bloque);
+ 	distance_a_parcourir = distance_a_parcourir - pas;
+
+  if(cote == RIGHT_WALL){
+   RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+   Wait(10);
+   distance_mesure = SensorUS(IN_4);
+   RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
+   Wait(10);
+    if(distance_mesure < 80){
+     regulation_angle_droite();
+     regulation_distance_droite();
+     //regulation_angle_droite();
+    }
+  }
+  if(cote == LEFT_WALL){
+   RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
+   Wait(10);
+ 	 distance_mesure = SensorUS(IN_4);
+ 	 RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+ 	 Wait(10);
+ 	 if(distance_mesure < 80){
+     regulation_angle_gauche();
+     regulation_distance_gauche();
+     //regulation_angle_gauche();
+   }
+  }
+ }
+ foward_clean(distance_a_parcourir, alerte_bloque);
+ Off(OUT_BC);
+ //TODO on peut indiquer ici au serveur que l'on a bien parcouru la distance souhaitée.
+}
+
+//******************************************************************************
+// trouer le coin du mur si il longe un mur
+void trouver_coin(int cote){
+  if(cote == RIGHT_WALL){
+   RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+   Wait(10);
+ 	 while(SensorUS(IN_4)<80){
+    avancer(50);
+    };
+   Off(OUT_BC);
+ 	 RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
+ 	 Wait(10);
+  }
+  if(cote == LEFT_WALL){
+   RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
+   Wait(10);
+ 	 while(SensorUS(IN_4)<80){
+    avancer(50);
+    };
+   Off(OUT_BC);
+ 	 RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+ 	 Wait(10);
+  }
+
+}
+
+
+//******************************************************************************
+//                           Crossing management
+//******************************************************************************
+void crossing(int numero_noeud, int direction, int& alerte_bloque, int cote){   //spécifier par quel cote du couloir on arrive (droite si le robot suivait le mur à droite et inversément
+ int dist_in_crossing_gauche = (2-cote)*60 + 30;
+ int dist_in_crossing_droite = (cote-1)*60 + 30;
+ 
+	// On v?rifie que le rond point que l'on veut empreinter est libre
+	while(get_node_state(numero_noeud));
+	// dire au serveur que noeud[numero_noeud] = 1
+	set_node_state(numero_noeud,1);
+	//sendfeedback("&captnoeud=1");
+	trouver_coin(cote);                                             //on verifie que l'on arrive bien au coin du mur
+	switch(direction){
+		case LEFT_CROSSING:
+			//on effectue la suite de mouvements pour tourner à gauche
+			Off(OUT_BC);
+			foward_clean(50,alerte_bloque);
+			tourner(-90);
+			foward_clean(dist_in_crossing_gauche, alerte_bloque);;
+			break;
+			//tourner à droite
+		case RIGHT_CROSSING:
+      foward_clean(30,alerte_bloque);
+			Off(OUT_BC);
+			tourner(90);
+			Off(OUT_BC);
+			Wait(5);
+      foward_clean(dist_in_crossing_droite, alerte_bloque);
+			Off(OUT_BC);
+			break;
+
+			//tout droit
+		case FORWARD_CROSSING:
+      foward_clean(100, alerte_bloque);
+			Off(OUT_BC);
+			Wait(5);
+			break;
+		default: break;
+	}
+	// dire au serveur que noeud[numero_noeud] = 0;
+	set_node_state(numero_noeud,0);
+	//sendfeedback("&captnoeud=0");
+  //TODO dire au serveur qu'il a finit son croisement
+}
+
+
+//******************************************************************************
+//                               MAIN
+//******************************************************************************
+void maijijn(){
+ SetSensorLowspeed(IN_4);
+ int alerte_bloque = 0;
+
+}
+
+
+
+
+

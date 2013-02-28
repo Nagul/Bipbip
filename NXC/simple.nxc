@@ -19,7 +19,6 @@ void update_order(int &current_order);
 
 // get orders from the server and execute them
 // TODO CHANGE AND USE STACK
-//void execute_order(int &distance_parcourue,int &alerte_bloque){
 void execute_order(int &alerte_bloque){
 	string label;
 	string value; 
@@ -35,10 +34,6 @@ void execute_order(int &alerte_bloque){
 		int direction;
 		int numero_noeud;
 		string order = get_order(current_order);
-		if(current_order == 2){
-			ClearScreen();
-			TextOut(0,LCD_LINE2,order);
-		}
 		int test_order = getCommand(order);
 		NumOut(0,LCD_LINE5,test_order);
 		if (order!="") {
@@ -52,14 +47,9 @@ void execute_order(int &alerte_bloque){
 			 case NONE         : send_stop = true;current_order=1; break;
 			 case FORWARD      : getParameter(order,label,value);
 					     distance = atoi(value);
-			                     //getParameter(order,label,value);
-					     //speed = atoi(value);
-					     //sendfeedback("&forward="+NumToStr(distance)+";"+NumToStr(speed));
 					     sendfeedback("&forward="+NumToStr(distance));
-					     //DistancePrecise(distance,speed,NEAR, distance_parcourue, alerte_bloque);
 					     foward_clean(distance, alerte_bloque);
 					     sendfeedback("&forward="+NumToStr(distance));
-					     //sendfeedback("&forward="+NumToStr(distance)+";"+NumToStr(speed));
 					     update_order(current_order);
         				     break;
         		 case TURN         :  getParameter(order,label,value);
@@ -79,14 +69,9 @@ void execute_order(int &alerte_bloque){
 					     cote = atoi(value);
 					     getParameter(order,label,value);
         				     distance = atoi(value);
-        				     //getParameter(order,label,value);
-        				     //speed = atoi(value);
-					     //sendfeedback("&wall="+NumToStr(distance)+";"+NumToStr(speed));
 					     sendfeedback("&followall="+NumToStr(cote)+";"+NumToStr(distance));
   					     follow_wall(cote, distance, STEP_LENGTH, alerte_bloque); 
 					     sendfeedback("&followall="+NumToStr(cote)+";"+NumToStr(distance));
-  					     //distance_precise_par_pas(distance, speed, STEP_LENGTH, NEAR, distance_parcourue, alerte_bloque); 
-					     //sendfeedback("&wall="+NumToStr(distance)+";"+NumToStr(speed));
 					     update_order(current_order);
 					     break;
 			 case CROSSING     :  getParameter(order,label,value);
@@ -134,7 +119,6 @@ void update_order(int &current_order){
 
 task main(){
 	SetSensorLowspeed(SENSOR);                                                       //Pour pouvoir utiliser le Capteur US sur l'entrée 4.
-	//int distance_parcourue = 0;                                                    //Pour conntaître la distance parcourue depuis le lancement du main
 	int alerte_bloque = 0;                                                         //Passe à 1 si le robot rencontre un mêm obstacle pendant plus de 5s
 	string my_ip = StrCat(MY_IP,NumToStr(MY_IP_4));
 	// delete a command in the server
@@ -147,7 +131,6 @@ task main(){
 	feedback_url =StrCat(SERVER_ROOT,"/sendfeedback.php?target=",my_ip);
 	if (connect()){
 		sendfeedback("&online=true");
-		//execute_order(distance_parcourue,alerte_bloque);
 		execute_order(alerte_bloque);
 	} else{
 		TextOut(0,LCD_LINE1,"CONNECT ERROR");
