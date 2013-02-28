@@ -26,6 +26,7 @@ $feedback_result = mysqli_query($link,"SELECT label, value, sending_date FROM Fe
 while ($feedback = mysqli_fetch_array($feedback_result,MYSQLI_ASSOC)){
 	echo $feedback["sending_date"]." -> ".$feedback["label"]." => ".$feedback["value"]." <br/>";
 }
+mysqli_query($link,"UPDATE Feedback SET acknoledgement=1 WHERE ip = '$robot_ip' AND acknoledgement = 0");
 mysqli_free_result($feedback_result);
 mysqli_close($link);
 ?>

@@ -24,6 +24,8 @@ void execute_order(int &distance_parcourue,int &alerte_bloque){
 	string value; 
 	//int distance_parcourue, alerte_bloque;
 	int current_order = 1;
+	// you only need to send stop message once, fool!
+	bool send_stop = true;
 	while(true){
 		NumOut(0,LCD_LINE3,current_order);
 		int distance;
@@ -39,17 +41,19 @@ void execute_order(int &distance_parcourue,int &alerte_bloque){
 		}
 		// execute order
 		 switch(test_order){
-			 case NONE         : current_order=1; break;
+			 case NONE         : send_stop = true;current_order=1; break;
 			 case FORWARD      : getParameter(order,label,value);
 					     distance = atoi(value);
 			                     getParameter(order,label,value);
 					     speed = atoi(value);
+					     sendfeedback("&forward="+NumToStr(distance)+";"+NumToStr(speed));
 					     DistancePrecise(distance,speed,NEAR, distance_parcourue, alerte_bloque);
 					     sendfeedback("&forward="+NumToStr(distance)+";"+NumToStr(speed));
 					     update_order(current_order);
         				     break;
         		 case TURN         :  getParameter(order,label,value);
         				      int angle = atoi(value);
+					      sendfeedback("&turn="+NumToStr(angle));
   					      tourner(angle);
 					      sendfeedback("&turn="+NumToStr(angle));
 					      update_order(current_order);
@@ -58,6 +62,7 @@ void execute_order(int &distance_parcourue,int &alerte_bloque){
         				     distance = atoi(value);
         				     getParameter(order,label,value);
         				     speed = atoi(value);
+					     sendfeedback("&wall="+NumToStr(distance)+";"+NumToStr(speed));
   					     distance_precise_par_pas(distance, speed, STEP_LENGTH, NEAR, distance_parcourue, alerte_bloque); 
 					     sendfeedback("&wall="+NumToStr(distance)+";"+NumToStr(speed));
 					     update_order(current_order);
@@ -69,9 +74,14 @@ void execute_order(int &distance_parcourue,int &alerte_bloque){
 					      sendfeedback("&crossing=TODO");
 					      update_order(current_order);
 					      break;
-			 case FEEDBACK     :  sendfeedback("&distance=5");break; // TEST TODO REPLACE / REMOVE
+			 case FEEDBACK     :  sendfeedback("&distance=5");
+					      update_order(current_order);
+					      break; // TEST TODO REPLACE / REMOVE
 			 case STOP         :  stop_moving();
-					      sendfeedback("&stop=true");
+					      if(send_stop){
+						      sendfeedback("&stop=true");
+						      send_stop = false;
+						      }
 					      break;
 			 // add your test functions here
 			 case TEST         :  if(get_node_state(4)){

@@ -17,8 +17,8 @@ public class TestRobot{
 		c.setAction(Command.FORWARD);
 
 		// creation des parametres et ajout a la commande c
-		//c.addParameter(new Parameter("dista",200),0);
-		//c.addParameter(new Parameter("speed",75),1);
+		c.addParameter(new Parameter("dista",200),0);
+		c.addParameter(new Parameter("speed",75),1);
 
 		// creation d'une deuxieme commande
 		Command c2 = new Command();
@@ -33,8 +33,8 @@ public class TestRobot{
 		c3.setAction(Command.FORWARD);
 
 		//// ajout d'un parametre a cette commande
-		//c3.addParameter(new Parameter("time",4000),0);
-		//c3.addParameter(new Parameter("speed",40),1);
+		c3.addParameter(new Parameter("time",30),0);
+		c3.addParameter(new Parameter("speed",40),1);
 		  
 		Command c5 = new Command();
 		c5.setAction(Command.FEEDBACK);
@@ -76,7 +76,7 @@ public class TestRobot{
 		}
 		
 		// Test de la suppression des commandes
-		r.clearCommands();
+		//r.clearCommands();
 
 		// Test de l'affichage des robots connectés
 		String[] robotList = Communication.getOnlineRobots();
