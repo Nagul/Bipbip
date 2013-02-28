@@ -3,6 +3,7 @@ package entities;
 import pathfind.Arc;
 import pathfind.Path;
 import pathfind.Node;
+import pathfind.Side;
 import pathfind.TypeCouloir;
 
 public class VirtualRobot {
@@ -97,6 +98,11 @@ public class VirtualRobot {
 				distance = (int) depart.calculateDistance(arrive);
 				command.addParameter(new Parameter("distance", distance), 0);
 				command.addParameter(new Parameter("vitesse", speed), 1);
+				if (arrive.getType().getSide()==Side.Left) {
+
+				} else {
+
+				}
 				robot.addCommand(command);
 			}
 		}

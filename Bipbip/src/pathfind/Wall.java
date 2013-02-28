@@ -77,11 +77,23 @@ public class Wall {
 		return name;
 	}
 	
-	public TypeNode getRoomDirect() {
+	/**
+	 * 
+	 * @param s the Side (from the robot POV) where the wall is
+	 * @return
+	 */
+	public TypeNode getRoomDirect(Side s) {
+		roomDirect.setSide(s);
 		return roomDirect;
 	}
 
-	public TypeNode getRoomIndirect() {
+	/**
+	 * 
+	 * @param s the Side (from the robot POV) where the wall is
+	 * @return
+	 */
+	public TypeNode getRoomIndirect(Side s) {
+		roomIndirect.setSide(s);
 		return roomIndirect;
 	}
 
