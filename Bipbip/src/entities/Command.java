@@ -101,7 +101,6 @@ public class Command{
 			int asc = 97+i;
 			result += "&"+Character.toString((char)asc)+"="+parameters.get(i).getValue();
 		}
-		System.out.println(result);
 		return result;
 	}
 
