@@ -65,6 +65,7 @@ void execute_order(int &alerte_bloque){
 					     trouver_coin(cote);
 					     sendfeedback("&corner="+NumToStr(cote));
 					     update_order(current_order);
+					     break;
         		 case FOLLOW_WALL  : getParameter(order,label,value); 
 					     cote = atoi(value);
 					     getParameter(order,label,value);
