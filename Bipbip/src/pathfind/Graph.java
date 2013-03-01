@@ -50,7 +50,18 @@ public class Graph {
 		}
 		return voisins;
 	}
-	
+
+	public Arc getArcsEnd(Node n) {
+		for (ArrayList<Arc> aA : graph.values()) {
+			for (Arc a : aA) {
+				if (a.getNodeTarget()==n) {
+					return a;
+				}
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Search for a node with a certain abscissa and ordinate
 	 * @param aNode the abscissa of the node to look for

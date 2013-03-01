@@ -17,7 +17,7 @@ public class GeneratorGraph {
 		nodes = n;
 	}
 	
-	//TODO : doubler les points de génération afin d'avoir deux "couloirs"
+	//TODO : doubler les points de generation afin d'avoir deux "couloirs"
 	//TODO : Right = gauche et Left = droite
 	/**
 	 * generate the graph so we can calculate the orders to send
@@ -46,6 +46,9 @@ public class GeneratorGraph {
 		Node nodeNew1G;
 		Node nodeNew2D;
 		Node nodeNew2G;
+		
+		boolean toDelete = false;
+		ArrayList<Node> nodesUseless = new ArrayList<Node>();
 		
 		//ecartementMoyen - ecartementVoie > 0;
 		double ecartementMoyen = 30;
@@ -102,11 +105,16 @@ public class GeneratorGraph {
 					coord = new double[2];
 					coord[0] = m.getCornerStart().getAbscissa() + normale[0]*epaisseurE;
 					coord[1] = m.getCornerStart().getOrdinate() + normale[1]*epaisseurE;
+					toDelete = true;
 				}
 				nodeCourant1D = graph.searchNode(coord[0], coord[1]);
 				if (nodeCourant1D==null) {
 					nodeCourant1D = new Node(coord[0], coord[1], m.getName() + "|" + autreWall.getName(), m.getRoomDirect(Side.Left));
 					graph.addNode(nodeCourant1D);
+				}
+				if (toDelete) {
+					nodesUseless.add(nodeCourant1D);
+					toDelete = false;
 				}
 				
 				coord = m.getIntersection(autreWall, true, !mapAdjacenceWall.get(m).getWallBout()[0], ecartementMoyen - ecartementVoie);
@@ -114,11 +122,16 @@ public class GeneratorGraph {
 					coord = new double[2];
 					coord[0] = m.getCornerStart().getAbscissa() + normale[0]*epaisseurI;
 					coord[1] = m.getCornerStart().getOrdinate() + normale[1]*epaisseurI;
+					toDelete = true;
 				}
 				nodeCourant1G = graph.searchNode(coord[0], coord[1]);
 				if (nodeCourant1G==null) {
 					nodeCourant1G = new Node(coord[0], coord[1], m.getName() + "|" + autreWall.getName(), m.getRoomDirect(Side.Right));
 					graph.addNode(nodeCourant1G);
+				}
+				if (toDelete) {
+					nodesUseless.add(nodeCourant1G);
+					toDelete = false;
 				}
 
 
@@ -129,11 +142,16 @@ public class GeneratorGraph {
 					coord = new double[2];
 					coord[0] = m.getCornerStart().getAbscissa() - normale[0]*epaisseurI;
 					coord[1] = m.getCornerStart().getOrdinate() - normale[1]*epaisseurI;
+					toDelete = true;
 				}
 				nodeCourant2D = graph.searchNode(coord[0], coord[1]);
 				if (nodeCourant2D==null) {
 					nodeCourant2D = new Node(coord[0], coord[1], m.getName() + "|" + autreWall.getName(), m.getRoomIndirect(Side.Right));
 					graph.addNode(nodeCourant2D);
+				}
+				if (toDelete) {
+					nodesUseless.add(nodeCourant2D);
+					toDelete = false;
 				}
 				
 				coord = m.getIntersection(autreWall, false, mapAdjacenceWall.get(m).getWallBout()[1], ecartementMoyen + ecartementVoie);			
@@ -141,11 +159,16 @@ public class GeneratorGraph {
 					coord = new double[2];
 					coord[0] = m.getCornerStart().getAbscissa() - normale[0]*epaisseurE;
 					coord[1] = m.getCornerStart().getOrdinate() - normale[1]*epaisseurE;
+					toDelete = true;
 				}
 				nodeCourant2G = graph.searchNode(coord[0], coord[1]);
 				if (nodeCourant2G==null) {
 					nodeCourant2G = new Node(coord[0], coord[1], m.getName() + "|" + autreWall.getName(), m.getRoomIndirect(Side.Left));
 					graph.addNode(nodeCourant2G);
+				}
+				if (toDelete) {
+					nodesUseless.add(nodeCourant2G);
+					toDelete = false;
 				}
 			}
 
@@ -266,11 +289,16 @@ public class GeneratorGraph {
 					coord = new double[2];
 					coord[0] = m.getCornerEnd().getAbscissa() + normale[0]*epaisseurE;
 					coord[1] = m.getCornerEnd().getOrdinate() + normale[1]*epaisseurE;
+					toDelete = true;
 				}
 				nodeNew1D = graph.searchNode(coord[0], coord[1]);
 				if (nodeNew1D==null) {
 					nodeNew1D = new Node(coord[0], coord[1], m.getName() + "|" + autreWall.getName(), m.getRoomDirect(Side.Left));
 					graph.addNode(nodeNew1D);
+				}
+				if (toDelete) {
+					nodesUseless.add(nodeNew1D);
+					toDelete = false;
 				}
 				
 				coord = m.getIntersection(autreWall, true, mapAdjacenceWall.get(m).getWallBout()[2], ecartementMoyen - ecartementVoie);
@@ -278,11 +306,16 @@ public class GeneratorGraph {
 					coord = new double[2];
 					coord[0] = m.getCornerEnd().getAbscissa() + normale[0]*epaisseurI;
 					coord[1] = m.getCornerEnd().getOrdinate() + normale[1]*epaisseurI;
+					toDelete = true;
 				}
 				nodeNew1G = graph.searchNode(coord[0], coord[1]);
 				if (nodeNew1G==null) {
 					nodeNew1G = new Node(coord[0], coord[1], m.getName() + "|" + autreWall.getName(), m.getRoomDirect(Side.Right));
 					graph.addNode(nodeNew1G);
+				}
+				if (toDelete) {
+					nodesUseless.add(nodeNew1G);
+					toDelete = false;
 				}
 
 				
@@ -293,11 +326,16 @@ public class GeneratorGraph {
 					coord = new double[2];
 					coord[0] = m.getCornerEnd().getAbscissa() - normale[0]*epaisseurI;
 					coord[1] = m.getCornerEnd().getOrdinate() - normale[1]*epaisseurI;
+					toDelete = true;
 				}
 				nodeNew2D = graph.searchNode(coord[0], coord[1]);
 				if (nodeNew2D==null) {
 					nodeNew2D = new Node(coord[0], coord[1], m.getName() + "|" + autreWall.getName(), m.getRoomIndirect(Side.Right));
 					graph.addNode(nodeNew2D);
+				}
+				if (toDelete) {
+					nodesUseless.add(nodeNew2D);
+					toDelete = false;
 				}
 
 				coord = m.getIntersection(autreWall, false, !mapAdjacenceWall.get(m).getWallBout()[3], ecartementMoyen + ecartementVoie);
@@ -305,12 +343,18 @@ public class GeneratorGraph {
 					coord = new double[2];
 					coord[0] = m.getCornerEnd().getAbscissa() - normale[0]*epaisseurE;
 					coord[1] = m.getCornerEnd().getOrdinate() - normale[1]*epaisseurE;
+					toDelete = true;
 				}
 				nodeNew2G = graph.searchNode(coord[0], coord[1]);
 				if (nodeNew2G==null) {
 					nodeNew2G = new Node(coord[0], coord[1], m.getName() + "|" + autreWall.getName(), m.getRoomIndirect(Side.Left));
 					graph.addNode(nodeNew2G);
 				}
+				if (toDelete) {
+					nodesUseless.add(nodeNew2G);
+					toDelete = false;
+				}
+				
 			}
 			
 			chemin = new Path();
@@ -335,6 +379,19 @@ public class GeneratorGraph {
 			
 		}
 
+		//suppression des nodes useless
+		for (Node n : nodesUseless) {
+			if (graph.getGraph().containsKey(n)) {
+				Node start = graph.getArcsEnd(n).getNodeStart();
+				Node end = graph.getArcs(n).get(0).getNodeTarget();
+				chemin = new Path();
+				chemin.addStep(start);
+				chemin.addStep(end);
+				graph.addArc(new Arc(start, end, chemin));
+				graph.getNodes().remove(n);
+			}
+		}
+		
 		//generation finale
 		while ((nodes!=null)&&(!nodes.isEmpty())) {
 			Node n = nodes.get(0);
