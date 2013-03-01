@@ -119,29 +119,21 @@ public class WidgetClient extends QMainWindow {
 
 	@SuppressWarnings("unused")
 	private void run() {
-		Path chemin;
+		ArrayList<Arc> chemin = null;
+		Arc arcCourrant;
+		double dist;
 		if (step == 0) {
+			dist = 0;
 			chemin = rG.shorterPath(nodesAl.get(0), nodesAl.get(1));
-			System.out.println(chemin.getDistance());
-			for (int i = 0; i < chemin.getPath().size() - 1; i++) {
-				scene.addLine(chemin.getPath().get(i).getAbscissa(), chemin.getPath().get(i).getOrdinate(), chemin.getPath().get(i + 1).getAbscissa(),chemin.getPath().get(i + 1).getOrdinate(), penRed);
+			for (int i = 0; i < chemin.size(); i++) {
+				arcCourrant = chemin.get(i);
+				scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penRed);
+				dist += arcCourrant.getPath().getDistance();
 			}
-			//affichage du chemin choisi EN BOURRIN
-			step += 1;
-		} else if (step == 1) {
-			chemin = rG.shorterPath(nodesAl.get(0), nodesAl.get(2));
-			System.out.println(chemin.getDistance());
-			for (int i = 0; i < chemin.getPath().size() - 1; i++) {
-				scene.addLine(chemin.getPath().get(i).getAbscissa(), chemin.getPath().get(i).getOrdinate(), chemin.getPath().get(i + 1).getAbscissa(),chemin.getPath().get(i + 1).getOrdinate(), penGreen);
-			}
+			System.out.println(dist);
 			step += 1;
 		} else {
-			chemin = rG.shorterPath(nodesAl.get(1), nodesAl.get(2));
-			System.out.println(chemin.getDistance());
-			for (int i = 0; i < chemin.getPath().size() - 1; i++) {
-				scene.addLine(chemin.getPath().get(i).getAbscissa(), chemin.getPath().get(i).getOrdinate(), chemin.getPath().get(i + 1).getAbscissa(),chemin.getPath().get(i + 1).getOrdinate(), penBlue);
-			}
-			step += 1;
+			
 		}
 		Bipbip.team.getTeam().get(0).sendInstruction(chemin);
 	}

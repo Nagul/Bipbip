@@ -2,5 +2,6 @@ package pathfind;
 
 public enum Side {
 	Left,
-	Right
+	Right,
+	None
 }

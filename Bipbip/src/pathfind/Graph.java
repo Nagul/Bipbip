@@ -62,6 +62,16 @@ public class Graph {
 		return null;
 	}
 
+	public Arc getArc (Node start, Node end) {
+		for (Arc a : graph.get(start)) {
+			if (a.getNodeTarget()==end) {
+				return a;
+			}
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * Search for a node with a certain abscissa and ordinate
 	 * @param aNode the abscissa of the node to look for

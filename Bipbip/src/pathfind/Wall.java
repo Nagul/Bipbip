@@ -82,8 +82,7 @@ public class Wall {
 	 * @param s the Side (from the robot POV) where the wall is
 	 * @return
 	 */
-	public TypeNode getRoomDirect(Side s) {
-		roomDirect.setSide(s);
+	public TypeNode getRoomDirect() {
 		return roomDirect;
 	}
 
@@ -92,8 +91,7 @@ public class Wall {
 	 * @param s the Side (from the robot POV) where the wall is
 	 * @return
 	 */
-	public TypeNode getRoomIndirect(Side s) {
-		roomIndirect.setSide(s);
+	public TypeNode getRoomIndirect() {
 		return roomIndirect;
 	}
 

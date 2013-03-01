@@ -1,7 +1,6 @@
 package pathfind;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Path {
 
@@ -24,13 +23,6 @@ public class Path {
 			distance += path.get(path.size() - 1).calculateDistance(n);
 		}
 		path.add(n);
-	}
-
-	/**
-	 * Reverse the Path
-	 */
-	public void reverse() {
-		Collections.reverse(path);
 	}
 	
 	public ArrayList<Node> getPath() {

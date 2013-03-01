@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+
 import pathfind.Arc;
 import pathfind.Path;
 import pathfind.Node;
@@ -51,17 +53,19 @@ public class VirtualRobot {
 	 * @param path the path calculated by GraphSearc.shortherDistance
 	 */
 	//TODO : working with path instead of arc
-	public void sendInstruction(Path path) {
+	public void sendInstruction(ArrayList<Arc> path) {
 		int i;
 		int angle;
 		int distance;
 		Command command;
 		Node depart;
 		Node arrive;
+		Arc arcMove;
 		
-		for (i = 0; i < path.getPath().size() - 1; i++) {
-			depart = path.getPath().get(i);
-			arrive = path.getPath().get(i + 1);
+		for (i = 0; i < path.size(); i++) {
+			arcMove = path.get(i);
+			depart = arcMove.getNodeStart();
+			arrive = arcMove.getNodeTarget();
 			
 			if (!(depart.getType() instanceof TypeCouloir)
 					||!(arrive.getType() instanceof TypeCouloir)) {
@@ -95,7 +99,7 @@ public class VirtualRobot {
 				command = new Command();
 				command.setAction(Command.FOLLOW_WALL);
 				distance = (int) depart.calculateDistance(arrive);
-				if (arrive.getType().getSide()==Side.Left) {
+				if (arcMove.getSide()==Side.Left) {
 					command.addParameter(new Parameter("direction", Command.RIGHT_CROSSING), 0);
 				} else {
 					command.addParameter(new Parameter("direction", Command.LEFT_CROSSING), 0);

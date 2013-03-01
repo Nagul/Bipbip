@@ -17,9 +17,10 @@ public class GraphSearch {
 	 * @param target the target Node
 	 * @return the shorter path if start and target are connected, otherwise null
 	 */
-	public Path shorterPath(Node start, Node target) {
+	public ArrayList<Arc> shorterPath(Node start, Node target) {
 		
-		Path chemin = new Path();
+		ArrayList<Arc> path = new ArrayList<Arc>();
+		Arc arcCourant;
 		//initialisation
 		//Q : liste triee des noeuds non encore optimises.
 		ArrayList<valeurNode> Q = new ArrayList<valeurNode>();
@@ -48,8 +49,9 @@ public class GraphSearch {
 			//cas où le Node destination est le minimal : fini
 			if (valeurNodeMin.getNode().equals(target)) {
 				valeurNode nodeChemin = valeurNodeMin;
-				while (nodeChemin != null) {
-					chemin.addStep(nodeChemin.getNode());
+				while (nodeChemin.getPrecedent() != null) {
+					arcCourant = graph.getArc(nodeChemin.getPrecedent().getNode(), nodeChemin.getNode());
+					path.add(arcCourant);
 					nodeChemin = nodeChemin.getPrecedent();
 				}
 				break;
@@ -74,8 +76,8 @@ public class GraphSearch {
 			}
 		}
 
-		chemin.reverse();
-		return chemin;
+		Collections.reverse(path);
+		return path;
 	}
 	
 	private class valeurNode implements Comparable<valeurNode>{
