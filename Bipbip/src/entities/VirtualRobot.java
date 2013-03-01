@@ -85,7 +85,7 @@ public class VirtualRobot {
 				command.addParameter(new Parameter("distance", distance), 0);
 				robot.addCommand(command);
 				
-			} else if (){
+			} else {
 				//follow a wall
 				//orientation
 				command = new Command();

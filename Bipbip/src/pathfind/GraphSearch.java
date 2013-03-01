@@ -57,7 +57,7 @@ public class GraphSearch {
 				break;
 			}
 			
-			//on enlève le noeud courant
+			//on enleve le noeud courant
 			Q.remove(valeurNodeMin);
 
 			Node nodeVoisin;

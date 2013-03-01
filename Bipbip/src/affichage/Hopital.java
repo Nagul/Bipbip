@@ -505,7 +505,7 @@ public class Hopital {
 		murs.add(new Wall(pIB6, mEB6, 2, null, "mIB11", tpC17, tpC18));
 
 
-		//Points d'interêts
+		//Points d'interets
 		Node user1 = new Node(60, 480, "user1", tpC12);
 		listUser.add(user1);
 

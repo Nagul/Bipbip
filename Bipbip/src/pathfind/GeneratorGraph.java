@@ -398,7 +398,7 @@ public class GeneratorGraph {
 		while ((nodes!=null)&&(!nodes.isEmpty())) {
 			Node n = nodes.get(0);
 			graph.addNode(n);
-			//premiere idee : tous les nodes d'une même piece sont fortement connexes.
+			//premiere idee : tous les nodes d'une meme piece sont fortement connexes.
 			if (n.getType() instanceof TypePiece) {
 				for (Node autreNode : graph.getNodes()) {
 					//TODO : HT1 : pieces vides
