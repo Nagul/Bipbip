@@ -79,7 +79,6 @@ public class VirtualRobot {
 				command.setAction(Command.FORWARD);
 				distance = (int) depart.calculateDistance(arrive);
 				command.addParameter(new Parameter("distance", distance), 0);
-				command.addParameter(new Parameter("vitesse", speed), 1);
 				robot.addCommand(command);
 				
 			} else {
@@ -96,13 +95,12 @@ public class VirtualRobot {
 				command = new Command();
 				command.setAction(Command.FOLLOW_WALL);
 				distance = (int) depart.calculateDistance(arrive);
-				command.addParameter(new Parameter("distance", distance), 0);
-				command.addParameter(new Parameter("vitesse", speed), 1);
 				if (arrive.getType().getSide()==Side.Left) {
-
+					command.addParameter(new Parameter("direction", 1), 0);
 				} else {
-
+					command.addParameter(new Parameter("direction", 2), 0);
 				}
+				command.addParameter(new Parameter("distance", distance), 1);
 				robot.addCommand(command);
 			}
 		}
