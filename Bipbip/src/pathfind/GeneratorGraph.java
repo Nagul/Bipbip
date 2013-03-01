@@ -398,10 +398,10 @@ public class GeneratorGraph {
 		while ((nodes!=null)&&(!nodes.isEmpty())) {
 			Node n = nodes.get(0);
 			graph.addNode(n);
-			//première idee : tous les nodes d'une même pièce sont fortement connexes.
+			//premiere idee : tous les nodes d'une même piece sont fortement connexes.
 			if (n.getType() instanceof TypePiece) {
 				for (Node autreNode : graph.getNodes()) {
-					//TODO : HT1 : pièces vides
+					//TODO : HT1 : pieces vides
 					if (n.getType().getId()==autreNode.getType().getId()
 							&&!n.equals(autreNode)) {
 						
@@ -421,7 +421,7 @@ public class GeneratorGraph {
 			} else if (n.getType() instanceof TypeCouloir) {
 				//passages pietons
 				/*
-				 * Première idee basique : placer les passage
+				 * Premiere idee basique : placer les passage
 				 * a la main, puis les relier a tous les trucs a proximite
 				 */
 				for (Node autreNode : graph.getNodes()) {

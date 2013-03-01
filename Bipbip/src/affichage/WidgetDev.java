@@ -64,7 +64,7 @@ public class WidgetDev extends QMainWindow {
 		final QIcon zoomButton = new QIcon("./ressources/zoomButton.png");
 		toolbar.addAction(zoomButton, "Zoom", this, "zoom()");
 		final QIcon dezoomButton = new QIcon("./ressources/dezoomButton.png");
-		toolbar.addAction(dezoomButton, "Dézoom", this, "dezoom()");
+		toolbar.addAction(dezoomButton, "Dezoom", this, "dezoom()");
 		
 		this.addToolBar(toolbar);
 	}

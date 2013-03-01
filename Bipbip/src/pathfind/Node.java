@@ -61,7 +61,7 @@ public class Node {
 	
 	//TODO : utilite ?
 	/**
-	 * Fonction permettant de vérifier si un node d'un mur appartient
+	 * Fonction permettant de verifier si un node d'un mur appartient
 	 * au voisinage d'un autre mur ou pas.
 	 * @param murTest le mur auquel le node appartient
 	 * @return le mur auquel le node appartient

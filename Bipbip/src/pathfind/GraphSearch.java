@@ -41,12 +41,12 @@ public class GraphSearch {
 			//recherche du noeud minimal
 			valeurNodeMin = Q.get(0);
 			
-			//cas où les points restants sont innaccessible
+			//cas ou les points restants sont innaccessible
 			if (valeurNodeMin.getDistance() == Double.MAX_VALUE) {
 				return null;
 			}
 			
-			//cas où le Node destination est le minimal : fini
+			//cas ou le Node destination est le minimal : fini
 			if (valeurNodeMin.getNode().equals(target)) {
 				valeurNode nodeChemin = valeurNodeMin;
 				while (nodeChemin.getPrecedent() != null) {

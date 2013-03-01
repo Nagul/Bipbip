@@ -20,7 +20,7 @@ public class Hopital {
 
 		ArrayList<Wall> murs = Bipbip.walls;
 
-		//couloir et pièces
+		//couloir et pieces
 		TypeCouloir tc = new TypeCouloir("Couloir");
 
 		TypeExterieur te = new TypeExterieur("Exterieur");
@@ -78,7 +78,7 @@ public class Hopital {
 		TypePiece tpD29 = new TypePiece("Divers 29");
 		TypePiece tpD30 = new TypePiece("Divers 30");
 
-		//Walls Extérieurs Haut
+		//Walls Exterieurs Haut
 		Node mEH1 = new Node (50, 50);
 		Node mEH2 = new Node (100, 50);
 		Node mEH3 = new Node (150, 50);
@@ -108,7 +108,7 @@ public class Hopital {
 		murs.add(new Wall(mEH12, mEH13, 5, null, "mEH12", te, tpD03));
 		murs.add(new Wall(mEH13, mEH14, 5, null, "mEH13", te, tpD04));	
 
-		//Walls Extérieurs Droite
+		//Walls Exterieurs Droite
 		Node mED1 = new Node (700, 150);
 		Node mED2 = new Node (700, 390);
 		Node mED3 = new Node (800, 390);
@@ -121,7 +121,7 @@ public class Hopital {
 
 
 
-		//Walls Extérieurs Bas
+		//Walls Exterieurs Bas
 		Node mEB1 = new Node (600, 520);
 		Node mEB2 = new Node (570, 520);
 		Node mEB3 = new Node (500, 520);
@@ -149,7 +149,7 @@ public class Hopital {
 		murs.add(new Wall(mEB11, mEB12, 5, null, "mEB12", te, tpC12));
 
 
-		//Walls Extérieurs Gauche
+		//Walls Exterieurs Gauche
 		Node mEG1 = new Node (30, 460);
 		Node mEG2 = new Node (30, 430);
 		Node mEG3 = new Node (30, 390);
@@ -168,7 +168,7 @@ public class Hopital {
 		murs.add(new Wall(mEG7, mEH1, 5, null, "mEG8", te, tpC09));
 
 
-		//Rangée de pièces du haut
+		//Rangee de pieces du haut
 		Node pIH1 = new Node (100, 150);
 		Node pIH2 = new Node (150, 150);
 		Node pIH3 = new Node (200, 150);
@@ -235,7 +235,7 @@ public class Hopital {
 		murs.add(new Wall(mEG6, pIG4, 2, null, "mIG1", tc, tpC10));
 		murs.add(new Wall(pIG4, pIG3, 2, porteC10, "mIG2", tc, tpC10));
 		murs.add(new Wall(pIG3, mEG5, 2, null, "mIG3", tpC11, tpC10));
-		//TODO : bug à investiguer en inversant les points ci-dessous
+		//TODO : bug a investiguer en inversant les points ci-dessous
 		murs.add(new Wall(pIG2, pIG3, 2, porteC11, "mIG4", tpC11, tc));
 		murs.add(new Wall(pIG2, mEG4, 2, null, "mIG5", tpD08, tpC11));
 		murs.add(new Wall(pIG2, pIG1, 2, porteD08, "mIG6", tc, tpD08));
@@ -505,7 +505,7 @@ public class Hopital {
 		murs.add(new Wall(pIB6, mEB6, 2, null, "mIB11", tpC17, tpC18));
 
 
-		//Points d'intérêts
+		//Points d'interêts
 		Node user1 = new Node(60, 480, "user1", tpC12);
 		listUser.add(user1);
 

@@ -184,7 +184,7 @@ public class SalleTest {
 
 		
 		/*
-		//passage piéton
+		//passage pieton
 		Node carrefour1 = new Node(115, 145, "carrefour1", tc);
 		listUser.add(carrefour1);
 		Node carrefour2 = new Node(400, 145, "carrefour2", tc);
