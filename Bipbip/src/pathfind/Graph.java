@@ -51,7 +51,7 @@ public class Graph {
 		return voisins;
 	}
 
-	public Arc getArcsEnd(Node n) {
+	public Arc getArcEnd(Node n) {
 		for (ArrayList<Arc> aA : graph.values()) {
 			for (Arc a : aA) {
 				if (a.getNodeTarget()==n) {

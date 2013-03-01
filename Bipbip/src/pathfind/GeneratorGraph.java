@@ -132,6 +132,11 @@ public class GeneratorGraph {
 				if (toDelete) {
 					nodesUseless.add(nodeCourant1G);
 					toDelete = false;
+				} else {
+					chemin = new Path();
+					chemin.addStep(nodeCourant1G);
+					chemin.addStep(nodeCourant1D);
+					graph.addArc(new Arc(nodeCourant1G, nodeCourant1D, chemin, Side.None));
 				}
 
 
@@ -169,9 +174,13 @@ public class GeneratorGraph {
 				if (toDelete) {
 					nodesUseless.add(nodeCourant2G);
 					toDelete = false;
+				} else {
+					chemin = new Path();
+					chemin.addStep(nodeCourant2G);
+					chemin.addStep(nodeCourant2D);
+					graph.addArc(new Arc(nodeCourant2G, nodeCourant2D, chemin, Side.None));
 				}
 			}
-
 
 			//TODO : GERER DROITE/GAUCHE
 			if (m.getDoors()!=null) {
@@ -316,6 +325,11 @@ public class GeneratorGraph {
 				if (toDelete) {
 					nodesUseless.add(nodeNew1G);
 					toDelete = false;
+				} else {
+					chemin = new Path();
+					chemin.addStep(nodeNew1D);
+					chemin.addStep(nodeNew1G);
+					graph.addArc(new Arc(nodeNew1D, nodeNew1G, chemin, Side.None));
 				}
 
 				
@@ -353,10 +367,15 @@ public class GeneratorGraph {
 				if (toDelete) {
 					nodesUseless.add(nodeNew2G);
 					toDelete = false;
+				} else {
+					chemin = new Path();
+					chemin.addStep(nodeNew2D);
+					chemin.addStep(nodeNew2G);
+					graph.addArc(new Arc(nodeNew2D, nodeNew2G, chemin, Side.None));
 				}
-				
+
 			}
-			
+
 			chemin = new Path();
 			chemin.addStep(nodeCourant1D);
 			chemin.addStep(nodeNew1D);
@@ -382,7 +401,7 @@ public class GeneratorGraph {
 		//suppression des nodes useless
 		for (Node n : nodesUseless) {
 			if (graph.getGraph().containsKey(n)) {
-				Arc aE = graph.getArcsEnd(n);
+				Arc aE = graph.getArcEnd(n);
 				Node start = aE.getNodeStart();
 				Node end = graph.getArcs(n).get(0).getNodeTarget();
 				chemin = new Path();

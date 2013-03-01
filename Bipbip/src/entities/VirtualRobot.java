@@ -67,8 +67,7 @@ public class VirtualRobot {
 			depart = arcMove.getNodeStart();
 			arrive = arcMove.getNodeTarget();
 			
-			if (!(depart.getType() instanceof TypeCouloir)
-					||!(arrive.getType() instanceof TypeCouloir)) {
+			if (arcMove.getSide()==null) {
 				//moving in/out a room
 				//orientation
 				command = new Command();
@@ -107,6 +106,7 @@ public class VirtualRobot {
 				command.addParameter(new Parameter("distance", distance), 1);
 				robot.addCommand(command);
 			}
+			
 		}
 		command = new Command();
 		command.setAction(Command.STOP);
