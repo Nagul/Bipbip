@@ -14,13 +14,13 @@ public class TestRobot{
 
 		// creation de la commande
 		Command c = new Command();
-		//c.setAction(Command.FIND_CORNER);
-		c.setAction(Command.CROSSING);
+		c.setAction(Command.FIND_CORNER);
+		//c.setAction(Command.CROSSING);
 
 		// creation des parametres et ajout a la commande c
-		c.addParameter(new Parameter("noeud",1),0);
-		c.addParameter(new Parameter("direction",2),1);
-		c.addParameter(new Parameter("wall",2),2);
+		//c.addParameter(new Parameter("noeud",1),0);
+		//c.addParameter(new Parameter("direction",Command.RIGHT_CROSSING),1);
+		c.addParameter(new Parameter("wall",Command.RIGHT_WALL),0);
 
 //		Command corner = new Command();
 //		corner.setAction(Command.FIND_CORNER);

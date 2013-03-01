@@ -1,3 +1,13 @@
+/*************************************
+ *                                   *
+ *    Author : Razakarison Faly      *
+ *    version : 1.0                  *
+ *    since 2013-03-01               *
+ *                                   *
+ *************************************/
+#ifndef INCLUDE_BASICS
+#define INCLUDE_BASICS
+
 #include "Wifi/connexion.nxc"
 #define LEFT_MOTOR OUT_B
 #define RIGHT_MOTOR OUT_C
@@ -32,3 +42,5 @@ void turn_right(int time,int speed){
 	Wait(time);
 	stop_moving();
 }
+
+#endif

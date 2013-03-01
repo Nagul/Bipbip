@@ -1,7 +1,14 @@
+/*************************************
+ *                                   *
+ *    Author : Razakarison Faly      *
+ *    version : 2.0                  *
+ *    since 2013-03-01               *
+ *                                   *
+ *************************************/
 #ifndef INCLUDE_PARSING
 #define INCLUDE_PARSING
 /**
- * strtok c
+ * equivalent of strtok from C
  */
 bool strtok(string s, string delim, string &left, string &right){
 	string token = s;

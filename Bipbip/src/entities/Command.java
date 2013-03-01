@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 /**
  * @author Faly Razakarison
- * @version 1.0
- * @since 2013-02-22
+ * @version 1.2
+ * @since 2013-03-01
  */
 public class Command{
 
@@ -17,10 +17,17 @@ public class Command{
 	public static final int TURN        = 2;
 	public static final int FOLLOW_WALL = 3;
 	public static final int CROSSING    = 4;
-	public static final int FEEDBACK    = 5;
+        public static final int FIND_CORNER = 5;
 	public static final int STOP        = 6;
-        public static final int TEST        = 7;
-        public static final int FIND_CORNER = 8;
+	/*
+	 * enumeration of direction for a crossing
+	 */
+	public static final int LEFT_CROSSING    = 1;
+	public static final int RIGHT_CROSSING   = 2;
+	public static final int FORWARD_CROSSING = 3;
+
+	public static final int RIGHT_WALL = 1;
+	public static final int LEFT_WALL  = 2;
 
 	/**
 	 * id of the function to call
