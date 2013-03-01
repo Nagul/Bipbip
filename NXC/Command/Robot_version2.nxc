@@ -4,7 +4,8 @@
 //*
 //***************************************
 
-#define DISTANCE_CONSIGNE 30
+#define RIGHT_DISTANCE_CONSIGNE 35
+#define LEFT_DISTANCE_CONSIGNE 25
 #define TROP_PRES 10
 #define LEFT_CROSSING    1
 #define RIGHT_CROSSING   2
@@ -207,7 +208,7 @@ void regulation_distance_droite(){
 	int distance;
   RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
   Wait(10);
-	distance = DISTANCE_CONSIGNE- SensorUS(IN_4);
+	distance = RIGHT_DISTANCE_CONSIGNE- SensorUS(IN_4);
 	RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
   Wait(10);
 	if ((distance > 3)||(distance < -3)){
@@ -220,7 +221,7 @@ void regulation_distance_gauche(){
 	int distance;
 	 RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
    Wait(10);
-	 distance = DISTANCE_CONSIGNE - SensorUS(IN_4);
+	 distance = LEFT_DISTANCE_CONSIGNE - SensorUS(IN_4);
    RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
    Wait(10);                                //comparaison par rapport ? la distance de consigne
 	if ((distance > 3)||(distance < -3)){                                          //prise en compte de la modofocation de distance seulement si elle est sup?rieur ? 3cm

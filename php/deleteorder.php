@@ -27,5 +27,6 @@ if (isset($_GET["seq"])){
 }else{
 	// delete all commands for the target
 	mysqli_query($link,"DELETE FROM Command WHERE ip='$robot_ip'");
+	mysqli_query($link,"INSERT INTO Command (seq,action,datebegin,ip) VALUES ('0','NONE','now','$robot_ip')");
 }
 

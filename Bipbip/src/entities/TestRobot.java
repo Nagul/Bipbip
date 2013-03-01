@@ -19,8 +19,8 @@ public class TestRobot{
 
 		// creation des parametres et ajout a la commande c
 		c.addParameter(new Parameter("noeud",1),0);
-		c.addParameter(new Parameter("wall",1),1);
-		c.addParameter(new Parameter("cote",2),2);
+		c.addParameter(new Parameter("direction",2),1);
+		c.addParameter(new Parameter("wall",2),2);
 
 //		Command corner = new Command();
 //		corner.setAction(Command.FIND_CORNER);

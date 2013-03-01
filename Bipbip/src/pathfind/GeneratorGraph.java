@@ -48,9 +48,9 @@ public class GeneratorGraph {
 		Node nodeNew2G;
 		
 		//ecartementMoyen - ecartementVoie > 0;
-		double ecartementMoyen = 10;
-		double ecartementVoie = 3;
-		double largeurPorte = 2;
+		double ecartementMoyen = 30;
+		double ecartementVoie = 5;
+		double largeurPorte = 5;
 		
 		HashMap<Wall, murEtBout> mapAdjacenceWall = this.mapWallAdjacents();
 		
