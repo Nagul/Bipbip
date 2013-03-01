@@ -14,10 +14,6 @@ VALUES ("FOLLOW_WALL",3);
 INSERT INTO CommandType(action,id_nxc)
 VALUES ("CROSSING",4);
 INSERT INTO CommandType(action,id_nxc)
-VALUES ("FEEDBACK",5);
+VALUES ("FIND_CORNER",5);
 INSERT INTO CommandType(action,id_nxc)
 VALUES ("STOP",6);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("TEST",7);
-INSERT INTO CommandType(action,id_nxc)
-VALUES ("FIND_CORNER",8);

@@ -1,3 +1,10 @@
+/*************************************
+ *                                   *
+ *    Author : Razakarison Faly      *
+ *    version : 2.0                  *
+ *    since 2013-03-01               *
+ *                                   *
+ *************************************/
 #include "Command/Robot_version2.nxc"
 #include "Command/basicCommands.nxc"
 #include "Wifi/connexion.nxc"
@@ -7,10 +14,8 @@
 #define TURN         2
 #define FOLLOW_WALL  3
 #define CROSSING     4
-#define FEEDBACK     5
+#define FIND_CORNER  5
 #define STOP         6
-#define TEST         7
-#define FIND_CORNER  8
 
 #define STEP_LENGTH    30
 #define SENSOR         IN_4
@@ -18,7 +23,6 @@
 void update_order(int &current_order);
 
 // get orders from the server and execute them
-// TODO CHANGE AND USE STACK
 void execute_order(int &alerte_bloque){
 	string label;
 	string value; 
@@ -40,7 +44,7 @@ void execute_order(int &alerte_bloque){
 			TextOut(0,LCD_LINE1,order);
 		}
 		else {
-			TextOut(0,LCD_LINE4,"NO PARAMETER");
+			TextOut(0,LCD_LINE4,"NO COMMAND");
 		}
 		// execute order
 		 switch(test_order){
@@ -59,13 +63,6 @@ void execute_order(int &alerte_bloque){
 					      sendfeedback("&turn="+NumToStr(angle));
 					      update_order(current_order);
         				      break;
-        		 case FIND_CORNER  : getParameter(order,label,value); 
-					     cote = atoi(value);
-					     sendfeedback("&corner="+NumToStr(cote));
-					     trouver_coin(cote);
-					     sendfeedback("&corner="+NumToStr(cote));
-					     update_order(current_order);
-					     break;
         		 case FOLLOW_WALL  : getParameter(order,label,value); 
 					     cote = atoi(value);
 					     getParameter(order,label,value);
@@ -86,26 +83,19 @@ void execute_order(int &alerte_bloque){
 					      sendfeedback("&crossing="+NumToStr(numero_noeud)+";"+NumToStr(direction)+";"+NumToStr(cote));
 					      update_order(current_order);
 					      break;
-			 case FEEDBACK     :  sendfeedback("&distance=5");
-					      update_order(current_order);
-					      break; // TEST TODO REPLACE / REMOVE
+        		 case FIND_CORNER  : getParameter(order,label,value); 
+					     cote = atoi(value);
+					     sendfeedback("&corner="+NumToStr(cote));
+					     trouver_coin(cote);
+					     sendfeedback("&corner="+NumToStr(cote));
+					     update_order(current_order);
+					     break;
 			 case STOP         :  stop_moving();
 					      if(send_stop){
 						      sendfeedback("&stop=true");
 						      send_stop = false;
 						      }
 					      break;
-			 // add your test functions here
-			 case TEST         :  if(get_node_state(4)){
-						      TextOut(0,LCD_LINE4,"C'est vrai!");
-						      set_node_state(4,0);
-					      }else{
-						      TextOut(0,LCD_LINE4,"C'est faux...");
-						      set_node_state(4,1);
-					      }
-					      //delete_order(1);
-					      update_order(current_order);
-					     break;
 			 default           :  break;
 		 }
 
@@ -114,13 +104,13 @@ void execute_order(int &alerte_bloque){
 }
 
 void update_order(int &current_order){
-	//delete_order(current_order);
 	current_order++;
 }
 
 task main(){
-	SetSensorLowspeed(SENSOR);                                                       //Pour pouvoir utiliser le Capteur US sur l'entrée 4.
-	int alerte_bloque = 0;                                                         //Passe à 1 si le robot rencontre un mêm obstacle pendant plus de 5s
+	SetSensorLowspeed(SENSOR); 
+	//Passe à 1 si le robot rencontre un mêm obstacle pendant plus de 5s
+	int alerte_bloque = 0;  
 	string my_ip = StrCat(MY_IP,NumToStr(MY_IP_4));
 	// delete a command in the server
 	delete_url =StrCat(SERVER_ROOT,"/deleteorder.php?target=",my_ip);
