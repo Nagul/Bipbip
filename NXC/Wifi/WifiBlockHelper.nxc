@@ -26,12 +26,4 @@ string quickGET(int port,byte ip[],string request) {
   return ByteArrayToStr(data);
 }
 
-string quickPOST(int port,byte ip[],string request) {
-  wb_post_setDestination(port,ip[0],ip[1],ip[2],ip[3],80,false);
-  byte data[32];
-  int res=wb_post_sendReceive(port,request,data);
-  if (res<0) return "";    
-  return ByteArrayToStr(data);
-}
-
 #endif

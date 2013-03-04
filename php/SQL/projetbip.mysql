@@ -54,8 +54,8 @@ CREATE TABLE Feedback(
    PRIMARY KEY (label,sending_date,ip)
 ) ENGINE = InnoDB;
 
-CREATE TABLE Node(
-   id_node INT NOT NULL,
-   is_taken BOOL,
-   PRIMARY KEY (id_node)
-) ENGINE = InnoDB;
+#CREATE TABLE Node(
+#   id_node INT NOT NULL,
+#   is_taken BOOL,
+#   PRIMARY KEY (id_node)
+#) ENGINE = InnoDB;

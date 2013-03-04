@@ -301,60 +301,41 @@ void trouver_coin(int cote){
 //******************************************************************************
 //                           Crossing management
 //******************************************************************************
-void crossing(int numero_noeud, int direction, int& alerte_bloque, int cote){   //spécifier par quel cote du couloir on arrive (droite si le robot suivait le mur à droite et inversément
- int dist_in_crossing_gauche = (2-cote)*60 + 30;
- int dist_in_crossing_droite = (cote-1)*60 + 30;
- 
-	// On v?rifie que le rond point que l'on veut empreinter est libre
-	while(get_node_state(numero_noeud));
-	// dire au serveur que noeud[numero_noeud] = 1
-	set_node_state(numero_noeud,1);
-	//sendfeedback("&captnoeud=1");
-	trouver_coin(cote);                                             //on verifie que l'on arrive bien au coin du mur
-	switch(direction){
-		case LEFT_CROSSING:
-			//on effectue la suite de mouvements pour tourner à gauche
-			Off(OUT_BC);
-			foward_clean(50,alerte_bloque);
-			tourner(-90);
-			foward_clean(dist_in_crossing_gauche, alerte_bloque);;
-			break;
-			//tourner à droite
-		case RIGHT_CROSSING:
-      foward_clean(30,alerte_bloque);
-			Off(OUT_BC);
-			tourner(90);
-			Off(OUT_BC);
-			Wait(5);
-      foward_clean(dist_in_crossing_droite, alerte_bloque);
-			Off(OUT_BC);
-			break;
-
-			//tout droit
-		case FORWARD_CROSSING:
-      foward_clean(100, alerte_bloque);
-			Off(OUT_BC);
-			Wait(5);
-			break;
-		default: break;
-	}
-	// dire au serveur que noeud[numero_noeud] = 0;
-	set_node_state(numero_noeud,0);
-	//sendfeedback("&captnoeud=0");
-  //TODO dire au serveur qu'il a finit son croisement
-}
-
-
-//******************************************************************************
-//                               MAIN
-//******************************************************************************
-void maijijn(){
- SetSensorLowspeed(IN_4);
- int alerte_bloque = 0;
-
-}
-
-
-
-
-
+//void crossing(int numero_noeud, int direction, int& alerte_bloque, int cote){   //spécifier par quel cote du couloir on arrive (droite si le robot suivait le mur à droite et inversément
+// int dist_in_crossing_gauche = (2-cote)*60 + 30;
+// int dist_in_crossing_droite = (cote-1)*60 + 30;
+// 
+//	// On v?rifie que le rond point que l'on veut empreinter est libre
+//	while(get_node_state(numero_noeud));
+//	set_node_state(numero_noeud,1);
+//	trouver_coin(cote);                                             //on verifie que l'on arrive bien au coin du mur
+//	switch(direction){
+//		case LEFT_CROSSING:
+//			//on effectue la suite de mouvements pour tourner à gauche
+//			Off(OUT_BC);
+//			foward_clean(50,alerte_bloque);
+//			tourner(-90);
+//			foward_clean(dist_in_crossing_gauche, alerte_bloque);;
+//			break;
+//			//tourner à droite
+//		case RIGHT_CROSSING:
+//      foward_clean(30,alerte_bloque);
+//			Off(OUT_BC);
+//			tourner(90);
+//			Off(OUT_BC);
+//			Wait(5);
+//      foward_clean(dist_in_crossing_droite, alerte_bloque);
+//			Off(OUT_BC);
+//			break;
+//
+//			//tout droit
+//		case FORWARD_CROSSING:
+//      foward_clean(100, alerte_bloque);
+//			Off(OUT_BC);
+//			Wait(5);
+//			break;
+//		default: break;
+//	}
+//	set_node_state(numero_noeud,0);
+//	// dit au serveur qu'il a finit son croisement
+//}

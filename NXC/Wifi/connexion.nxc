@@ -26,10 +26,6 @@ bool connect();
 void sendfeedback(string message);
 /** get a command which index is seq from the server */
 string get_order(int seq);
-/** get the current state of a node */
-bool get_node_state(int id_node);
-/** update node state */
-void set_node_state(int id_node,int value);
 /** delete an order from the database */
 void delete_order(int seq);
 
@@ -65,15 +61,15 @@ void delete_order(int seq){
 	quickGET(WB_PORT,server_ip,StrCat(delete_url,"&seq=",NumToStr(seq)));
 }
 
-bool get_node_state(int id_node){
-	string getnode_url =StrCat(SERVER_ROOT,"/getnode.php?node=",NumToStr(id_node));
-	string nodestate = quickGET(WB_PORT,server_ip,getnode_url);
-	return (atoi(nodestate)==1);
-}
-
-void set_node_state(int id_node,int value){
-	string setnode_url =StrCat(SERVER_ROOT,"/setnode.php?node=",NumToStr(id_node),"&value=",NumToStr(value));
-	quickGET(WB_PORT,server_ip,setnode_url);
-}
+//bool get_node_state(int id_node){
+//	string getnode_url =StrCat(SERVER_ROOT,"/getnode.php?node=",NumToStr(id_node));
+//	string nodestate = quickGET(WB_PORT,server_ip,getnode_url);
+//	return (atoi(nodestate)==1);
+//}
+//
+//void set_node_state(int id_node,int value){
+//	string setnode_url =StrCat(SERVER_ROOT,"/setnode.php?node=",NumToStr(id_node),"&value=",NumToStr(value));
+//	quickGET(WB_PORT,server_ip,setnode_url);
+//}
 
 #endif
