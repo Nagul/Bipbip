@@ -469,6 +469,7 @@ public class GeneratorGraph {
 						}
 					}
 				}
+				graph.getGraph().remove(n);
 			}
 			nodes.remove(0);
 		}

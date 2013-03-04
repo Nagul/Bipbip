@@ -186,12 +186,26 @@ public class SalleTest {
 		
 		Node carrefour1 = new Node(410, 180, "carrefour1", tc);
 		listUser.add(carrefour1);
+		
 		Node carrefour2 = new Node(420, 390, "carrefour2", tc);
 		listUser.add(carrefour2);
 		Node carrefour3 = new Node(540, 390, "carrefour3", tc);
 		listUser.add(carrefour3);
 		Node carrefour4 = new Node(660, 390, "carrefour4", tc);
 		listUser.add(carrefour4);
+		
+		Node carrefour5 = new Node(140, 325, "carrefour5", tc);
+		listUser.add(carrefour5);
+		Node carrefour6 = new Node(270, 325, "carrefour6", tc);
+		listUser.add(carrefour6);
+		Node carrefour7 = new Node(400, 325, "carrefour7", tc);
+		listUser.add(carrefour7);
+		
+		Node carrefour8 = new Node(400, 505, "carrefour8", tc);
+		listUser.add(carrefour8);
+		
+		Node carrefour9 = new Node(110, 180, "carrefour9", tc);
+		listUser.add(carrefour9);
 		
 		/*
 		//passage pieton
