@@ -6,6 +6,7 @@ public class Node {
 	private final double ordinate;
 	private final String name;
 	private final TypeNode type;
+	private final Side side;
 	
 	/**
 	 * 
@@ -14,11 +15,20 @@ public class Node {
 	 * @param n the name of the node
 	 * @param t the type of the node
 	 */
+	public Node(double a, double o, String n, TypeNode t, Side s) {
+		abscissa = a;
+		ordinate = o;
+		name = n;
+		type = t;
+		side = s;
+	}
+	
 	public Node(double a, double o, String n, TypeNode t) {
 		abscissa = a;
 		ordinate = o;
 		name = n;
 		type = t;
+		side = null;
 	}
 	
 	/**
@@ -31,6 +41,7 @@ public class Node {
 		ordinate = o;
 		name = null;
 		type = null;
+		side = null;
 	}
 
 	public double getAbscissa() {
@@ -47,6 +58,10 @@ public class Node {
 
 	public TypeNode getType() {
 		return type;
+	}
+	
+	public Side getSide() {
+		return side;
 	}
 	
 	/**

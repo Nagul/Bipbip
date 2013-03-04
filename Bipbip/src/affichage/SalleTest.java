@@ -177,11 +177,21 @@ public class SalleTest {
 		
 		//point de depart/arrive
 		
+		listUser.add(new Node(570, 570, "user2", tp11));
+		listUser.add(new Node(540, 220, "user4", tp6));
 		listUser.add(new Node(640, 50, "user3", tp3));
 		listUser.add(new Node(50, 40, "user1", tp1));
-		listUser.add(new Node(570, 570, "user2", tp11));
 		
-
+		
+		
+		Node carrefour1 = new Node(410, 180, "carrefour1", tc);
+		listUser.add(carrefour1);
+		Node carrefour2 = new Node(420, 390, "carrefour2", tc);
+		listUser.add(carrefour2);
+		Node carrefour3 = new Node(540, 390, "carrefour3", tc);
+		listUser.add(carrefour3);
+		Node carrefour4 = new Node(660, 390, "carrefour4", tc);
+		listUser.add(carrefour4);
 		
 		/*
 		//passage pieton
