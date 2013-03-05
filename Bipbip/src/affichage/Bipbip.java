@@ -11,12 +11,17 @@ public class Bipbip {
 	
 	public static ArrayList<Wall> walls;
 	public static RobotTeam team;
+	public static SalleTest salleTest;
+	public static GraphSearch graphSearch;
+	//public static Hopital hopital;
+	public static WidgetClient test;
+	//public static WidgetDev test;
 	
 	public static void main(String[] args) {
 		
 		walls = new ArrayList<Wall>();
 		
-		SalleTest salleTest = new SalleTest();
+		salleTest = new SalleTest();
 		salleTest.initialisation();
 		ArrayList<Node> listUser = salleTest.getListUser();
 		
@@ -27,14 +32,12 @@ public class Bipbip {
 		*/
 		
 		
-		team = new RobotTeam(listUser.get(0));
-		team.initialize();
-		
-		team.run();
+		team = new RobotTeam();
+		team.initialize(salleTest.getStarts());
 		
 		QApplication.initialize(args);
-		WidgetClient test = new WidgetClient(listUser);
-		//WidgetDev test = new WidgetDev(listUser);
+		test = new WidgetClient(listUser);
+		//test = new WidgetDev(listUser);
 		test.show();
 		QApplication.exec();
 		

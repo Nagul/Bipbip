@@ -2,6 +2,7 @@ package affichage;
 
 import java.util.ArrayList;
 
+import entities.Robot;
 import pathfind.Wall;
 import pathfind.Node;
 import pathfind.TypeCouloir;
@@ -10,10 +11,12 @@ import pathfind.TypePiece;
 
 public class SalleTest {
 	
-	private ArrayList<Node> listUser; 
+	private ArrayList<Node> listInstruction1;
+	private ArrayList<Node> listCarrefour;
 	
 	public SalleTest() {
-		listUser = new ArrayList<Node>();
+		listInstruction1 = new ArrayList<Node>();
+		listCarrefour = new ArrayList<Node>();
 	}
 	
 	
@@ -177,61 +180,43 @@ public class SalleTest {
 		
 		//point de depart/arrive
 		
-		listUser.add(new Node(300, 410, "user2", tp8));
-		listUser.add(new Node(540, 225, "user4", tp6));
-		listUser.add(new Node(570, 570, "user2", tp11));
-		listUser.add(new Node(640, 50, "user3", tp3));
-		listUser.add(new Node(50, 40, "user1", tp1));
+		listInstruction1.add(new Node(640, 50, "user3", tp3));
+		listInstruction1.add(new Node(30, 30, "user1", tp1));
+		listInstruction1.add(new Node(300, 410, "user2", tp8));
+		listInstruction1.add(new Node(540, 225, "user4", tp6));
+		listInstruction1.add(new Node(570, 570, "user2", tp11));
 		
-		
-		
-		Node carrefour1 = new Node(410, 180, "carrefour1", tc);
-		listUser.add(carrefour1);
-		
-		Node carrefour2 = new Node(420, 390, "carrefour2", tc);
-		listUser.add(carrefour2);
-		Node carrefour3 = new Node(540, 390, "carrefour3", tc);
-		listUser.add(carrefour3);
-		Node carrefour4 = new Node(660, 390, "carrefour4", tc);
-		listUser.add(carrefour4);
-		
-		Node carrefour5 = new Node(140, 325, "carrefour5", tc);
-		listUser.add(carrefour5);
-		Node carrefour6 = new Node(270, 325, "carrefour6", tc);
-		listUser.add(carrefour6);
-		Node carrefour7 = new Node(400, 325, "carrefour7", tc);
-		listUser.add(carrefour7);
-		
-		Node carrefour8 = new Node(400, 505, "carrefour8", tc);
-		listUser.add(carrefour8);
-		
-		Node carrefour9 = new Node(110, 180, "carrefour9", tc);
-		listUser.add(carrefour9);
-		
-		/*
-		//passage pieton
-		Node carrefour1 = new Node(115, 145, "carrefour1", tc);
-		listUser.add(carrefour1);
-		Node carrefour2 = new Node(400, 145, "carrefour2", tc);
-		listUser.add(carrefour2);
-		Node carrefour3 = new Node(115, 330, "carrefour3", tc);
-		listUser.add(carrefour3);
-		Node carrefour4 = new Node(400, 330, "carrefour4", tc);
-		listUser.add(carrefour4);
-		Node carrefour5 = new Node(400, 400, "carrefour5", tc);
-		listUser.add(carrefour5);
-		Node carrefour6 = new Node(630, 400, "carrefour6", tc);
-		listUser.add(carrefour6);
-		Node carrefour7 = new Node(160, 500, "carrefour7", tc);
-		listUser.add(carrefour7);
-		Node carrefour8 = new Node(370, 500, "carrefour8", tc);
-		listUser.add(carrefour8);
-		*/
+		listCarrefour.add(new Node(405, 175, "carrefour1", tc));
+		listCarrefour.add(new Node(420, 390, "carrefour2", tc));
+		listCarrefour.add(new Node(540, 390, "carrefour3", tc));
+		listCarrefour.add(new Node(660, 390, "carrefour4", tc));
+		listCarrefour.add(new Node(140, 325, "carrefour5", tc));
+		listCarrefour.add(new Node(270, 325, "carrefour6", tc));
+		listCarrefour.add(new Node(400, 325, "carrefour7", tc));
+		listCarrefour.add(new Node(400, 505, "carrefour8", tc));
+		listCarrefour.add(new Node(110, 180, "carrefour9", tc));
+
 		
 	}
 	
 	public ArrayList<Node> getListUser() {
+		ArrayList<Node> listUser = new ArrayList<Node>();
+		listUser.addAll(listInstruction1);
+		listUser.addAll(listCarrefour);
 		return listUser;
+	}
+	
+	public ArrayList<Node> getStarts() {
+		ArrayList<Node> starts = new ArrayList<Node>();
+		starts.add(listInstruction1.get(0));
+		return starts;
+	}
+	
+	public ArrayList<Node> getPathExample(Robot r) {
+		if (r.getIP().equals("192.168.0.36")) {
+			return listInstruction1;
+		}
+		return null;
 	}
 
 }

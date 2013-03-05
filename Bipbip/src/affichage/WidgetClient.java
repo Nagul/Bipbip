@@ -2,7 +2,6 @@ package affichage;
 import java.util.ArrayList;
 
 import pathfind.*;
-
 import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.core.Qt.PenCapStyle;
 import com.trolltech.qt.gui.QBrush;
@@ -23,9 +22,6 @@ public class WidgetClient extends QMainWindow {
 	private pathfind.GeneratorGraph gG;
 	private ArrayList<Node> nodesAl;
 	
-	private int step;//juste pour des tests
-	private GraphSearch rG;
-	
 	//pinceaux
 	
 	private final QBrush brushBlack = new QBrush(QColor.black, Qt.BrushStyle.SolidPattern);
@@ -44,7 +40,6 @@ public class WidgetClient extends QMainWindow {
 	@SuppressWarnings("unchecked")
 	public WidgetClient(ArrayList<Node> nodes) {
 		super();
-		step = 0;
 		
 		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
@@ -52,7 +47,7 @@ public class WidgetClient extends QMainWindow {
 		gG.generatateGraph();
 		//gG.getGraph().keepConnected(nodesAl.get(0));
 		
-		rG = new GraphSearch(gG.getGraph());
+		Bipbip.graphSearch = new GraphSearch(gG.getGraph());
 		setToolbar();
 		setScene();
 	}
@@ -119,23 +114,16 @@ public class WidgetClient extends QMainWindow {
 
 	@SuppressWarnings("unused")
 	private void run() {
-		ArrayList<Arc> chemin = null;
+		Bipbip.team.run();
+	}
+	
+	public void drawPath(ArrayList<Arc> path) {
 		Arc arcCourrant;
-		double dist;
-		if (step == 0) {
-			dist = 0;
-			chemin = rG.shorterPath(nodesAl.get(0), nodesAl.get(1));
-			for (int i = 0; i < chemin.size(); i++) {
-				arcCourrant = chemin.get(i);
-				scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penRed);
-				dist += arcCourrant.getPath().getDistance();
-			}
-			System.out.println(dist);
-			step += 1;
-		} else {
-			
+
+		for (int i = 0; i < path.size(); i++) {
+			arcCourrant = path.get(i);
+			scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penRed);
 		}
-		Bipbip.team.getTeam().get(0).sendInstruction(chemin);
 	}
 
 }

@@ -11,15 +11,13 @@ import pathfind.Node;
 public class RobotTeam {
 
 	private ArrayList<VirtualRobot> team;
-	private Node start;
 
-	public RobotTeam(Node s) {
+	public RobotTeam() {
 		team = new ArrayList<VirtualRobot>();
-		start = s;
 	}
 	
-	public void initialize() {
-		team.add(new VirtualRobot(start, 0, new Robot("192.168.0.36")));
+	public void initialize(ArrayList<Node> starts) {
+		team.add(new VirtualRobot(starts.get(0), 0, new Robot("192.168.0.36")));
 	}
 
 	public ArrayList<VirtualRobot> getTeam() {

@@ -48,6 +48,7 @@ public class WidgetDev extends QMainWindow {
 		gG.generatateGraph();
 		//gG.getGraph().keepConnected(nodesAl.get(0));
 		
+		Bipbip.graphSearch = new GraphSearch(gG.getGraph());
 		setToolbar();
 		setScene();
 	}
@@ -121,6 +122,10 @@ public class WidgetDev extends QMainWindow {
 				scene.addLine(a.getNodeStart().getAbscissa(), a.getNodeStart().getOrdinate(), a.getNodeTarget().getAbscissa(), a.getNodeTarget().getOrdinate(), penRed);
 			}
 		}
+	}
+	
+	public void drawPath(ArrayList<Arc> path) {
+		
 	}
 	
 }

@@ -452,17 +452,15 @@ public class GeneratorGraph {
 				}
 				//TODO : raffiner la condition
 				System.out.println(listNode.size());
-				if (listNode.size()==4) {
-					for (Node premierNode : listNode) {
-						for (Node autreNode : listNode) {
-							if (premierNode!=autreNode
-									&&premierNode.getSide()==autreNode.getSide()) {
-								chemin = new Path();
-								chemin.addStep(premierNode);
-								chemin.addStep(autreNode);
-								Arc a = new Arc(premierNode, autreNode, chemin, Side.None);
-								graph.addArc(a);
-							}
+				for (Node premierNode : listNode) {
+					for (Node autreNode : listNode) {
+						if (premierNode!=autreNode
+								&&premierNode.getSide()==autreNode.getSide()) {
+							chemin = new Path();
+							chemin.addStep(premierNode);
+							chemin.addStep(autreNode);
+							Arc a = new Arc(premierNode, autreNode, chemin, Side.None);
+							graph.addArc(a);
 						}
 					}
 				}

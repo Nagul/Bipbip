@@ -15,6 +15,9 @@ public class VirtualRobot implements Runnable {
 	private int speed;
 	private Robot robot;
 	
+	private int step;
+	private ArrayList<Node> targets;
+	
 	public VirtualRobot(Node start, int orientationInit, Robot r) {
 		lastNode = start;
 		currentArc = null;
@@ -22,6 +25,8 @@ public class VirtualRobot implements Runnable {
 		orientation = orientationInit;
 		speed = 75;
 		robot = r;
+		step = 0;
+		targets = affichage.Bipbip.salleTest.getPathExample(r);
 	}
 
 	public double[] getPosition() {
@@ -137,10 +142,29 @@ public class VirtualRobot implements Runnable {
 	public double getOrientation() {
 		return orientation;
 	}
+	
+	public Robot getRobot() {
+		return robot;
+	}
 
+	public void getNextInstruction() {
+		
+		if (step < targets.size() - 1) {
+			ArrayList<Arc> path = affichage.Bipbip.graphSearch.shorterPath(targets.get(step), targets.get(step + 1));
+			this.sendInstruction(path);
+			affichage.Bipbip.test.drawPath(path);
+		}
+		
+		step += 1;
+	}
+	
+	@SuppressWarnings("static-access")
 	public void run() {
 		String log;
 		String[] tmp;
+		
+		this.getNextInstruction();
+		
 		while (true) {
 			log = robot.getFeedback();
 			if (!log.equals("")) {
@@ -149,6 +173,14 @@ public class VirtualRobot implements Runnable {
 					Feedback f = new Feedback(tmp[i]);
 					if (f.getAction().equals("stop")) {
 						robot.clearCommands();
+						try {
+							Thread.currentThread().sleep(1000);
+						} catch (Exception e) {
+							System.out.println(e);
+						}
+						this.getNextInstruction();
+					} else if (f.getAction().equals("obstacle")) {
+						//TODO
 					}
 					System.out.println(f.toString());
 				}
