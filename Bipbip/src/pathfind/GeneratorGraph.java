@@ -53,7 +53,7 @@ public class GeneratorGraph {
 		ArrayList<Node> listNode = new ArrayList<Node>();
 		
 		//ecartementMoyen - ecartementVoie > 0;
-		double ecartementMoyen = 20;
+		double ecartementMoyen = 30;
 		double ecartementVoie = 5;
 		double largeurPorte = 5;
 		

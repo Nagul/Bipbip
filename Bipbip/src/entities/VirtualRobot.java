@@ -111,8 +111,9 @@ public class VirtualRobot {
 		command = new Command();
 		command.setAction(Command.STOP);
 		robot.addCommand(command);
-		//robot.executeStack();
+		robot.executeStack();
 	}
+	
 	
 	public Node getLastNode() {
 		return lastNode;

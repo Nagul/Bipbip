@@ -177,8 +177,9 @@ public class SalleTest {
 		
 		//point de depart/arrive
 		
+		listUser.add(new Node(300, 410, "user2", tp8));
+		listUser.add(new Node(540, 225, "user4", tp6));
 		listUser.add(new Node(570, 570, "user2", tp11));
-		listUser.add(new Node(540, 220, "user4", tp6));
 		listUser.add(new Node(640, 50, "user3", tp3));
 		listUser.add(new Node(50, 40, "user1", tp1));
 		
