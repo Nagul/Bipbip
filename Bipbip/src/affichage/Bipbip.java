@@ -30,6 +30,7 @@ public class Bipbip {
 		team = new RobotTeam(listUser.get(0));
 		team.initialize();
 		
+		team.run();
 		
 		QApplication.initialize(args);
 		WidgetClient test = new WidgetClient(listUser);

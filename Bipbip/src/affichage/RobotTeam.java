@@ -27,4 +27,10 @@ public class RobotTeam {
 		return team;
 	}
 	
+	public void run() {
+		for (VirtualRobot r : team) {
+			r.run();
+		}
+	}
+	
 }

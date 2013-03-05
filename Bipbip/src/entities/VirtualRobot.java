@@ -8,7 +8,7 @@ import pathfind.Node;
 import pathfind.Side;
 import pathfind.TypeCouloir;
 
-public class VirtualRobot {
+public class VirtualRobot implements Runnable {
 
 	private Node lastNode;
 	private Arc currentArc;
@@ -121,7 +121,7 @@ public class VirtualRobot {
 		command = new Command();
 		command.setAction(Command.STOP);
 		robot.addCommand(command);
-		robot.executeStack();
+		//robot.executeStack();
 	}
 	
 	
@@ -139,6 +139,19 @@ public class VirtualRobot {
 
 	public double getOrientation() {
 		return orientation;
+	}
+	
+	public void run() {
+		String log;
+		String[] tmp;
+		while (true) {
+			log = robot.getFeedback();
+			tmp = log.split("<br/>");
+			for (int i = 0; i < tmp.length; i++){
+				Feedback f = new Feedback(tmp[i]);
+				System.out.println(f.getAction()+f.getDate()+f.getDetails());
+			}
+		}
 	}
 	
 }
