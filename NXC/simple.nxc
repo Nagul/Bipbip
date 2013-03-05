@@ -51,14 +51,12 @@ void execute_order(int &alerte_bloque){
 			 case NONE         : send_stop = true;current_order=1; break;
 			 case FORWARD      : getParameter(order,label,value);
 					     distance = atoi(value);
-					     sendfeedback("&forward="+NumToStr(distance));
 					     foward_clean(distance, alerte_bloque);
 					     sendfeedback("&forward="+NumToStr(distance));
 					     update_order(current_order);
         				     break;
         		 case TURN         :  getParameter(order,label,value);
         				      int angle = atoi(value);
-					      sendfeedback("&turn="+NumToStr(angle));
   					      tourner(angle);
 					      sendfeedback("&turn="+NumToStr(angle));
 					      update_order(current_order);
@@ -67,7 +65,6 @@ void execute_order(int &alerte_bloque){
 					     cote = atoi(value);
 					     getParameter(order,label,value);
         				     distance = atoi(value);
-					     sendfeedback("&followall="+NumToStr(cote)+";"+NumToStr(distance));
   					     follow_wall(cote, distance, STEP_LENGTH, alerte_bloque); 
 					     sendfeedback("&followall="+NumToStr(cote)+";"+NumToStr(distance));
 					     update_order(current_order);
@@ -85,7 +82,6 @@ void execute_order(int &alerte_bloque){
 			//		      break;
         		 case FIND_CORNER  : getParameter(order,label,value); 
 					     cote = atoi(value);
-					     sendfeedback("&corner="+NumToStr(cote));
 					     trouver_coin(cote);
 					     sendfeedback("&corner="+NumToStr(cote));
 					     update_order(current_order);
