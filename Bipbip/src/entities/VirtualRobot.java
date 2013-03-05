@@ -121,7 +121,7 @@ public class VirtualRobot implements Runnable {
 		command = new Command();
 		command.setAction(Command.STOP);
 		robot.addCommand(command);
-		//robot.executeStack();
+		robot.executeStack();
 	}
 	
 	
