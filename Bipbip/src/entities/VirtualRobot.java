@@ -140,16 +140,23 @@ public class VirtualRobot implements Runnable {
 	public double getOrientation() {
 		return orientation;
 	}
-	
+
 	public void run() {
 		String log;
 		String[] tmp;
 		while (true) {
 			log = robot.getFeedback();
-			tmp = log.split("<br/>");
-			for (int i = 0; i < tmp.length; i++){
-				Feedback f = new Feedback(tmp[i]);
-				System.out.println(f.getAction()+f.getDate()+f.getDetails());
+			if (!log.equals("")) {
+				tmp = log.split("<br/>");
+				for (int i = 0; i < tmp.length; i++){
+					Feedback f = new Feedback(tmp[i]);
+					System.out.println(f.getAction()+f.getDate()+f.getDetails());
+				}
+			}
+			try {
+				Thread.currentThread().sleep(1000);
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 		}
 	}
