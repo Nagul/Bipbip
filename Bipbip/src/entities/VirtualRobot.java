@@ -150,6 +150,10 @@ public class VirtualRobot implements Runnable {
 				tmp = log.split("<br/>");
 				for (int i = 0; i < tmp.length; i++){
 					Feedback f = new Feedback(tmp[i]);
+					if (f.getAction().equals("stop")) {
+						System.out.println("FALY SUX");
+						robot.clearCommands();
+					}
 					System.out.println(f.getAction()+f.getDate()+f.getDetails());
 				}
 			}
