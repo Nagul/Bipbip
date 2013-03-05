@@ -44,7 +44,7 @@ crossing(numero_noeud, direction, alerte_bloque, cote)
 			if (compteur >= 1000){                                                      // environ 5s
 				alerte_bloque = 1;
 				TextOut(0,LCD_LINE2, "-----ALERTE-----", true);
-				// TODO send alarm message to the server
+				sendfeedback("&obstacle=true");
 			}
 			else{
 				compteur = compteur + 5;
@@ -250,7 +250,6 @@ void follow_wall(int cote, int distance, int pas, int& alerte_bloque){   // cote
     if(distance_mesure < 80){
      regulation_angle_droite();
      regulation_distance_droite();
-     //regulation_angle_droite();
     }
   }
   if(cote == LEFT_WALL){
@@ -262,13 +261,11 @@ void follow_wall(int cote, int distance, int pas, int& alerte_bloque){   // cote
  	 if(distance_mesure < 80){
      regulation_angle_gauche();
      regulation_distance_gauche();
-     //regulation_angle_gauche();
    }
   }
  }
  foward_clean(distance_a_parcourir, alerte_bloque);
  Off(OUT_BC);
- //TODO on peut indiquer ici au serveur que l'on a bien parcouru la distance souhaitée.
 }
 
 //******************************************************************************
