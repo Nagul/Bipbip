@@ -19,7 +19,6 @@ public class RobotTeam {
 	}
 	
 	public void initialize() {
-		//TODO : adresse IP
 		team.add(new VirtualRobot(start, 0, new Robot("192.168.0.36")));
 	}
 

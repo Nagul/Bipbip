@@ -3,10 +3,8 @@ package entities;
 import java.util.ArrayList;
 
 import pathfind.Arc;
-import pathfind.Path;
 import pathfind.Node;
 import pathfind.Side;
-import pathfind.TypeCouloir;
 
 public class VirtualRobot implements Runnable {
 
@@ -52,7 +50,6 @@ public class VirtualRobot implements Runnable {
 	 * Send the needed instructions to the robot
 	 * @param path the path calculated by GraphSearc.shortherDistance
 	 */
-	//TODO : working with path instead of arc
 	public void sendInstruction(ArrayList<Arc> path) {
 		int i;
 		int angle;
@@ -151,10 +148,9 @@ public class VirtualRobot implements Runnable {
 				for (int i = 0; i < tmp.length; i++){
 					Feedback f = new Feedback(tmp[i]);
 					if (f.getAction().equals("stop")) {
-						System.out.println("FALY SUX");
 						robot.clearCommands();
 					}
-					System.out.println(f.getAction()+f.getDate()+f.getDetails());
+					System.out.println(f.toString());
 				}
 			}
 			try {

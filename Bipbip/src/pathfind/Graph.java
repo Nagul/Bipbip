@@ -92,7 +92,7 @@ public class Graph {
 	 * keep only the nodes connected to the node root
 	 * @param nodeRoot the node root
 	 */
-	//TODO : OPTIMISE
+	//TODO : OPTIMISE not mandatory
 	public void keepConnected(Node nodeRoot) {
 		GraphSearch rG = new GraphSearch(this);
 		@SuppressWarnings("unchecked")

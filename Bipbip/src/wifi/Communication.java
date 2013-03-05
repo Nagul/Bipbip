@@ -75,8 +75,6 @@ public class Communication{
 	 */
 	public static String getFeedback(Robot r){
 		String result = executePost(serverRoot+"/getfeedback.php?target="+r.getIP());
-		//TODO test
-		//System.out.println(result);
 		return result;
 	}
 

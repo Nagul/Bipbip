@@ -17,8 +17,6 @@ public class GeneratorGraph {
 		nodes = n;
 	}
 	
-	//TODO : doubler les points de generation afin d'avoir deux "couloirs"
-	//TODO : Right = gauche et Left = droite
 	/**
 	 * generate the graph so we can calculate the orders to send
 	 * @return the generated graph
@@ -184,7 +182,6 @@ public class GeneratorGraph {
 				}
 			}
 
-			//TODO : GERER DROITE/GAUCHE
 			if (m.getDoors()!=null) {
 				director = m.getDirector();
 				for (Node porte : m.getDoors()) {

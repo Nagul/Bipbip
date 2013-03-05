@@ -73,25 +73,6 @@ public class Node {
 		return  Math.sqrt(Math.pow(this.abscissa - otherNode.getAbscissa(), 2) 
 				+ Math.pow(this.ordinate - otherNode.getOrdinate(), 2));
 	}
-	
-	//TODO : utilite ?
-	/**
-	 * Fonction permettant de verifier si un node d'un mur appartient
-	 * au voisinage d'un autre mur ou pas.
-	 * @param murTest le mur auquel le node appartient
-	 * @return le mur auquel le node appartient
-	 */
-	public Wall appartientAutreMur(Wall murTest) {
-		for (Wall m : affichage.Bipbip.walls) {
-			if((this.equals(m.getCornerStart())
-					||this.equals(m.getCornerEnd())
-					||this.calculateDistance(m.getCornerStart()) + this.calculateDistance(m.getCornerEnd()) < m.getCornerStart().calculateDistance(m.getCornerEnd()) + 1
-					)&&!murTest.equals(m)) {
-				return m;
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Calculate the angle formed between the abscissa axis and the vector (thisNode, otherNode)
