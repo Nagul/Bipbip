@@ -28,10 +28,10 @@ public class Feedback{
 	public Feedback(String row){
 		String[] sep1;
 		String[] sep2;
-		sep1 = row.split("->");
+		sep1 = row.split(" -> ");
 		if (sep1.length == 2){
 			this.date = sep1[0];
-			sep2 = sep1[1].split("=>");
+			sep2 = sep1[1].split(" => ");
 			if(sep2.length == 2){
 				this.action = sep2[0];
 				this.details = sep2[1];
