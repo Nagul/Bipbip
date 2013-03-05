@@ -67,12 +67,17 @@ public class VirtualRobot {
 			depart = arcMove.getNodeStart();
 			arrive = arcMove.getNodeTarget();
 			
-			if (arcMove.getSide()==null) {
+			if (arcMove.getSide()==Side.None) {
 				//moving in/out a room
 				//orientation
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
+				if (angle > 180) {
+					angle -= 360;
+				} else if (angle < -180) {
+					angle += 360;
+				}
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
 				orientation += angle;
@@ -90,6 +95,11 @@ public class VirtualRobot {
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
+				if (angle > 180) {
+					angle -= 360;
+				} else if (angle < -180) {
+					angle += 360;
+				}
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
 				orientation += angle;
@@ -99,9 +109,9 @@ public class VirtualRobot {
 				command.setAction(Command.FOLLOW_WALL);
 				distance = (int) depart.calculateDistance(arrive);
 				if (arcMove.getSide()==Side.Left) {
-					command.addParameter(new Parameter("direction", Command.RIGHT_CROSSING), 0);
-				} else {
 					command.addParameter(new Parameter("direction", Command.LEFT_CROSSING), 0);
+				} else {
+					command.addParameter(new Parameter("direction", Command.RIGHT_CROSSING), 0);
 				}
 				command.addParameter(new Parameter("distance", distance), 1);
 				robot.addCommand(command);
