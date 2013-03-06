@@ -130,7 +130,6 @@ public class VirtualRobot implements Runnable {
 		command = new Command();
 		command.setAction(Command.STOP);
 		robot.addCommand(command);
-		//robot.executeStack();
 	}
 	
 	
@@ -173,8 +172,7 @@ public class VirtualRobot implements Runnable {
 		this.getNextInstruction();
 		
 		while (true) {
-			//log = robot.getFeedback();
-			log = new String("");
+			log = robot.getFeedback();
 			if (!log.equals("")) {
 				tmp = log.split("<br/>");
 				for (int i = 0; i < tmp.length - 1; i++){
