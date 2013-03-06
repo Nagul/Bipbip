@@ -2,8 +2,11 @@ package affichage;
 import java.util.ArrayList;
 
 import pathfind.*;
+
+import com.trolltech.qt.core.QEvent;
 import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.core.Qt.PenCapStyle;
+import com.trolltech.qt.gui.QAccessible.Event;
 import com.trolltech.qt.gui.QBrush;
 import com.trolltech.qt.gui.QColor;
 import com.trolltech.qt.gui.QGraphicsScene;
@@ -21,10 +24,6 @@ public class WidgetClient extends QMainWindow {
 	private QToolBar toolbar;
 	private pathfind.GeneratorGraph gG;
 	private ArrayList<Node> nodesAl;
-
-	private Thread mainThread;
-	private int draw;
-	private ArrayList<Arc> path;
 	
 	//pinceaux
 	
@@ -45,16 +44,11 @@ public class WidgetClient extends QMainWindow {
 	public WidgetClient(ArrayList<Node> nodes) {
 		super();
 		
-		mainThread = Thread.currentThread();
-		
 		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
 		gG = new GeneratorGraph(nodes);
 		gG.generatateGraph();
 		//gG.getGraph().keepConnected(nodesAl.get(0));
-		
-		draw = -1;
-		path = null;
 		
 		Bipbip.graphSearch = new GraphSearch(gG.getGraph());
 		setToolbar();
@@ -123,43 +117,59 @@ public class WidgetClient extends QMainWindow {
 
 	@SuppressWarnings("unused")
 	private void run() {
+			Bipbip.team.run();
+	}
+	
+	public void redrawEvent(avanceEvent event) {
 		Arc arcCourrant;
-
-		Bipbip.team.run();
-		while (true) {
-			synchronized(mainThread) {
-				try {
-
-					mainThread.wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				switch(draw) {
-				case 0:
-					for (int i = 0; i < path.size(); i++) {
-						arcCourrant = path.get(i);
-						scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penBlue);
-					}
-				case 1:
-					scene.addLine(path.get(0).getNodeStart().getAbscissa(), path.get(0).getNodeStart().getOrdinate(), path.get(0).getNodeTarget().getAbscissa(), path.get(0).getNodeTarget().getOrdinate(), penGreen);
-				default:
-				}
+		
+		ArrayList<Arc> path = event.getPath();
+		int draw = event.getDraw();
+		
+		switch(draw) {	
+		case 0:
+			for (int i = 0; i < path.size(); i++) {
+				arcCourrant = path.get(i);
+				scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penBlue);
 			}
+			break;
+		case 1:
+			scene.addLine(path.get(0).getNodeStart().getAbscissa(), path.get(0).getNodeStart().getOrdinate(), path.get(0).getNodeTarget().getAbscissa(), path.get(0).getNodeTarget().getOrdinate(), penGreen);
+			break;
+		default:
+			System.out.println("Error");
 		}
 	}
 
-	public synchronized void draw(int d, ArrayList<Arc> p) {
-		synchronized(mainThread) {
-			draw = d;
-			path = p;
-			mainThread.notify();
-		}
+	public void draw(int d, ArrayList<Arc> p) {
+		//send the event
+		System.out.println("wakeup");
+		avanceEvent ev = new avanceEvent(d, p);
 	}
 
 	public Graph getGraph() {
 		return gG.getGraph();
 	}
 
+	private class avanceEvent extends QEvent {
+		
+		private final int draw;
+		private final ArrayList<Arc> path;
+		
+		public avanceEvent(int d, ArrayList<Arc> p) {
+			super(QEvent.Type.User);
+			draw = d;
+			path =p;
+		}
 
+		public int getDraw() {
+			return draw;
+		}
+
+		public ArrayList<Arc> getPath() {
+			return path;
+		}
+		
+	}
 
 }
