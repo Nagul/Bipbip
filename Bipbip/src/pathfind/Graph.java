@@ -40,6 +40,11 @@ public class Graph {
 		graph.get(a.getNodeStart()).add(a);
 	}
 	
+	
+	public void deleteArc(Arc a) {
+		graph.get(a.getNodeStart()).remove(a);
+	}
+	
 	//Depreciated ?
 	public ArrayList<Node> getVoisins(Node n) {
 		ArrayList<Node> voisins = new ArrayList<Node>();
@@ -68,7 +73,6 @@ public class Graph {
 		}
 		return null;
 	}
-	
 	
 	/**
 	 * Search for a node with a certain abscissa and ordinate
@@ -101,6 +105,10 @@ public class Graph {
 				kS.remove(n);
 			}
 		}
+	}
+	
+	public Object clone() {
+		return this.clone();
 	}
 
 }

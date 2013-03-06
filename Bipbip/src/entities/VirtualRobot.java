@@ -3,8 +3,10 @@ package entities;
 import java.util.ArrayList;
 
 import pathfind.Arc;
+import pathfind.GraphSearch;
 import pathfind.Node;
 import pathfind.Side;
+import pathfind.Graph;
 
 public class VirtualRobot implements Runnable {
 
@@ -186,6 +188,13 @@ public class VirtualRobot implements Runnable {
 						this.getNextInstruction();
 					} else if (f.getAction().equals("obstacle")) {
 						robot.clearCommands();
+						Graph cloneGraph = (Graph) affichage.Bipbip.test.getGraph().clone();
+						cloneGraph.deleteArc(currentArc);
+						GraphSearch gs = new GraphSearch(cloneGraph);
+						path = gs.shorterPath(lastNode, targets.get(step + 1));
+						affichage.Bipbip.test.drawPath(path);
+						//TODO : retourner au lastNode avant
+						this.sendInstruction(path);
 					} else {
 						currentArc = path.get(compt);
 						lastNode = currentArc.getNodeStart();

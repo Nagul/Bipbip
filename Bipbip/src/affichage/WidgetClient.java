@@ -130,4 +130,10 @@ public class WidgetClient extends QMainWindow {
 		scene.addLine(a.getNodeStart().getAbscissa(), a.getNodeStart().getOrdinate(), a.getNodeTarget().getAbscissa(), a.getNodeTarget().getOrdinate(), penGreen);
 	}
 
+	public Graph getGraph() {
+		return gG.getGraph();
+	}
+	
+	
+
 }
