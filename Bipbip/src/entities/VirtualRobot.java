@@ -130,6 +130,7 @@ public class VirtualRobot implements Runnable {
 		command = new Command();
 		command.setAction(Command.STOP);
 		robot.addCommand(command);
+		robot.executeStack();
 	}
 	
 	
@@ -195,11 +196,12 @@ public class VirtualRobot implements Runnable {
 						//TODO : retourner au lastNode avant
 						this.sendInstruction(path);
 					} else {
-						path = new ArrayList<Arc>();
-						path.add(currentArc);
+						currentArc = path.get(compt);
+						ArrayList<Arc> pathArc = new ArrayList<Arc>();
+						pathArc.add(currentArc);
 						lastNode = currentArc.getNodeStart();
 						compt += 1;
-						affichage.Bipbip.test.draw(1, path);
+						affichage.Bipbip.test.draw(1, pathArc);
 					}
 					System.out.println(" [" + robot.getIP() + "] " + f.toString());
 				}
