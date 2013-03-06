@@ -122,8 +122,12 @@ public class WidgetClient extends QMainWindow {
 
 		for (int i = 0; i < path.size(); i++) {
 			arcCourrant = path.get(i);
-			scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penRed);
+			scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penBlue);
 		}
+	}
+	
+	public void drawArc(Arc a) {
+		scene.addLine(a.getNodeStart().getAbscissa(), a.getNodeStart().getOrdinate(), a.getNodeTarget().getAbscissa(), a.getNodeTarget().getOrdinate(), penGreen);
 	}
 
 }

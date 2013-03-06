@@ -18,6 +18,9 @@ public class VirtualRobot implements Runnable {
 	private int step;
 	private ArrayList<Node> targets;
 	
+	private int compt;
+	private ArrayList<Arc> path;
+	
 	public VirtualRobot(Node start, int orientationInit, Robot r) {
 		lastNode = start;
 		currentArc = null;
@@ -27,17 +30,19 @@ public class VirtualRobot implements Runnable {
 		robot = r;
 		step = 0;
 		targets = affichage.Bipbip.salleTest.getPathExample(r);
+		compt = 0;
+		path = null;
 	}
 
 	public double[] getPosition() {
 		double[] position = new double[2];
 		
 		if (currentArc==null) {
-			//moving
+			//not moving
 			position[0] = lastNode.getAbscissa();
 			position[1] = lastNode.getOrdinate();
 		} else {
-			//not moving
+			//moving
 			//TODO : better feedback with path instead of node
 			double distance = currentArc.getPath().getDistance();
 			position[0] = currentArc.getNodeStart().getAbscissa()
@@ -150,10 +155,9 @@ public class VirtualRobot implements Runnable {
 	public void getNextInstruction() {
 		
 		if (step < targets.size() - 1) {
-			ArrayList<Arc> path = affichage.Bipbip.graphSearch.shorterPath(targets.get(step), targets.get(step + 1));
+			path = affichage.Bipbip.graphSearch.shorterPath(targets.get(step), targets.get(step + 1));
 			affichage.Bipbip.test.drawPath(path);
 			this.sendInstruction(path);
-			
 		}
 		
 		step += 1;
@@ -181,7 +185,12 @@ public class VirtualRobot implements Runnable {
 						}
 						this.getNextInstruction();
 					} else if (f.getAction().equals("obstacle")) {
-						//TODO
+						robot.clearCommands();
+					} else {
+						currentArc = path.get(compt);
+						lastNode = currentArc.getNodeStart();
+						compt += 1;
+						affichage.Bipbip.test.drawArc(currentArc);
 					}
 					System.out.println(" [" + robot.getIP() + "] " + f.toString());
 				}
