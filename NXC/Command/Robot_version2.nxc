@@ -247,9 +247,10 @@ void follow_wall(int cote, int distance, int pas, int& alerte_bloque){   // cote
    distance_mesure = SensorUS(IN_4);
    RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
    Wait(10);
-    if(distance_mesure < 80){
+    if(distance_mesure < 100){
      regulation_angle_droite();
      regulation_distance_droite();
+     regulation_angle_droite();
     }
   }
   if(cote == LEFT_WALL){
@@ -258,9 +259,10 @@ void follow_wall(int cote, int distance, int pas, int& alerte_bloque){   // cote
  	 distance_mesure = SensorUS(IN_4);
  	 RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
  	 Wait(10);
- 	 if(distance_mesure < 80){
+ 	 if(distance_mesure < 100){
      regulation_angle_gauche();
      regulation_distance_gauche();
+     regulation_angle_gauche();
    }
   }
  }

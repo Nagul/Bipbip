@@ -2,6 +2,7 @@ package affichage;
 import java.util.ArrayList;
 
 import pathfind.*;
+import listener.FeedbackAdapter;
 
 import com.trolltech.qt.core.QEvent;
 import com.trolltech.qt.core.Qt;
@@ -16,6 +17,8 @@ import com.trolltech.qt.gui.QMainWindow;
 import com.trolltech.qt.gui.QPen;
 import com.trolltech.qt.gui.QToolBar;
 
+import com.trolltech.qt.gui.QApplication;
+
 
 public class WidgetClient extends QMainWindow {
 	
@@ -24,6 +27,7 @@ public class WidgetClient extends QMainWindow {
 	private QToolBar toolbar;
 	private pathfind.GeneratorGraph gG;
 	private ArrayList<Node> nodesAl;
+	private FeedbackAdapter listenerFeedback;
 	
 	//pinceaux
 	
@@ -53,6 +57,20 @@ public class WidgetClient extends QMainWindow {
 		Bipbip.graphSearch = new GraphSearch(gG.getGraph());
 		setToolbar();
 		setScene();
+
+		listenerFeedback = new FeedbackAdapter(){
+			@Override
+				public void drawFeedback(final Arc a){
+					System.out.println("ohohoh");
+					QApplication.invokeLater(new Runnable(){
+						@Override
+						public void run(){
+							scene.addLine(a.getNodeStart().getAbscissa(), a.getNodeStart().getOrdinate(), a.getNodeTarget().getAbscissa(), a.getNodeTarget().getOrdinate(), penBlue);
+						}
+					});
+				}
+		};
+		Bipbip.team.getTeam().get(0).setFeedbackListener(listenerFeedback);
 	}
 
 	private void setToolbar() {
@@ -119,57 +137,9 @@ public class WidgetClient extends QMainWindow {
 	private void run() {
 			Bipbip.team.run();
 	}
-	
-	public void redrawEvent(avanceEvent event) {
-		Arc arcCourrant;
-		
-		ArrayList<Arc> path = event.getPath();
-		int draw = event.getDraw();
-		
-		switch(draw) {	
-		case 0:
-			for (int i = 0; i < path.size(); i++) {
-				arcCourrant = path.get(i);
-				scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penBlue);
-			}
-			break;
-		case 1:
-			scene.addLine(path.get(0).getNodeStart().getAbscissa(), path.get(0).getNodeStart().getOrdinate(), path.get(0).getNodeTarget().getAbscissa(), path.get(0).getNodeTarget().getOrdinate(), penGreen);
-			break;
-		default:
-			System.out.println("Error");
-		}
-	}
-
-	public void draw(int d, ArrayList<Arc> p) {
-		//send the event
-		System.out.println("wakeup");
-		avanceEvent ev = new avanceEvent(d, p);
-	}
 
 	public Graph getGraph() {
 		return gG.getGraph();
-	}
-
-	private class avanceEvent extends QEvent {
-		
-		private final int draw;
-		private final ArrayList<Arc> path;
-		
-		public avanceEvent(int d, ArrayList<Arc> p) {
-			super(QEvent.Type.User);
-			draw = d;
-			path =p;
-		}
-
-		public int getDraw() {
-			return draw;
-		}
-
-		public ArrayList<Arc> getPath() {
-			return path;
-		}
-		
 	}
 
 }

@@ -14,13 +14,14 @@ public class TestRobot{
 
 		// creation de la commande
 		Command c = new Command();
-		c.setAction(Command.FIND_CORNER);
+		c.setAction(Command.FOLLOW_WALL);
 		//c.setAction(Command.CROSSING);
 
 		// creation des parametres et ajout a la commande c
 		//c.addParameter(new Parameter("noeud",1),0);
 		//c.addParameter(new Parameter("direction",Command.RIGHT_CROSSING),1);
 		c.addParameter(new Parameter("wall",Command.RIGHT_WALL),0);
+		c.addParameter(new Parameter("dist",75),1);
 
 //		Command corner = new Command();
 //		corner.setAction(Command.FIND_CORNER);
@@ -67,36 +68,36 @@ public class TestRobot{
 		r.executeStack();
 
 		// Méthode pour traiter les Feedback 
-		String log = r.getFeedback();
-		String[] tmp = log.split("<br/>");
-		for (int i = 0; i < tmp.length; i++){
-			Feedback f = new Feedback(tmp[i]);
-			System.out.println(f.getAction()+f.getDate()+f.getDetails());
-		}
+		//String log = r.getFeedback();
+		//String[] tmp = log.split("<br/>");
+		//for (int i = 0; i < tmp.length; i++){
+		//	Feedback f = new Feedback(tmp[i]);
+		//	System.out.println(f.getAction()+f.getDate()+f.getDetails());
+		//}
 
-		
-		// Méthode pour stocker les logs dans le fichier log.txt
-		String fileName = "log.txt";
-		String filePath = System.getProperty("user.dir")+"/"+fileName;
-		log = log.replaceAll("<br/>","\n");
-		try{
-			FileWriter fw = new FileWriter(filePath,true);
-			BufferedWriter output = new BufferedWriter(fw);
-			output.write(log);
-			output.flush();
-			output.close();
-		} catch(IOException e){
-			e.printStackTrace();
-		}
-		
-		// Test de la suppression des commandes
-		//r.clearCommands();
+		//
+		//// Méthode pour stocker les logs dans le fichier log.txt
+		//String fileName = "log.txt";
+		//String filePath = System.getProperty("user.dir")+"/"+fileName;
+		//log = log.replaceAll("<br/>","\n");
+		//try{
+		//	FileWriter fw = new FileWriter(filePath,true);
+		//	BufferedWriter output = new BufferedWriter(fw);
+		//	output.write(log);
+		//	output.flush();
+		//	output.close();
+		//} catch(IOException e){
+		//	e.printStackTrace();
+		//}
+		//
+		//// Test de la suppression des commandes
+		////r.clearCommands();
 
-		// Test de l'affichage des robots connectés
-		String[] robotList = Communication.getOnlineRobots();
-		for (int j = 0;j < robotList.length; j++){
-			System.out.println(robotList[j]);
-		}
+		//// Test de l'affichage des robots connectés
+		//String[] robotList = Communication.getOnlineRobots();
+		//for (int j = 0;j < robotList.length; j++){
+		//	System.out.println(robotList[j]);
+		//}
 
 	}
 

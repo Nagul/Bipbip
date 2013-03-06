@@ -8,7 +8,11 @@ import pathfind.Node;
 import pathfind.Side;
 import pathfind.Graph;
 
+import listener.FeedbackListener;
+
 public class VirtualRobot implements Runnable {
+
+	private FeedbackListener widgetListener;
 
 	private Node lastNode;
 	private Arc currentArc;
@@ -34,6 +38,10 @@ public class VirtualRobot implements Runnable {
 		targets = affichage.Bipbip.salleTest.getPathExample(r);
 		compt = 0;
 		path = null;
+	}
+
+	public void setFeedbackListener(FeedbackListener fl){
+		this.widgetListener = fl;
 	}
 
 	public double[] getPosition() {
@@ -158,7 +166,9 @@ public class VirtualRobot implements Runnable {
 		
 		if (step < targets.size() - 1) {
 			path = affichage.Bipbip.graphSearch.shorterPath(targets.get(step), targets.get(step + 1));
-			affichage.Bipbip.test.draw(0, path);
+			// TODO Afficher ce que Guillaume veut afficher ( super comme variable: ind d ! )
+			//affichage.Bipbip.test.draw(0, path);
+			//widgetListener.drawFeedback(path.get(0));
 			this.sendInstruction(path);
 		}
 		
@@ -192,7 +202,9 @@ public class VirtualRobot implements Runnable {
 						cloneGraph.deleteArc(currentArc);
 						GraphSearch gs = new GraphSearch(cloneGraph);
 						path = gs.shorterPath(lastNode, targets.get(step + 1));
-						affichage.Bipbip.test.draw(0, path);
+						// TODO Afficher ce que Guillaume veut afficher ( super comme variable: ind d ! )
+						//affichage.Bipbip.test.draw(0, path);
+						//widgetListener.drawFeedback(path.get(compt));
 						//TODO : retourner au lastNode avant
 						this.sendInstruction(path);
 					} else if (f.getAction().equals("followall")
@@ -201,8 +213,10 @@ public class VirtualRobot implements Runnable {
 						ArrayList<Arc> pathArc = new ArrayList<Arc>();
 						pathArc.add(currentArc);
 						lastNode = currentArc.getNodeStart();
+						widgetListener.drawFeedback(path.get(compt));
 						compt += 1;
-						affichage.Bipbip.test.draw(1, pathArc);
+						//affichage.Bipbip.test.draw(1, pathArc);
+						// TODO tester avec le robot
 					}
 					System.out.println(" [" + robot.getIP() + "] " + f.toString());
 				}
