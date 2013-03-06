@@ -195,7 +195,8 @@ public class VirtualRobot implements Runnable {
 						affichage.Bipbip.test.draw(0, path);
 						//TODO : retourner au lastNode avant
 						this.sendInstruction(path);
-					} else {
+					} else if (f.getAction().equals("followall")
+							||f.getAction().equals("forward")) {
 						currentArc = path.get(compt);
 						ArrayList<Arc> pathArc = new ArrayList<Arc>();
 						pathArc.add(currentArc);
