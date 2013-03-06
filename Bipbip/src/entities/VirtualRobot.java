@@ -158,7 +158,7 @@ public class VirtualRobot implements Runnable {
 		
 		if (step < targets.size() - 1) {
 			path = affichage.Bipbip.graphSearch.shorterPath(targets.get(step), targets.get(step + 1));
-			affichage.Bipbip.test.drawPath(path);
+			affichage.Bipbip.test.draw(0, path);
 			this.sendInstruction(path);
 		}
 		
@@ -192,14 +192,15 @@ public class VirtualRobot implements Runnable {
 						cloneGraph.deleteArc(currentArc);
 						GraphSearch gs = new GraphSearch(cloneGraph);
 						path = gs.shorterPath(lastNode, targets.get(step + 1));
-						affichage.Bipbip.test.drawPath(path);
+						affichage.Bipbip.test.draw(0, path);
 						//TODO : retourner au lastNode avant
 						this.sendInstruction(path);
 					} else {
-						currentArc = path.get(compt);
+						path = new ArrayList<Arc>();
+						path.add(currentArc);
 						lastNode = currentArc.getNodeStart();
 						compt += 1;
-						affichage.Bipbip.test.drawArc(currentArc);
+						affichage.Bipbip.test.draw(1, path);
 					}
 					System.out.println(" [" + robot.getIP() + "] " + f.toString());
 				}

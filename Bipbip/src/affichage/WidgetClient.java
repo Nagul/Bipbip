@@ -21,6 +21,10 @@ public class WidgetClient extends QMainWindow {
 	private QToolBar toolbar;
 	private pathfind.GeneratorGraph gG;
 	private ArrayList<Node> nodesAl;
+
+	private Thread mainThread;
+	private int draw;
+	private ArrayList<Arc> path;
 	
 	//pinceaux
 	
@@ -41,11 +45,16 @@ public class WidgetClient extends QMainWindow {
 	public WidgetClient(ArrayList<Node> nodes) {
 		super();
 		
+		mainThread = Thread.currentThread();
+		
 		nodesAl = (ArrayList<Node>) nodes.clone();
 		//generation du graphe
 		gG = new GeneratorGraph(nodes);
 		gG.generatateGraph();
 		//gG.getGraph().keepConnected(nodesAl.get(0));
+		
+		draw = -1;
+		path = null;
 		
 		Bipbip.graphSearch = new GraphSearch(gG.getGraph());
 		setToolbar();
@@ -101,7 +110,7 @@ public class WidgetClient extends QMainWindow {
 		view.setBackgroundBrush(brushBlack);
 		this.setCentralWidget(view);
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void zoom() {
 		view.scale(2,2);
@@ -114,26 +123,43 @@ public class WidgetClient extends QMainWindow {
 
 	@SuppressWarnings("unused")
 	private void run() {
-		Bipbip.team.run();
-	}
-	
-	public void drawPath(ArrayList<Arc> path) {
 		Arc arcCourrant;
 
-		for (int i = 0; i < path.size(); i++) {
-			arcCourrant = path.get(i);
-			scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penBlue);
+		Bipbip.team.run();
+		while (true) {
+			synchronized(mainThread) {
+				try {
+
+					mainThread.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				switch(draw) {
+				case 0:
+					for (int i = 0; i < path.size(); i++) {
+						arcCourrant = path.get(i);
+						scene.addLine(arcCourrant.getNodeStart().getAbscissa(), arcCourrant.getNodeStart().getOrdinate(), arcCourrant.getNodeTarget().getAbscissa(), arcCourrant.getNodeTarget().getOrdinate(), penBlue);
+					}
+				case 1:
+					scene.addLine(path.get(0).getNodeStart().getAbscissa(), path.get(0).getNodeStart().getOrdinate(), path.get(0).getNodeTarget().getAbscissa(), path.get(0).getNodeTarget().getOrdinate(), penGreen);
+				default:
+				}
+			}
 		}
 	}
-	
-	public void drawArc(Arc a) {
-		scene.addLine(a.getNodeStart().getAbscissa(), a.getNodeStart().getOrdinate(), a.getNodeTarget().getAbscissa(), a.getNodeTarget().getOrdinate(), penGreen);
+
+	public synchronized void draw(int d, ArrayList<Arc> p) {
+		synchronized(mainThread) {
+			draw = d;
+			path = p;
+			mainThread.notify();
+		}
 	}
 
 	public Graph getGraph() {
 		return gG.getGraph();
 	}
-	
-	
+
+
 
 }

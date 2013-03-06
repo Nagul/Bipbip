@@ -25,8 +25,10 @@ public class RobotTeam {
 	}
 	
 	public void run() {
+		Thread t;
 		for (VirtualRobot r : team) {
-			r.run();
+			t = new Thread(r, r.getRobot().getIP());
+			t.start();
 		}
 	}
 	
