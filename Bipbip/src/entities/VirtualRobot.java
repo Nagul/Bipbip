@@ -151,8 +151,9 @@ public class VirtualRobot implements Runnable {
 		
 		if (step < targets.size() - 1) {
 			ArrayList<Arc> path = affichage.Bipbip.graphSearch.shorterPath(targets.get(step), targets.get(step + 1));
-			this.sendInstruction(path);
 			affichage.Bipbip.test.drawPath(path);
+			this.sendInstruction(path);
+			
 		}
 		
 		step += 1;
@@ -169,7 +170,7 @@ public class VirtualRobot implements Runnable {
 			log = robot.getFeedback();
 			if (!log.equals("")) {
 				tmp = log.split("<br/>");
-				for (int i = 0; i < tmp.length; i++){
+				for (int i = 0; i < tmp.length - 1; i++){
 					Feedback f = new Feedback(tmp[i]);
 					if (f.getAction().equals("stop")) {
 						robot.clearCommands();
@@ -182,7 +183,7 @@ public class VirtualRobot implements Runnable {
 					} else if (f.getAction().equals("obstacle")) {
 						//TODO
 					}
-					System.out.println(f.toString());
+					System.out.println(" [" + robot.getIP() + "] " + f.toString());
 				}
 			}
 			try {

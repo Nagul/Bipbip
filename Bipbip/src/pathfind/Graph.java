@@ -38,8 +38,6 @@ public class Graph {
 	 */
 	public void addArc(Arc a) {
 		graph.get(a.getNodeStart()).add(a);
-		//Arc ai = new Arc(a.getNodeTarget(), a.getNodeStart(), a.getPath());
-		//graph.get(a.getNodeTarget()).add(ai);
 	}
 	
 	//Depreciated ?

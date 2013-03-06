@@ -451,7 +451,7 @@ public class GeneratorGraph {
 					}
 				}
 				//TODO : raffiner la condition
-				System.out.println(listNode.size());
+				//System.out.println(listNode.size());
 				for (Node premierNode : listNode) {
 					for (Node autreNode : listNode) {
 						if (premierNode!=autreNode
