@@ -12,10 +12,12 @@ import pathfind.TypePiece;
 public class SalleTest {
 	
 	private ArrayList<Node> listInstruction1;
+	private ArrayList<Node> listInstruction2;
 	private ArrayList<Node> listCarrefour;
 	
 	public SalleTest() {
 		listInstruction1 = new ArrayList<Node>();
+		listInstruction2 = new ArrayList<Node>();
 		listCarrefour = new ArrayList<Node>();
 	}
 	
@@ -186,6 +188,9 @@ public class SalleTest {
 		listInstruction1.add(new Node(540, 225, "user4", tp6));
 		listInstruction1.add(new Node(570, 570, "user2", tp11));
 		
+		listInstruction2.add(new Node(540, 225, "user4", tp6));
+		listInstruction2.add(new Node(570, 570, "user2", tp11));
+
 		listCarrefour.add(new Node(405, 175, "carrefour1", tc));
 		listCarrefour.add(new Node(420, 390, "carrefour2", tc));
 		listCarrefour.add(new Node(540, 390, "carrefour3", tc));
@@ -202,6 +207,7 @@ public class SalleTest {
 	public ArrayList<Node> getListUser() {
 		ArrayList<Node> listUser = new ArrayList<Node>();
 		listUser.addAll(listInstruction1);
+		listUser.addAll(listInstruction2);
 		listUser.addAll(listCarrefour);
 		return listUser;
 	}
@@ -209,12 +215,15 @@ public class SalleTest {
 	public ArrayList<Node> getStarts() {
 		ArrayList<Node> starts = new ArrayList<Node>();
 		starts.add(listInstruction1.get(0));
+		starts.add(listInstruction2.get(0));
 		return starts;
 	}
 	
 	public ArrayList<Node> getPathExample(Robot r) {
 		if (r.getIP().equals("192.168.0.36")) {
 			return listInstruction1;
+		}else if(r.getIP().equals("192.168.0.37")){
+			return listInstruction2;
 		}
 		return null;
 	}

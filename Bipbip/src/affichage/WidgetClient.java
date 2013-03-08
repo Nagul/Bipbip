@@ -61,7 +61,6 @@ public class WidgetClient extends QMainWindow {
 		listenerFeedback = new FeedbackAdapter(){
 			@Override
 				public void drawFeedback(final Arc a){
-					System.out.println("ohohoh");
 					QApplication.invokeLater(new Runnable(){
 						@Override
 						public void run(){
@@ -71,6 +70,7 @@ public class WidgetClient extends QMainWindow {
 				}
 		};
 		Bipbip.team.getTeam().get(0).setFeedbackListener(listenerFeedback);
+		Bipbip.team.getTeam().get(1).setFeedbackListener(listenerFeedback);
 	}
 
 	private void setToolbar() {

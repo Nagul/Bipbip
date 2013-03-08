@@ -38,6 +38,8 @@ string connect_url;
 string feedback_url;
 
 bool connect(){
+	wb_reset(WB_PORT);
+        wb_eraseConfig(WB_PORT);
 	bool is_connected = false;
 	byte ip[]={192,168,0,MY_IP_4};
 	byte mask[]={255,255,255,0};

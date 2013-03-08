@@ -116,6 +116,7 @@ task main(){
 	connect_url =StrCat(SERVER_ROOT,"/connection.php?target=",my_ip);
 	// send data to the server
 	feedback_url =StrCat(SERVER_ROOT,"/sendfeedback.php?target=",my_ip);
+	TextOut(0,LCD_LINE2,my_ip);
 	if (connect()){
 		sendfeedback("&online=true");
 		execute_order(alerte_bloque);
