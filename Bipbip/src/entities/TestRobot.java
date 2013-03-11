@@ -69,7 +69,7 @@ public class TestRobot{
 		Command d1 = new Command();
 		d1.setAction(Command.FOLLOW_WALL);
 		d1.addParameter(new Parameter("wall",2),0);
-		d1.addParameter(new Parameter("distance",190),1);
+		d1.addParameter(new Parameter("distance",40),1);
 		Command d2 = new Command();
 		d2.setAction(Command.STOP);
 

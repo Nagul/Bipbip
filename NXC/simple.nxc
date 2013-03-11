@@ -37,6 +37,7 @@ void execute_order(int &alerte_bloque){
 		int cote;
 		int direction;
 		int numero_noeud;
+		int angle;
 		string order = get_order(current_order);
 		int test_order = getCommand(order);
 		NumOut(0,LCD_LINE5,test_order);
@@ -56,7 +57,7 @@ void execute_order(int &alerte_bloque){
 					     update_order(current_order);
         				     break;
         		 case TURN         :  getParameter(order,label,value);
-        				      int angle = atoi(value);
+        				      angle = atoi(value);
   					      tourner(angle);
 					      sendfeedback("&turn="+NumToStr(angle));
 					      update_order(current_order);

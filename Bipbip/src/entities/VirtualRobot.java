@@ -87,6 +87,12 @@ public class VirtualRobot implements Runnable {
 			if (arcMove.getSide()==Side.None) {
 				//moving in/out a room
 				//orientation
+				//Turn 0° to avoid bug
+				command = new Command();
+				command.setAction(Command.TURN);
+				command.addParameter(new Parameter("angle", 0), 0);
+				robot.addCommand(command);
+
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
@@ -98,7 +104,7 @@ public class VirtualRobot implements Runnable {
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
 				orientation += angle;
-				System.out.println(angle);
+				System.out.println(robot.getIP()+":"+angle);
 				//move
 				command = new Command();
 				command.setAction(Command.FORWARD);
@@ -109,6 +115,12 @@ public class VirtualRobot implements Runnable {
 			} else {
 				//follow a wall
 				//orientation
+				//Turn 0° to avoid bug
+				command = new Command();
+				command.setAction(Command.TURN);
+				command.addParameter(new Parameter("angle", 0), 0);
+				robot.addCommand(command);
+
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
@@ -120,7 +132,7 @@ public class VirtualRobot implements Runnable {
 				command.addParameter(new Parameter("angle", angle), 0);
 				robot.addCommand(command);
 				orientation += angle;
-				System.out.println(angle);
+				System.out.println(robot.getIP()+":"+angle);
 				//move
 				command = new Command();
 				command.setAction(Command.FOLLOW_WALL);

@@ -1,7 +1,8 @@
 #include "Wifi/connexion.nxc"
 //***************************************
 //*               Bip-Bip
-//*
+//*          Sepulchre Léopold
+//*              version 3
 //***************************************
 
 #define RIGHT_DISTANCE_CONSIGNE 35
@@ -35,25 +36,7 @@ crossing(numero_noeud, direction, alerte_bloque, cote)
  // vitesse 30 facteur 125
  // vitesse 50 facteur 66
  int facteur = 66;
- int compteur = 0;
- 
- //****Boucle de s?curit?****
-		while(SensorUS(IN_4)<TROP_PRES){
-			Off(OUT_BC);
-			Wait(5);
-			if (compteur >= 1000){                                                      // environ 5s
-				alerte_bloque = 1;
-				TextOut(0,LCD_LINE2, "-----ALERTE-----", true);
-				sendfeedback("&obstacle=true");
-			}
-			else{
-				compteur = compteur + 5;
-				TextOut(0,LCD_LINE2, "------STOP------", true);
-			}
-		} //**fin boucle s?curit?**
-		alerte_bloque = 0;                                                          // remise ? 0 des variables de s?curit?
-		compteur = 0;
- 
+
  avancer(50);
  Wait(facteur*distance);
  Off(OUT_BC);
@@ -228,7 +211,49 @@ void regulation_distance_gauche(){
 		translation(distance);
 	}
  }
-
+ 
+//******************************************************************************
+// trouer le coin du mur si il longe un mur
+void trouver_coin(int cote){
+   ResetRotationCount(OUT_C);
+   Wait(10);
+   
+  if(cote == RIGHT_WALL){
+   RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+   Wait(10);
+ 	 while((SensorUS(IN_4)<80)&&(MotorRotationCount(OUT_C)<1040)){ //1040=> 50 cm
+   avancer(50);
+    };
+   Off(OUT_BC);
+  if(MotorRotationCount(OUT_C)>1040){
+   avancer(-50);
+   Wait(66*40);
+   Off(OUT_BC);
+   }
+ 	 RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
+ 	 Wait(10);
+   ResetRotationCount(OUT_C);
+   Wait(10);
+  }
+  
+  if(cote == LEFT_WALL){
+   RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
+   Wait(10);
+  while((SensorUS(IN_4)<80)&&(MotorRotationCount(OUT_C)<1040)){ //1040=> 50 cm
+   avancer(50);
+    };
+   Off(OUT_BC);
+  if(MotorRotationCount(OUT_C)>1040){
+   avancer(-50);
+   Wait(66*40);
+   Off(OUT_BC);
+   }
+ 	 RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
+ 	 Wait(10);
+   ResetRotationCount(OUT_C);
+   Wait(10);
+  }
+}
 //******************************************************************************
 //                             Follow Wall
 //******************************************************************************
@@ -268,34 +293,25 @@ void follow_wall(int cote, int distance, int pas, int& alerte_bloque){   // cote
  }
  foward_clean(distance_a_parcourir, alerte_bloque);
  Off(OUT_BC);
+ Wait(10);
+ trouver_coin(cote);
 }
+
 
 //******************************************************************************
-// trouer le coin du mur si il longe un mur
-void trouver_coin(int cote){
-  if(cote == RIGHT_WALL){
-   RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
-   Wait(10);
- 	 while(SensorUS(IN_4)<80){
-    avancer(50);
-    };
-   Off(OUT_BC);
- 	 RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
- 	 Wait(10);
-  }
-  if(cote == LEFT_WALL){
-   RotateMotorPID(OUT_A, 30, -90, 50, 50, 50);
-   Wait(10);
- 	 while(SensorUS(IN_4)<80){
-    avancer(50);
-    };
-   Off(OUT_BC);
- 	 RotateMotorPID(OUT_A, 30, 90, 50, 50, 50);
- 	 Wait(10);
-  }
+//                                   MAIN
+//******************************************************************************
+/*
+task main(){
+SetSensorLowspeed(IN_4);
+int alerte_bloque = 0;
+
+//trouver_coin(1);
+follow_wall(1, 40, 30, alerte_bloque);
 
 }
 
+*/
 
 //******************************************************************************
 //                           Crossing management
