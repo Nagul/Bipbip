@@ -1,0 +1,45 @@
+Unit testing of MySQL files :
+It consists in launching MySQL script files we are testing and see with phpMyAdmin if tables were successfully created and that structures and relations between tables were correct. We checked manually with phpMyAdmin or using a SQL test file if the following actions worked for every cases: 
+- Adding robots to the database. We also check that its IP address was unique.
+- Adding commands to a robot.
+- Adding parameters to a command.
+- Adding command types.
+- Deleting a command type : commands with that type have to be automatically deleted.
+- Deleting a command : all parameters related with that command have to be automatically deleted.
+- Deleting a robot : all commands sent to that robot have to be automatically deleted.
+- Adding feedbacks : we checked that the insertion date and time were correct.
+
+
+Unit testing of php files :
+After writing a php file, we test it by putting it on the local server and accessing it with a browser (Google Chrome). We then saw if the output was correct and if modifications in database were correctly applied. PhpMyAdmin allowed us to control the new state of tables after accessing the php file.
+Here are the different files with their expected behaviours, we tested every cases for parameters (incorrect or missing parameters) :
+- connection.php :
+	This file should add a robot into the database. It allows us to chose the IP address of the connected robot. We made sure that if we forget to define the IP address, an error message is displayed. Tests consisted in simulating the connection of a robot. We also tried the case when we do not provide the IP address. 
+- giveorder.php :
+	This file should add a command for a robot. We made sure that if we forget to define the IP address of targeted robot or the type of the new command, an error message was displayed. Besides, incorrect target or incorrect command type should not alter the database. Tests consisted in adding all type of commands to a robot. We also controlled incorrect or missing parameters cases.
+- getorder.php :
+	If the parameter "seq" is undefined, this file should display the number of orders a robot has received. Otherwise it should display the order which index is "seq" for a robot. An error message is displayed if the target is undefined. If the target is incorrect or if "seq" is incorrect, nothing should be displayed. During the tests, we displayed commands stored for robots and controlled that error messages were correctly displayed if necessary.
+- deleteorder.php :
+	If the parameter "seq" is undefined, this file should delete all orders for a specified robot. Otherwise, it should delete the order which index is "seq". An error message is displayed if the target is undefined. If the target is incorrect, nothing should happen. Testing consisted in creating then deleting one or all orders for a robot. The tests also controlled that incorrect or missing target did not alter the database.
+- sendfeedback.php :
+	This file should save a feedback with the date, a message and the IP address of the robot which has sent it. Tests consisted to create feedback and check that the date stored was the current date.
+- getfeedback.php :
+	This file should display unread feedback. Feedback which are read with this file are then marked as read. Tests consisted to add many feedback for a robot with the previous file and then display them. We controlled that if we refresh the web page, feedback already read are not displayed anymore.
+- getrobotsip.php :
+	This file should list the IP address of every connected robots. We insert manually robots into the database and check that they are listed when accessing the php web page. 
+
+
+Unit testing of NXC files :
+We began the testing with only one robot since we did not have batteries for multiples WifiBlock (block used by a robot to connect to Wifi).
+First, we checked that the communication between a robot and the local server worked correctly. We created a simple php file with just "Hello" in it and put it on the local server. The robot successfully displayed the message.
+The next step was to test all other php files which should be used by a robot. Thus, the connection to the server, getting order and sending feedback were the only functionnalities we had to test.
+- The connection was the first function we control. We emptied the robot database and use the robot to access the connection.php web page. Each robot has a static IP address and we confirmed that a correct IP address was stored into the database.
+- Getting an order was the second test we performed. We used a simple NXC command files which contains basic commands (move forward, backward, turn, stop). Those functions worked but did not required parameters. 
+- An order was received in the following form : "3;p0:10;p1:34" where the first number is the command type and right part are the parameters. The robots has to parse the string with the NXC file parsing.nxc. This file was tested separately with many different strings and numbers of parameters and it worked correctly. However, when we tried with data received from the server, we noticed that it failed in some cases. We understood that the WifiBlock has a limit of characters it can read. We changed the way an order was received : "3;a:10:b:34" and it worked. Every sequences of orders were successfully executed.
+- At last, we tested sending multiple feedback but we noticed there was a limit of the URL size for the WifiBlock. That's why we are only sending one short feedback at a time. At the beginning, the tests consisted in sending one random message from the robot. When we saw it worked, we decided that a feedback will be sent after the correct execution of a command. We controlled that feedbacks sent by a robot on a normal execution worked.
+
+Unit testing of java file :
+I tested the correct creation of different entities (robots, commands, parameters, feedbacks) with a Java test file (TestRobot.java). Instances of those different classes were correctly created during the execution of the program. Afterwards, we made sure that the Communication methods were working. The method executePost allows to send a HTTP GET request to the local server. We used the file with only "Hello" written in it to see if the request was successfully send. The other Communication methods were tested in the TestRobot.java file : we created an instance of a Robot and tried the sendCommand and clearCommand methods. Commands were successfully inserted into the database. Then we made a global test to see if we can send a sequence of orders from the TestRobot.java file to the robot. The robot executed correctly every commands. The last test is the reading of feedbacks : we first manually wrote feedback with phpMyAdmin and check if we could read them with the TestRobot.java file. Then we tried to read feedbacks written by the robot itself. This test worked perfectly.
+The final test was the execution by the robots of orders generated with the pathfinding algorithm.
+
+We received batteries the 7th of March and we could test multi robots. Robots had some difficulties to connect at the same time but after some configuration changes in the Freebox, everything worked.
