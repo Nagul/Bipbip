@@ -60,14 +60,20 @@ public class WidgetClient extends QMainWindow {
 
 		listenerFeedback = new FeedbackAdapter(){
 			@Override
-				public void drawFeedback(final Arc a){
-					QApplication.invokeLater(new Runnable(){
-						@Override
-						public void run(){
-							scene.addLine(a.getNodeStart().getAbscissa(), a.getNodeStart().getOrdinate(), a.getNodeTarget().getAbscissa(), a.getNodeTarget().getOrdinate(), penBlue);
+			public void drawFeedback(final ArrayList<Arc> a){
+				QApplication.invokeLater(new Runnable(){
+					@Override
+					public void run(){
+						if (a.size()==1) {
+							scene.addLine(a.get(0).getNodeStart().getAbscissa(), a.get(0).getNodeStart().getOrdinate(), a.get(0).getNodeTarget().getAbscissa(), a.get(0).getNodeTarget().getOrdinate(), penGreen);
+						} else {
+							for (Arc arc : a) {
+								scene.addLine(arc.getNodeStart().getAbscissa(), arc.getNodeStart().getOrdinate(), arc.getNodeTarget().getAbscissa(), arc.getNodeTarget().getOrdinate(), penBlue);
+							}
 						}
-					});
-				}
+					}
+				});
+			}
 		};
 		Bipbip.team.getTeam().get(0).setFeedbackListener(listenerFeedback);
 		Bipbip.team.getTeam().get(1).setFeedbackListener(listenerFeedback);

@@ -84,15 +84,13 @@ public class VirtualRobot implements Runnable {
 			depart = arcMove.getNodeStart();
 			arrive = arcMove.getNodeTarget();
 			
+			command = new Command();
+			command.setAction(Command.TURN);
+			command.addParameter(new Parameter("angle", 0), 0);
+			robot.addCommand(command);
 			if (arcMove.getSide()==Side.None) {
 				//moving in/out a room
 				//orientation
-				//Turn 0° to avoid bug
-				command = new Command();
-				command.setAction(Command.TURN);
-				command.addParameter(new Parameter("angle", 0), 0);
-				robot.addCommand(command);
-
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
@@ -115,12 +113,6 @@ public class VirtualRobot implements Runnable {
 			} else {
 				//follow a wall
 				//orientation
-				//Turn 0° to avoid bug
-				command = new Command();
-				command.setAction(Command.TURN);
-				command.addParameter(new Parameter("angle", 0), 0);
-				robot.addCommand(command);
-
 				command = new Command();
 				command.setAction(Command.TURN);
 				angle = depart.angleAutreNode(arrive) - orientation;
@@ -178,9 +170,7 @@ public class VirtualRobot implements Runnable {
 		
 		if (step < targets.size() - 1) {
 			path = affichage.Bipbip.graphSearch.shorterPath(targets.get(step), targets.get(step + 1));
-			// TODO Afficher ce que Guillaume veut afficher ( super comme variable: ind d ! )
-			//affichage.Bipbip.test.draw(0, path);
-			//widgetListener.drawFeedback(path.get(0));
+			widgetListener.drawFeedback(path);
 			this.sendInstruction(path);
 		}
 		
@@ -214,9 +204,7 @@ public class VirtualRobot implements Runnable {
 						cloneGraph.deleteArc(currentArc);
 						GraphSearch gs = new GraphSearch(cloneGraph);
 						path = gs.shorterPath(lastNode, targets.get(step + 1));
-						// TODO Afficher ce que Guillaume veut afficher ( super comme variable: ind d ! )
-						//affichage.Bipbip.test.draw(0, path);
-						//widgetListener.drawFeedback(path.get(compt));
+						widgetListener.drawFeedback(path);
 						//TODO : retourner au lastNode avant
 						this.sendInstruction(path);
 					} else if (f.getAction().equals("followall")
@@ -225,11 +213,10 @@ public class VirtualRobot implements Runnable {
 						ArrayList<Arc> pathArc = new ArrayList<Arc>();
 						pathArc.add(currentArc);
 						lastNode = currentArc.getNodeStart();
-						widgetListener.drawFeedback(path.get(compt));
-						compt += 1;
-						//affichage.Bipbip.test.draw(1, pathArc);
+						widgetListener.drawFeedback(pathArc);
 						// TODO tester avec le robot
 					}
+					compt += 1;
 					System.out.println(" [" + robot.getIP() + "] " + f.toString());
 				}
 			}
