@@ -8,7 +8,7 @@ public abstract class FeedbackAdapter implements FeedbackListener {
 	}
 	public void obstacleFeedback(){
 	}
-	public void drawFeedback(ArrayList<Arc> currentArc){
+	public void drawFeedback(ArrayList<Arc> currentArc, boolean b){
 	}
 }
 

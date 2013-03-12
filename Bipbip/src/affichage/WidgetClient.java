@@ -60,11 +60,11 @@ public class WidgetClient extends QMainWindow {
 
 		listenerFeedback = new FeedbackAdapter(){
 			@Override
-			public void drawFeedback(final ArrayList<Arc> a){
+			public void drawFeedback(final ArrayList<Arc> a,final boolean b){
 				QApplication.invokeLater(new Runnable(){
 					@Override
 					public void run(){
-						if (a.size()==1) {
+						if (b) {
 							scene.addLine(a.get(0).getNodeStart().getAbscissa(), a.get(0).getNodeStart().getOrdinate(), a.get(0).getNodeTarget().getAbscissa(), a.get(0).getNodeTarget().getOrdinate(), penGreen);
 						} else {
 							for (Arc arc : a) {

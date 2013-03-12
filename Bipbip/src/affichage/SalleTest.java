@@ -189,7 +189,7 @@ public class SalleTest {
 		listInstruction1.add(new Node(570, 570, "user2", tp11));
 		
 		listInstruction2.add(new Node(540, 225, "user4", tp6));
-		listInstruction2.add(new Node(570, 570, "user2", tp11));
+		listInstruction2.add(new Node(540, 570, "user2", tp11));
 
 		listCarrefour.add(new Node(405, 175, "carrefour1", tc));
 		listCarrefour.add(new Node(420, 390, "carrefour2", tc));
