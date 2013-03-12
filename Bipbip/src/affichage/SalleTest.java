@@ -185,8 +185,6 @@ public class SalleTest {
 		listInstruction1.add(new Node(640, 50, "user3", tp3));
 		listInstruction1.add(new Node(20, 50, "user1", tp1));
 		listInstruction1.add(new Node(300, 410, "user2", tp8));
-		listInstruction1.add(new Node(540, 225, "user4", tp6));
-		listInstruction1.add(new Node(570, 570, "user2", tp11));
 		
 		listInstruction2.add(new Node(540, 225, "user4", tp6));
 		listInstruction2.add(new Node(540, 570, "user2", tp11));
