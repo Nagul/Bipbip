@@ -79,15 +79,16 @@ public class VirtualRobot implements Runnable {
 		Node arrive;
 		Arc arcMove;
 		
+		command = new Command();
+		command.setAction(Command.TURN);
+		command.addParameter(new Parameter("angle", 0), 0);
+		robot.addCommand(command);
+		
 		for (i = 0; i < path.size(); i++) {
 			arcMove = path.get(i);
 			depart = arcMove.getNodeStart();
 			arrive = arcMove.getNodeTarget();
-			
-			command = new Command();
-			command.setAction(Command.TURN);
-			command.addParameter(new Parameter("angle", 0), 0);
-			robot.addCommand(command);
+
 			if (arcMove.getSide()==Side.None) {
 				//moving in/out a room
 				//orientation
