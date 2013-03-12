@@ -191,7 +191,7 @@ public class SalleTest {
 
 		listCarrefour.add(new Node(405, 175, "carrefour1", tc));
 		listCarrefour.add(new Node(420, 390, "carrefour2", tc));
-		listCarrefour.add(new Node(540, 390, "carrefour3", tc));
+		//listCarrefour.add(new Node(540, 390, "carrefour3", tc));
 		listCarrefour.add(new Node(660, 390, "carrefour4", tc));
 		listCarrefour.add(new Node(140, 325, "carrefour5", tc));
 		listCarrefour.add(new Node(270, 325, "carrefour6", tc));

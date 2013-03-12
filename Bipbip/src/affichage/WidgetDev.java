@@ -128,4 +128,8 @@ public class WidgetDev extends QMainWindow {
 		
 	}
 	
+	public Graph getGraph() {
+		return gG.getGraph();
+	}
+	
 }
